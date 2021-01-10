@@ -15,7 +15,7 @@
 
 ### 협업 규칙(필독)
 * 작업하기 전, develop 브랜치에 commit 사항이 존재할 수도 있기 때문에 반드시 pull부터 하고 작업하기
-  * __pull 할 때는 반드시! develop 브랜치로 바꾼 후 pull__
+* __pull 할 때는 반드시! develop 브랜치로 바꾼 후 pull__
 * pom.properties, manifest.mf 파일과 maven update 시 추가되는 모든 파일들은 assume unchanged 해두고 push할 때 넘기지 않도록 주의하기
 * commit and push 할 때는 본인이 생성한 브랜치(feature)에 하기
 * Pull Request Merge는 코드 리뷰를 모두 받고, 마지막 코드 리뷰를 남긴 사람이 Merge

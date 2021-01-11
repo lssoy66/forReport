@@ -26,8 +26,8 @@
                             </form>
                         </div>
                         <ul class="hero__categories__tags">
-                            <li><a href="product/list?bigCategory=Paper"><img src="/resources/img/hero/cat-1.png" alt=""> 논문</a></li>
-                            <li><a href="product/list?bigCategory=Report"><img src="/resources/img/hero/cat-2.png" alt=""> 레포트</a></li>
+                           	<li><a href="product/list?largeCategory=0"><img src="/resources/img/hero/cat-2.png" alt=""> 레포트</a></li>
+                            <li><a href="product/list?largeCategory=1"><img src="/resources/img/hero/cat-1.png" alt=""> 논문</a></li>
                             <li><a href="#"><img src="/resources/img/hero/cat-3.png" alt=""> 내 레포트/논문 올리기</a></li>
                         </ul>
                     </div>

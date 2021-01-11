@@ -7,7 +7,7 @@
 <title>ForReport</title>
 </head>
 
-<%@ include file="../includes/header.jsp" %>
+<%@ include file="includes/header.jsp" %>
 
     <!-- Hero Section Begin -->
     <section class="hero set-bg" data-setbg="/resources/img/hero/hero-bg.jpg">
@@ -39,4 +39,4 @@
     <!-- Hero Section End -->
 
   
-<%@ include file="../includes/footer.jsp" %>
+<%@ include file="includes/footer.jsp" %>

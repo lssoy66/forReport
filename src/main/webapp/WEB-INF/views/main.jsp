@@ -20,14 +20,14 @@
                             <p>검증형 시스템으로 당신에게 딱 맞는 정보를 찾아보세요.</p>
                         </div>
                         <div class="hero__search__form">
-                            <form action="#">
-                                <input type="text" placeholder="Search...">
+                            <form id="inputKeyword" action="/product/list" method="get">
+                                <input type="text" placeholder="Search..." name="inputKeyword">
                                 <button type="submit">검색</button>
                             </form>
                         </div>
                         <ul class="hero__categories__tags">
-                            <li><a href="product/list?bigCategory=paper"><img src="/resources/img/hero/cat-1.png" alt=""> 논문</a></li>
-                            <li><a href="product/list?bigCategory=report"><img src="/resources/img/hero/cat-2.png" alt=""> 레포트</a></li>
+                            <li><a href="product/list?bigCategory=Paper"><img src="/resources/img/hero/cat-1.png" alt=""> 논문</a></li>
+                            <li><a href="product/list?bigCategory=Report"><img src="/resources/img/hero/cat-2.png" alt=""> 레포트</a></li>
                             <li><a href="#"><img src="/resources/img/hero/cat-3.png" alt=""> 내 레포트/논문 올리기</a></li>
                         </ul>
                     </div>

@@ -46,15 +46,6 @@
 						web sites on trading links which could help both web sites. Make
 						sure to use words that could easily interest the audience.</p>
 
-					<img src="/resources/img/blog/details/blog-item.jpg" alt="">
-					<p>Analyze your techniques, keep track of your customers and
-						learn what works. Then be ready to try new methods and repeat
-						those methods that are already working. It has been said that the
-						best things in life are free and this saying also applies to the
-						many forms of free advertising that are available on the internet.
-						Give this form of advertising a try and you also may become a true
-						believer in the power of free internet advertising.</p>
-
 					<div class="blog__sidebar__recent">
 						<a href="#" class="blog__sidebar__recent__item">
 							<div class="blog__sidebar__recent__item__pic">

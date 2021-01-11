@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ include file="../includes/cartHeader.jsp"%>
 
@@ -25,14 +26,17 @@
 			<div class="col-lg-8">
 				<div class="blog__details__text">
 				
-					<h5>Cattle She’d Days Lights Light Saw Spirit Shall</h5>
+					<h5>장바구니 리스트</h5>
 					<div class="cartList">
-						${cart}
+						<c:forEach items="${cartProductList }" var="cartProduct">
+							<div>
+								상품번호 : <c:out value="${cartProduct.proNum}" />
+								& 상품이름 : <c:out value="${cartProduct.title}" />
+							</div>
+						</c:forEach>
 					</div>
 						
 				</div>
-
-
 
 			</div>
 			<div class="col-lg-4">

@@ -6,7 +6,12 @@
 <mapper namespace="com.forreport.mapper.CartMapper">
   
   <select id="getCartList" resultType="com.forreport.domain.CartVO">
-    select * from tbl_Cart where id = #{id}
+    select * from tbl_cart where id = #{id}
+  </select>
+  
+  <!-- 상품번호로 상품 가져오기 -->
+  <select id="getProduct" resultType="com.forreport.domain.ProductVO">
+    select * from tbl_product where proNum = #{proNum}
   </select>
   
 </mapper>

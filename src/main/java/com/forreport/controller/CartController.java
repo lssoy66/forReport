@@ -21,7 +21,7 @@ public class CartController {
 	@GetMapping("cartList.fr")
 	public void cartList(Model model) {
 		log.info("CartList");
-		model.addAttribute("cart", service.getCartList("user3"));
+		model.addAttribute("cartProductList", service.getCartList("user3"));
 	}
 	
 	

@@ -327,3 +327,14 @@ drop table tbl_upload;
 drop table tbl_product;
 drop table tbl_category;
 drop table tbl_user;
+
+-- 카테고리 테이블(tbl_category)에 데이터 추가
+insert into tbl_category values('0', '0');  -- 리포트(0)/인문사회(0)
+insert into tbl_category values('0', '1');  -- 리포트(0)/자연공학(1)
+insert into tbl_category values('0', '2');  -- 리포트(0)/예술체육(2)
+insert into tbl_category values('0', '3');  -- 리포트(0)/교양(3)
+insert into tbl_category values('1', '0');  -- 논문(1)/인문사회(0)
+insert into tbl_category values('1', '1');  -- 논문(1)/자연공학(1)
+insert into tbl_category values('1', '2');  -- 논문(1)/예술체육(2)
+insert into tbl_category values('1', '3');  -- 논문(1)/교양(3)
+

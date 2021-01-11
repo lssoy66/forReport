@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="/resources/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/resources/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
+
+	 <!-- Js Plugins: footer에서 가져옴 -->
+	<script src="/resources/js/jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
@@ -59,6 +62,13 @@
                                         <li><a href="#">주문내역</a></li>
                                         <li><a href="#">내 정보 수정</a></li>
                                     </ul>
+                                </li>
+                                <!-- blog__sidebar__search의 검색창 사용을 위해 클래스명 지정 -->
+                                <li class=blog__sidebar__search>
+                                	 <form action="#">
+		                                <input type="text" placeholder="Searching...">
+		                                <button type="submit"><i class="fa fa-search"></i></button>
+		                            </form>
                                 </li>
                             </ul>
                         </nav>

@@ -7,7 +7,7 @@
 <title>ForReport</title>
 </head>
 
-<%@ include file="../includes/header.jsp" %>
+<%@ include file="includes/header.jsp" %>
 
     <!-- Hero Section Begin -->
     <section class="hero set-bg" data-setbg="/resources/img/hero/hero-bg.jpg">
@@ -26,10 +26,9 @@
                             </form>
                         </div>
                         <ul class="hero__categories__tags">
-                            <li><a href="#"><img src="/resources/img/hero/cat-1.png" alt=""> 논문</a></li>
-                            <li><a href="#"><img src="/resources/img/hero/cat-2.png" alt=""> 레포트</a></li>
+                            <li><a href="product/list?bigCategory=paper"><img src="/resources/img/hero/cat-1.png" alt=""> 논문</a></li>
+                            <li><a href="product/list?bigCategory=report"><img src="/resources/img/hero/cat-2.png" alt=""> 레포트</a></li>
                             <li><a href="#"><img src="/resources/img/hero/cat-3.png" alt=""> 내 레포트/논문 올리기</a></li>
-                          
                         </ul>
                     </div>
                 </div>
@@ -37,6 +36,13 @@
         </div>
     </section>
     <!-- Hero Section End -->
+    
 
+<script>
+	$(document).ready(function(){
+		
+		$(".blog__sidebar__search").css("display", "none");
+	});
+</script>
   
-<%@ include file="../includes/footer.jsp" %>
+<%@ include file="includes/footer.jsp" %>

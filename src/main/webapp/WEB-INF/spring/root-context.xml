@@ -16,6 +16,7 @@
 	<!-- Annotation이 붙은 클래스 스캔  -->
 	<context:annotation-config></context:annotation-config> 
 	<context:component-scan	base-package="com.forreport.service"></context:component-scan>
+
 	
 	<!-- Quartz 라이브러리(스케줄링) 사용을 위한 태그 추가(교재 597p 참고) -->
 	<task:annotation-driven/>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -28,6 +30,10 @@
 
 	 <!-- Js Plugins: footer에서 가져옴 -->
 	<script src="/resources/js/jquery-3.3.1.min.js"></script>
+	
+	
+    
+	
 </head>
 
 <body>
@@ -65,8 +71,10 @@
                                 </li>
                                 <!-- blog__sidebar__search의 검색창 사용을 위해 클래스명 지정 -->
                                 <li class=blog__sidebar__search>
-                                	 <form action="#">
-		                                <input type="text" placeholder="Searching...">
+                                	 <form action="list?largeCategory=999&smallCategory=999" method="get" id="headerInputKeywordForm">
+		                                <input type="text" placeholder="Searching..." name="inputKeyword" id="inputKeyword">
+		                                <input type="hidden" name="largeCategory" value=999>                                
+                               			<input type="hidden" name="smallCategory" value=999>                                
 		                                <button type="submit"><i class="fa fa-search"></i></button>
 		                            </form>
                                 </li>
@@ -82,4 +90,17 @@
             <div id="mobile-menu-wrap"></div>
         </div>
     </header>
+    
+    <script>
+    	$(document).ready(function(){
+    		
+    		var inputKeyword = "${pageDTO.searchingVO.inputKeyword}";
+    		console.log(inputKeyword);
+    		if(inputKeyword){
+    			
+    			$("#inputKeyword").val(inputKeyword);
+    		}
+    	});
+    </script>
+    
     <!-- Header Section End -->

@@ -1859,6 +1859,19 @@ ol {
 	margin-left: -2px;
 }
 
+/* 장바구니 삭제 표시 추가 시작 */
+.listing__details__comment__item__text .listing__details__comment__item__exit {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.listing__details__comment__item__text .listing__details__comment__item__exit i {
+	font-size: 16px;
+	color: #000000;
+	margin-left: -2px;
+}
+/* 끝 */
+
 .listing__details__comment__item__text span {
 	font-size: 13px;
 	color: #f03250;

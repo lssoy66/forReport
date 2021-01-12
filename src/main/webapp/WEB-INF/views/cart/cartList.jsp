@@ -29,10 +29,24 @@
 					<a href="#" id="allDelete">전체삭제</a>
 					<div class="cartList">
 						<c:forEach items="${cartProductList }" var="cartProduct">
-							<div>
-								상품번호 : <c:out value="${cartProduct.pronum}" />
-								& 상품이름 : <c:out value="${cartProduct.title}" />
-							</div>
+							<div class="listing__details__comment">
+	                            <div class="listing__details__comment__item">
+	                            	<!-- 썸네일 -->
+	                                <div class="listing__details__comment__item__pic">
+	                                    <img src="/resources/img/listing/details/comment.png" alt="">
+	                                </div>
+	                                <div class="listing__details__comment__item__text">
+	                                 	<!-- 삭제버튼 -->
+	                                    <div class="listing__details__comment__item__exit">
+	                                       	<a href="#"><i class="fa fa-times"></i></a>
+	                                    </div>
+	                                    <!-- 상품정보 -->
+	                                   	<b>상품명 : <c:out value="${cartProduct.title}" /></b>
+	                                    <p>상품설명 : <c:out value="${cartProduct.prodsc}" /></p>
+	                                    
+	                                </div>
+	                            </div>
+	                        </div>
 						</c:forEach>
 					</div>
 						
@@ -58,25 +72,22 @@
 
 	$(document).ready(function(){
 		
-		/* var userid = "user3";
+		var cartProductList = '<c:out value="${cartProductList }" />''
 		
 		// 즉시 실행 함수
 		(function(){
-			checkCartList(userid);
+			checkCartList(cartProductList);
 		})();	// end function
 		
 		
 		
-		function checkCartList(userid){
+		function checkCartList(cartProductList){
 			
-			if(){
-				return;
+			if(cartProductList == null){
+				$(".cartList").html("장바구니에 담긴 상품이 없습니다");
 			}
 
-			
-
-			$(".cartList").html("");
-		} */
+		} 
 		
 
 		

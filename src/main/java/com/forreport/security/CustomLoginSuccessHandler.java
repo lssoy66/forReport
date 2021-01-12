@@ -24,6 +24,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		List<String> roleNames = new ArrayList<>();
 		
 		auth.getAuthorities().forEach(authority -> {
+			
 			roleNames.add(authority.getAuthority());
 		});
 		log.warn("ROLE NAMES:" + roleNames);
@@ -36,7 +37,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			response.sendRedirect("/login/member");
 			return;
 		}
-		response.sendRedirect("/");
+		response.sendRedirect("/login");
 	}
 
 }

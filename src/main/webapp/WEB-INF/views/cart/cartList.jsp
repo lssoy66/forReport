@@ -26,11 +26,11 @@
 			<div class="col-lg-8">
 				<div class="blog__details__text">
 				
-					<h5>장바구니 리스트</h5>
+					<a href="#" id="allDelete">전체삭제</a>
 					<div class="cartList">
 						<c:forEach items="${cartProductList }" var="cartProduct">
 							<div>
-								상품번호 : <c:out value="${cartProduct.proNum}" />
+								상품번호 : <c:out value="${cartProduct.pronum}" />
 								& 상품이름 : <c:out value="${cartProduct.title}" />
 							</div>
 						</c:forEach>

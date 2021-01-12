@@ -66,7 +66,7 @@ public class ProductController {
 		
 		model.addAttribute("searchingVO", searchingVO);
 		
-	
+		
 		
 		model.addAttribute("productList", productList);		
 		

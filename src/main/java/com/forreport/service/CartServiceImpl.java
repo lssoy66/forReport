@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.forreport.domain.CartVO;
+import com.forreport.domain.IdPronumVO;
 import com.forreport.domain.ProductVO;
 import com.forreport.mapper.CartMapper;
 
@@ -22,6 +23,12 @@ public class CartServiceImpl implements CartService {
 	@Setter(onMethod_ = @Autowired)
 	private CartMapper mapper;
 	
+	// 장바구니에 상품 추가
+	@Override
+	public int addCart(IdPronumVO cart) {
+		return mapper.addCart(cart);	
+	}
+	
 	// 사용자의 장바구니 정보를 조회한 후, 등록된 상품번호를 통해 상품 정보 리스트를 가져온다
 	@Override
 	public List<ProductVO> getCartList(String userId) {
@@ -33,5 +40,6 @@ public class CartServiceImpl implements CartService {
 		
 		return productList;
 	}
+
 	
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,11 @@
 			<div class="col-lg-12 text-center">
 				<div class="breadcrumb__text">
 					<h2>
-						<c:out value="${searchingVO.bigCategory}"></c:out>
+						<c:choose>
+							<c:when test="${searchingVO.largeCategory == 0}">Report</c:when>
+							<c:when test="${searchingVO.largeCategory == 1}">Paper</c:when>
+							<c:otherwise>Report/Paper</c:otherwise>
+						</c:choose>
 					</h2>
 					<div class="breadcrumb__option">
 						<a href="/"><i class="fa fa-home"></i> Home</a>
@@ -30,10 +35,10 @@
 						CUL: Culture 교양
 					 -->
 					<div class="smallCategory">
-						<a href="list?bigCategory=<c:out value="${searchingVO.bigCategory}"/>&smallCategory=HS">인문사회</a>
-						<a href="list?bigCategory=<c:out value="${searchingVO.bigCategory}"/>&smallCategory=NE">자연공학</a>
-						<a href="list?bigCategory=<c:out value="${searchingVO.bigCategory}"/>&smallCategory=AS">예술체육</a>
-						<a href="list?bigCategory=<c:out value="${searchingVO.bigCategory}"/>&smallCategory=CUL">교양</a>
+						<a href="list?largeCategory=<c:out value="${searchingVO.largeCategory}"/>&smallCategory=0">인문사회</a>
+						<a href="list?largeCategory=<c:out value="${searchingVO.largeCategory}"/>&smallCategory=1">자연공학</a>
+						<a href="list?largeCategory=<c:out value="${searchingVO.largeCategory}"/>&smallCategory=2">예술체육</a>
+						<a href="list?largeCategory=<c:out value="${searchingVO.largeCategory}"/>&smallCategory=3">교양</a>
 					</div>
 				</div>
 			</div>
@@ -57,14 +62,16 @@
     				</tr>
     			</thead>
     			<tbody>
-    				<tr>
-    					<td>1</td>
-    					<td><img src="#"></td>
-    					<td>
-    						<a href="#">제목1</a>
-    					</td>
-    					<td>등록일1</td>
-    				</tr>
+    				
+    				<c:forEach items="${productList}" var="list">
+						<tr>
+							<td><c:out value="${list.pronum}"/></td>
+							<td>썸네일</td>
+							<td><c:out value="${list.title}"/></td>
+							<td><c:out value="${list.uploadDate}"/></td>
+						</tr>
+					</c:forEach>	
+    				
     			</tbody>
     		</table>
 			</div>
@@ -100,32 +107,44 @@
 		*/
 		
 		var smallCategory = "${searchingVO.smallCategory}";
-		var smallCategoryKor; // 소분류 한글 표시
+		var largeCategory = "${searchingVO.largeCategory}";
 		
-		if(smallCategory) { // 소분류 선택O
+		var largeCategoryKor = ""; // 대분류 한글 표시
+		var smallCategoryKor = ""; // 소분류 한글 표시
+		
+		// 대분류 글자 변환
+		if(largeCategory==0) {
+			largeCategoryKor = "Report"
+		} else if(largeCategory== 1) {
+			largeCategoryKor = "Paper"
+		}
+		
+		// 소분류 카테고리 번호 확인 후 글자 변환하여 출력
+		// 대분류 하이퍼링크 추가
+		if(smallCategory!=999) {
 			
 			$(".smallCategory").css("visibility","hidden");
-			
-			console.log("1");
-		
-			if(smallCategory==="HS"){
+					
+			if(smallCategory==0){
 				smallCategoryKor = "인문사회"
-			} else if(smallCategory==="NE"){
+			} else if(smallCategory==1){
 				smallCategoryKor = "자연공학"
-			} else if(smallCategory==="AS"){
+			} else if(smallCategory==2){
 				smallCategoryKor = "예술체육"
-			} else if(smallCategory==="CUL"){
+			} else if(smallCategory==3){
 				smallCategoryKor = "교양"
 			}
 			
-			$(".breadcrumb__option").append("<a href='list?bigCategory=${searchingVO.bigCategory}'><c:out value="${searchingVO.bigCategory}"/></a>"+"<span>"+smallCategoryKor+"</span>");
 		
-		} else if(!smallCategory){ // 소분류 선택 X
+			$(".breadcrumb__option").append("<a href='list?largeCategory="+largeCategory+"'>"+largeCategoryKor+"</a>"+"<span>"+smallCategoryKor+"</span>");
+			console.log(largeCategory);
+		} else if(smallCategory==999){ // 소분류 선택 X
 			
-			$(".breadcrumb__option").append("<span><c:out value="${searchingVO.bigCategory}"/></span>");
-
+			console.log(largeCategoryKor);
+			$(".breadcrumb__option").append("<span>"+largeCategoryKor+"</span>");
 		}
 	});
 </script>
+
 
 <%@ include file="../includes/footer.jsp"%>

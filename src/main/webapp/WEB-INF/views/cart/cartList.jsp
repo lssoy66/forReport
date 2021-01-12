@@ -58,7 +58,7 @@
 
 	$(document).ready(function(){
 		
-		var userid = "user3";
+		/* var userid = "user3";
 		
 		// 즉시 실행 함수
 		(function(){
@@ -76,7 +76,7 @@
 			
 
 			$(".cartList").html("");
-		}
+		} */
 		
 
 		

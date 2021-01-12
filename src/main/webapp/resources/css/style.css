@@ -435,7 +435,8 @@ ol {
 }
 
 .hero__search__form form input {
-	width: 40%;
+/* 변경 전    width: 40%; */
+/* 변경 후*/width: 85%;
 	float: left;
 	font-size: 15px;
 	color: #A8A8A8;
@@ -466,7 +467,8 @@ ol {
 
 .hero__search__form form .select__option {
 	position: relative;
-	width: 22.5%;
+/* 	변경 전: width: 22.5%; */
+/*변경후 */  width: 0%;
 	float: left;
 	height: 54px;
 }
@@ -2140,6 +2142,25 @@ ol {
 	color: #a8a8a8;
 	font-weight: 600;
 }
+
+
+
+/*list.jsp의 소분류 버튼을 위해 추가*/
+.breadcrumb__text .smallCategory {
+	padding: 30px 5px;
+}
+/*list.jsp의 소분류 버튼을 위해 추가*/
+.breadcrumb__text .smallCategory a{
+	font-size: 15px;
+	color: pink;
+	padding: 5px;
+}
+/*list.jsp의 소분류 버튼을 위해 추가*/
+.breadcrumb__text .smallCategory a:hover {
+	color: #ffffff;
+}
+
+
 
 /*---------------------
   Checkout

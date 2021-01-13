@@ -2449,7 +2449,8 @@ ol {
 	box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.1);
 	border-radius: 5px;
 	background: #ffffff;
-	padding: 30px 30px 10px 30px;
+/* 	수정 전 : 30 30 10 30 */
+	padding: 30px 30px 30px 30px;
 	margin-bottom: 50px;
 }
 

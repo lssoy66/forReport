@@ -30,7 +30,7 @@ public class CartController {
 	// 장바구니 리스트
 	@GetMapping("cartList.fr")
 	public void cartList(Model model) {
-		log.info("CartListController");
+		//log.info("CartListController");
 		// 아이디는 세션에서 가져온다(현재 임의로 작성함!)
 		model.addAttribute("cartProductList", service.getCartList("user3"));
 	}

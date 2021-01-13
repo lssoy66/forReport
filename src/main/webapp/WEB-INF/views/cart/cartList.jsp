@@ -29,7 +29,8 @@
 					<input type="checkbox" id="allSelect"> 전체선택
 					
 					<div class="footer__copyright__links">
-						<a href="#" id="allDelete">전체삭제</a>
+						<!-- 아이디는 세션에서 가져온다 -->
+						<a href="user3" id="allDelete">전체삭제</a>
 					</div>
 					
 					<div class="listing__details__comment cartList">
@@ -38,7 +39,9 @@
 	                            <div class="listing__details__comment__item cartProduct_item">
 		                            	<!-- 체크박스 -->
 		                            	<div class="listing__details__comment__item__pic checkboxPronum">
-		                                    <input type="checkbox" data-pronum="<c:out value="${cartProduct.pronum}" />">
+		                                    <input type="checkbox" 
+		                                    	data-pronum="<c:out value="${cartProduct.pronum}" />"
+		                                    	data-price="<c:out value="${cartProduct.price}" />">
 		                                </div>
 		                            	<!-- 썸네일 -->
 		                                <div class="listing__details__comment__item__pic">
@@ -51,24 +54,24 @@
 		                                    </div>
 		                                    <!-- 상품정보 -->
 		                                   	<b>상품명 : <c:out value="${cartProduct.title}" /></b>
-		                                    <p>
-		                                    	상품설명 : <c:out value="${cartProduct.prodsc}" />
-		                                    </p>
+		                                   	<p>판매자 : <c:out value="${cartProduct.id}" /></p>
+		                                    <p>상품설명 : <c:out value="${cartProduct.prodsc}" /></p>
 		                                 	가격 : <c:out value="${cartProduct.price}" />원
 		                               	</div>
-	                           </div>
+	                           	</div>
 	                        
 						</c:forEach>
 					</div>
-					<button id="buttonTest">전송</button>
+					
 				</div>
 
 			</div>
 			<div class="col-lg-4">
 				<div class="blog__sidebar">
-					<div class="blog__sidebar__recent">
-						<h5>Recent Post</h5>
-						
+					<div class="blog__sidebar__recent orderPrice">
+						<h5>선택상품</h5>
+						결제예정금액 : <b>0</b>원 <br><br>
+						<button class="site-btn buttonTest">주문하기</button>
 					</div>
 					
 				</div>
@@ -101,25 +104,45 @@
 		} 
 
 		// 주문하기 버튼을 누르면 주문 페이지에 상품번호와 아이디를 전달(List<idPronumVO>)
-		$("#buttonTest").click(function(){
+		$(".buttonTest").click(function(){
+			console.log(typeof(Number($(".orderPrice b").html())));
+			if($(".orderPrice b").html() == "0"){
+				alert("상품을 한 개 이상 선택해 주세요.");
+			}
+				
 			$(".checkboxPronum input[type='checkbox']:checked").each(function(){
 
 				console.log($(this).data("pronum"));
 			});
 		});
 		
+		// 총 금액
+		var price = 0;
+		$(".checkboxPronum input[type='checkbox']").change(function(){
+			if($(this).prop("checked")){
+				price += $(this).data("price");
+			}else{
+				price -= $(this).data("price");
+			}
+			$(".orderPrice b").html(price);
+		});
+		
 		// 전체선택
 		$("#allSelect").click(function(){
 			
 			if($("#allSelect").prop("checked")){
-				$("input[type='checkbox']").each(function(){
+				price = 0;
+				$(".checkboxPronum input[type='checkbox']").each(function(){
 					$(this).prop("checked", true);
+					price += $(this).data("price");
 				});
 			}else{
-				$("input[type='checkbox']").each(function(){
+				$(".checkboxPronum input[type='checkbox']").each(function(){
 					$(this).prop("checked", false);
+					price = 0;
 				});
 			}
+			$(".orderPrice b").html(price);
 			
 		});
 		
@@ -127,7 +150,7 @@
 		$(".exitButton a").click(function(e){
 			e.preventDefault();
 			//console.log(typeof($(this).attr("href")));
-			var id = "user3";
+			var id = "user3";	// 아이디는 세션에서 가져온다
 			var pronum = Number($(this).attr("href"));
 			console.log(pronum);
 			$(this).parent().parent().parent().remove();
@@ -145,6 +168,21 @@
 		
 		});
 		
+		// 모든 상품 삭제
+		$("#allDelete").click(function(e){
+			e.preventDefault();
+			var id = $(this).attr("href");
+			$(".cartList").html("<h5>장바구니에 담긴 상품이 없습니다.</h5>");
+			
+			$.ajax({
+				url : '/cart/deleteAllProcess.fr/' + id,
+				dataType : 'text',
+				type : 'DELETE',
+				success : function(result){
+					alert(result);
+				}
+			});	 // end ajax
+		});	
 		
 	});
 	

@@ -20,6 +20,15 @@
     select * from tbl_product where pronum = #{pronum}
   </select>
   
+  <!-- 장바구니 사용자가 담은 상품 중 특정 상품 삭제 -->
+  <delete id="deleteCartProduct">
+  	delete from tbl_cart where id = #{id} and pronum = #{pronum}
+  </delete>
+  
+  <!-- 장바구니 사용자가 담은 모든 상품 삭제 -->
+  <delete id="deleteCartAll">
+  	delete from tbl_cart where id = #{id}
+  </delete>
  
   
 </mapper>

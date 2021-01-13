@@ -41,5 +41,17 @@ public class CartServiceImpl implements CartService {
 		return productList;
 	}
 
+	// 장바구니 사용자가 담은 상품 중 특정 상품 삭제
+	@Override
+	public int deleteCartProduct(IdPronumVO cart) {
+		return mapper.deleteCartProduct(cart);
+	}
+
+	// 장바구니 사용자가 담은 모든 상품 삭제
+	@Override
+	public int deleteCartAll(String id) {
+		return mapper.deleteCartAll(id);
+	}
+
 	
 }

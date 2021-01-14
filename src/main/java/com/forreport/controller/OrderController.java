@@ -33,6 +33,7 @@ public class OrderController {
 			@RequestParam("checkPronum") String[] checkPronum, 
 			@RequestParam("price") int price,
 			Model model) {
+		log.info(service.getCartProduct(id, checkPronum));
 		model.addAttribute("price", price);
 		model.addAttribute("orderProductList", service.getCartProduct(id, checkPronum));
 	}

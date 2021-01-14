@@ -8,5 +8,6 @@ import com.forreport.domain.SearchingVO;
 public interface ProductMapper {
 	
 	public List<ProductVO> getProductListWithPaging(SearchingVO searchingVO);
+	public int getTotalCount(SearchingVO searchingVO);
 	
 }

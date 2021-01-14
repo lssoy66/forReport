@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,26 +20,38 @@
 				<div class="breadcrumb__text">
 					<h2>
 						<c:choose>
-							<c:when test="${searchingVO.largeCategory == 0}">Report</c:when>
-							<c:when test="${searchingVO.largeCategory == 1}">Paper</c:when>
+							<c:when test="${pageDTO.searchingVO.largeCategory == 0}">Report</c:when>
+							<c:when test="${pageDTO.searchingVO.largeCategory == 1}">Paper</c:when>
 							<c:otherwise>Report/Paper</c:otherwise>
 						</c:choose>
 					</h2>
 					<div class="breadcrumb__option">
 						<a href="/"><i class="fa fa-home"></i> Home</a>
 					</div>
-					<!-- 
-						HS: Humanities and Social Sciences 인문사회
-						NE: Natural Engineering 자연공학
-						AS: Art sprots 예술체육
-						CUL: Culture 교양
-					 -->
-					<div class="smallCategory">
-						<a href="list?largeCategory=<c:out value="${searchingVO.largeCategory}"/>&smallCategory=0">인문사회</a>
-						<a href="list?largeCategory=<c:out value="${searchingVO.largeCategory}"/>&smallCategory=1">자연공학</a>
-						<a href="list?largeCategory=<c:out value="${searchingVO.largeCategory}"/>&smallCategory=2">예술체육</a>
-						<a href="list?largeCategory=<c:out value="${searchingVO.largeCategory}"/>&smallCategory=3">교양</a>
+					
+					<div class="category smallCategory">
+						<a href="list?largeCategory=<c:out value="${pageDTO.searchingVO.largeCategory}"/>
+									&smallCategory=0
+									&inputKeyword=${pageDTO.searchingVO.inputKeyword}">인문사회</a>
+						<a href="list?largeCategory=<c:out value="${pageDTO.searchingVO.largeCategory}"/>
+									&smallCategory=1
+									&inputKeyword=${pageDTO.searchingVO.inputKeyword}">자연공학</a>
+						<a href="list?largeCategory=<c:out value="${pageDTO.searchingVO.largeCategory}"/>
+									&smallCategory=2
+									&inputKeyword=${pageDTO.searchingVO.inputKeyword}">예술체육</a>
+						<a href="list?largeCategory=<c:out value="${pageDTO.searchingVO.largeCategory}"/>
+									&smallCategory=3
+									&inputKeyword=${pageDTO.searchingVO.inputKeyword}">교양</a>
 					</div>
+					<div class="category largeCategory">
+						<a href="list?largeCategory=0
+									&smallCategory=999
+									&inputKeyword=${pageDTO.searchingVO.inputKeyword}">Report</a>
+						<a href="list?largeCategory=1
+									&smallCategory=999
+									&inputKeyword=${pageDTO.searchingVO.inputKeyword}">Paper</a>
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -52,23 +64,28 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
-				<table class="table">
+				<table class="table text-center">
     			<thead>
     				<tr>
     					<th>번호</th>
     					<th>썸네일</th>
     					<th>제목</th>
+    					<th>작성자</th>
     					<th>등록일</th>
     				</tr>
     			</thead>
     			<tbody>
-    				
     				<c:forEach items="${productList}" var="list">
 						<tr>
 							<td><c:out value="${list.pronum}"/></td>
 							<td>썸네일</td>
-							<td><c:out value="${list.title}"/></td>
-							<td><c:out value="${list.uploadDate}"/></td>
+							<td>
+								<a href="view?pronum=${list.pronum}">
+									<c:out value="${list.title}"/>
+								</a>
+							</td>
+							<td><c:out value="${list.id}"/></td>
+							<td><fmt:formatDate value="${list.uploadDate}" pattern="yyyy-MM-dd"/></td>
 						</tr>
 					</c:forEach>	
     				
@@ -85,11 +102,45 @@
 		<div class="row">
 			<div class="col-lg-8">
 				<div class="blog__pagination">
-					<a href="#"><i class="fa fa-long-arrow-left"></i> Pre</a>
-					<a href="#">1</a>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<a href="#">Next<i class="fa fa-long-arrow-right"></i></a>
+				
+					<c:if test="${pageDTO.prev}">
+						<a href="?largeCategory=${pageDTO.searchingVO.largeCategory}
+								&smallCategory=${pageDTO.searchingVO.smallCategory}
+								&pageNum=${pageDTO.startPage-1}
+								&inputKeyword=${pageDTO.searchingVO.inputKeyword}">
+							<i class="fa fa-long-arrow-left"></i> Pre
+						</a>
+					</c:if>
+					
+					<c:forEach var="num" begin="${pageDTO.startPage}" end="${pageDTO.endPage}">
+						<c:choose>
+							<c:when test="${pageDTO.searchingVO.pageNum==num}">
+								<a href="?largeCategory=${pageDTO.searchingVO.largeCategory}
+										&smallCategory=${pageDTO.searchingVO.smallCategory}
+										&pageNum=${num}
+										&inputKeyword=${pageDTO.searchingVO.inputKeyword}">
+									<strong style="color:red">${num}</strong>
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a href="?largeCategory=${pageDTO.searchingVO.largeCategory}
+										&smallCategory=${pageDTO.searchingVO.smallCategory}
+										&pageNum=${num}
+										&inputKeyword=${pageDTO.searchingVO.inputKeyword}">
+									${num}
+								</a>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				
+					<c:if test="${pageDTO.next}">
+						<a href="?largeCategory=${pageDTO.searchingVO.largeCategory}
+								&smallCategory=${pageDTO.searchingVO.smallCategory}
+								&pageNum=${pageDTO.endPage+1}
+								&inputKeyword=${pageDTO.searchingVO.inputKeyword}">
+							Next<i class="fa fa-long-arrow-right"></i></a>
+					</c:if>
+				
 				</div>
 			</div>
 		</div>
@@ -106,8 +157,8 @@
 			- 소분류가 선택되지 않은 경우: 소분류 버튼 표시O
 		*/
 		
-		var smallCategory = "${searchingVO.smallCategory}";
-		var largeCategory = "${searchingVO.largeCategory}";
+		var smallCategory = "${pageDTO.searchingVO.smallCategory}";
+		var largeCategory = "${pageDTO.searchingVO.largeCategory}";
 		
 		var largeCategoryKor = ""; // 대분류 한글 표시
 		var smallCategoryKor = ""; // 소분류 한글 표시
@@ -121,27 +172,37 @@
 		
 		// 소분류 카테고리 번호 확인 후 글자 변환하여 출력
 		// 대분류 하이퍼링크 추가
-		if(smallCategory!=999) {
+		
+		if(smallCategory!=999) { // 소분류 선택 O
 			
-			$(".smallCategory").css("visibility","hidden");
+			$(".smallCategory").hide();
+			$(".largeCategory").hide();
 					
 			if(smallCategory==0){
-				smallCategoryKor = "인문사회"
+				smallCategoryKor = "인문사회";
 			} else if(smallCategory==1){
-				smallCategoryKor = "자연공학"
+				smallCategoryKor = "자연공학";
 			} else if(smallCategory==2){
-				smallCategoryKor = "예술체육"
+				smallCategoryKor = "예술체육";
 			} else if(smallCategory==3){
-				smallCategoryKor = "교양"
+				smallCategoryKor = "교양";
 			}
-			
+					
+			$(".breadcrumb__option").append("<a href='list?largeCategory="+largeCategory
+													+"&smallCategory=999"
+													+"&inputKeyword=${pageDTO.searchingVO.inputKeyword}'>"+largeCategoryKor+"</a>"+"<span>"+smallCategoryKor+"</span>");
 		
-			$(".breadcrumb__option").append("<a href='list?largeCategory="+largeCategory+"'>"+largeCategoryKor+"</a>"+"<span>"+smallCategoryKor+"</span>");
-			console.log(largeCategory);
 		} else if(smallCategory==999){ // 소분류 선택 X
 			
-			console.log(largeCategoryKor);
-			$(".breadcrumb__option").append("<span>"+largeCategoryKor+"</span>");
+			if(largeCategory!=999){ // 대분류 O, 소분류 X
+				$(".largeCategory").hide();
+				$(".breadcrumb__option").append("<span>"+largeCategoryKor+"</span>");			
+					
+			} else if(largeCategory==999){ // 대분류 X 소분류 X
+				
+				$(".smallCategory").hide();	
+				
+			}			
 		}
 	});
 </script>

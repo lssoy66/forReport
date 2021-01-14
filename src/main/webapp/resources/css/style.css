@@ -1334,6 +1334,16 @@ ol {
   Listing
 -----------------------*/
 
+/*0112 은지 추가 - list table focus*/
+td a:hover {
+	text-decoration: none;
+	outline: none;
+	color: red;
+}
+td a {
+	color: black;
+}
+
 .nice-scroll {
 	height: 100%;
 	overflow-y: hidden;
@@ -2146,17 +2156,17 @@ ol {
 
 
 /*list.jsp의 소분류 버튼을 위해 추가*/
-.breadcrumb__text .smallCategory {
+.breadcrumb__text .category {
 	padding: 30px 5px;
 }
 /*list.jsp의 소분류 버튼을 위해 추가*/
-.breadcrumb__text .smallCategory a{
+.breadcrumb__text .category a{
 	font-size: 15px;
 	color: pink;
 	padding: 5px;
 }
 /*list.jsp의 소분류 버튼을 위해 추가*/
-.breadcrumb__text .smallCategory a:hover {
+.breadcrumb__text .category a:hover {
 	color: #ffffff;
 }
 

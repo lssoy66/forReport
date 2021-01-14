@@ -24,4 +24,7 @@ public interface CartMapper {
 	
 	// 장바구니 사용자가 담은 모든 상품 삭제
 	public int deleteCartAll(String id);
+	
+	// 해당 사용자의 장바구니 목록 중 특정 상품 가져오기
+	//public ProductVO getCartProduct(IdPronumVO cart);
 }

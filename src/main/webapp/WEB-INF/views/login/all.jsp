@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>/sample/all Page</h1>
-	
+	<h1>/login/all Page</h1>
+	<a href="/login/customLogout">Logout</a>
 </body>
 </html>

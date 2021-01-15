@@ -4,15 +4,37 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.forreport.mapper.ProductMapper">
 
-	<!-- 소분류 선택 여부에 따라 서로 다른 쿼리문 입력 -->
+
+	<!-- 키워드에 따라 서로 다른 쿼리문 입력 -->
+	<sql id="useInputKeyword">
+		<choose>
+			<!-- 키워드 입력 한 경우 -->
+			<when test="inputKeyword!=null">
+				and title like '%'||#{inputKeyword}||'%'
+			</when>
+		</choose>
+	</sql>
+
+	<!-- 소분류, 대분류 선택 여부에 따라 서로 다른 쿼리문 입력 -->
 	<sql id="getListAboutCategory">
 		<choose>
 			<!-- smallCategory 선택 안한 경우 -->
 			<when test="smallCategory==999">
-				<![CDATA[
-					largeCa = #{largeCategory} and
-					rownum <= #{pageNum} * #{amount}
-				]]>	
+				<choose>
+					<!-- largeCategory 선택 안 한 경우 -->
+					<when test="largeCategory==999">
+					<![CDATA[
+						(largeCa = 0 or largeCa = 1)and
+						rownum <= #{pageNum} * #{amount}
+					]]>
+					</when>
+					<when test="largeCategory!=999">
+						<![CDATA[
+							largeCa = #{largeCategory} and
+							rownum <= #{pageNum} * #{amount}
+						]]>	
+					</when>
+				</choose>
 			</when>
 			<when test="smallCategory!=999">
 				<![CDATA[
@@ -24,24 +46,63 @@
 		
 		</choose>
 	</sql>
-
+	
+	<!-- 검색 조건에 맞게 List로 Product 정보 가져오기 -->
 	<select id="getProductListWithPaging" resultType="com.forreport.domain.ProductVO">
 		<![CDATA[	
 			select
 				pronum, id, largeCa, smallCa, title, proname, prodsc, price, uploadDate, approval
 			from (
-					select
+					select /*+ INDEX_DESC(tbl_product PK_TBL_PRODUCT)*/
 						rownum rn, pronum, id, largeCa, smallCa, title, proname, prodsc, price, uploadDate, approval
 					from
 						tbl_product
 					where
 		]]>
 		<include refid="getListAboutCategory"/>
+		<include refid="useInputKeyword"/>
 		<![CDATA[
 				)
 			where
 				rn > (#{pageNum}-1) * #{amount}
 		]]>		
+	</select>
+	
+	
+	
+	<!-- 검색 조건에 맞는 게시글의 개수 가져오기 -->
+	<select id="getTotalCount" resultType="int">
+		select count(*)
+		from
+			tbl_product
+		where
+			<choose>
+				<!-- smallCategory 선택 안한 경우 -->
+				<when test="smallCategory==999">
+					<choose>
+						<!-- largeCategory 선택 안 한 경우 -->
+						<when test="largeCategory==999">
+							(largeCa = 0 or largeCa = 1)
+							<include refid="useInputKeyword"/>
+						</when>
+						<when test="largeCategory!=999">
+							<![CDATA[
+								largeCa = #{largeCategory}
+							]]>
+							<include refid="useInputKeyword"/>
+						</when>
+					</choose>
+				</when>
+				<when test="smallCategory!=999">
+					<![CDATA[
+						largeCa = #{largeCategory} and
+						smallCa = #{smallCategory} 
+					]]> 
+					<include refid="useInputKeyword"/>
+				</when>
+		</choose>
+					
+					
 	</select>
 
 </mapper>

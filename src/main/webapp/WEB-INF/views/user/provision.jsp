@@ -23,7 +23,7 @@
 			<div class="hero__text">
 				<article id="content" class="cols-d">
 					<div>
-						<form id="terms_form" class="f" action="/user/join.fr">
+						<form id="terms_form" class="f" action="/user/certification.fr">
 							<h4 class="scheme-g">● 이용약관</h4>
 							<textarea style="font-size: 1em;">제1조 (목적)
 이 약관은 ㈜포레포트(이하 ‘회사’)가 회원에게 온라인 서비스를 제공하기 위하여 운영하는 www.forreport.com (이하 ‘포레포트’)의 이용과 관련하여 회사와 회원의 권리 및 의무 기타 필요한 사항을 규정함을 목적으로 합니다.
@@ -314,9 +314,13 @@
 2. 근본적으로 게시물에 관련된 제반 권리와 책임은 작성자 개인에게 있습니다. 또 게시물을 통해 자발적으로 공개된 정보는 보호받기 어려우므로 정보 공개 전에 심사숙고 하시기 바랍니다.
 </textarea>
 							<p>
-								<input type="checkbox" id="check_3" name="" /> 위의 약관에 동의 합니다.<br />
-								<input type="button" id="nextBtn" class="button_big"
-									style="padding: 0 10px 10px 10px; height: 24px;" value="다음단계로" />
+								<input type="checkbox" id="check_3" name=""/> 위의 약관에 동의 합니다.<br />
+							<div class="reg_button" style="float: right;">
+								<br>
+								<button class="btn btn-primary px-3" id="nextBtn">
+									<i class="fa fa-arrow-right" aria-hidden="true"></i>다음단계
+								</button>
+							</div>
 							</p>
 						</form>
 					</div>
@@ -401,22 +405,22 @@
 </style>
 
 <script type="text/javascript">
-	$(document).ready(function() {
-		$("#nextBtn").click(function() {
-			if ($("#check_1").is(":checked") == false) {
-				alert("모든 약관에 동의 하셔야 다음 단계로 진행 가능합니다.");
-				return;
-			} else if ($("#check_2").is(":checked") == false) {
-				alert("모든 약관에 동의 하셔야 다음 단계로 진행 가능합니다..");
-				return;
-			} else if ($("#check_3").is(":checked") == false) {
-				alert("모든 약관에 동의 하셔야 다음 단계로 진행 가능합니다...");
-				return;
-			} else {
-				$("#terms_form").submit();
-			}
-		});
-	});
+$(document).ready(function(){  
+    $("#nextBtn").click(function(){    
+        if($("#check_1").is(":checked") == false){
+            alert("모든 약관에 동의 하셔야 다음 단계로 진행 가능합니다.");
+            return;
+        }else if($("#check_2").is(":checked") == false){
+            alert("모든 약관에 동의 하셔야 다음 단계로 진행 가능합니다..");
+            return;
+        }else if($("#check_3").is(":checked") == false){
+            alert("모든 약관에 동의 하셔야 다음 단계로 진행 가능합니다...");
+            return;
+        }else{
+            $("#terms_form").submit();
+        }
+    });    
+});
 </script>
 
 

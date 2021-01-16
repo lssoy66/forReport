@@ -11,8 +11,8 @@
      
 	<security:http>
 		<security:intercept-url pattern="/login/all" access="permitAll" />
-		<security:intercept-url pattern="/login/member" access="hasRole('0')" />
-		<security:intercept-url pattern="/login/admin" access="hasRole('1')" />
+		<security:intercept-url pattern="/login/member" access="hasRole('ROLE_MEMBER')" />
+		<security:intercept-url pattern="/login/admin" access="hasRole('ROLE_ADMIN')" />
 		
 <!-- 		<security:access-denied-handler error-page="/login/accessError"/> -->
         <security:access-denied-handler ref="customAccessDenied"/>
@@ -23,8 +23,8 @@
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:jdbc-user-service data-source-ref="dataSource" 
-			users-by-username-query="select id, password from tbl_user where id = ?"
-			authorities-by-username-query="select auth, id from tbl_auth where id = ?"/>
+			users-by-username-query="select id, password, enabled from tbl_user where id = ?"
+			authorities-by-username-query="select id, auth from tbl_auth where id = ?"/>
 			<security:password-encoder ref="bcryptPasswordEncoder"/>
 		</security:authentication-provider>
 	</security:authentication-manager>

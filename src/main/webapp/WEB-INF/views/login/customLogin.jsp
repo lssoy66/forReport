@@ -16,10 +16,10 @@
   <form method='post' action="/login">
   
      <div>
-        <input type='text' name='id' value=''>
+        <input type='text' name='username'>
      </div>
      <div>
-        <input type='password' name='password' value=''>
+        <input type='password' name='password'>
      </div>
        <div>
           <input type='submit'>

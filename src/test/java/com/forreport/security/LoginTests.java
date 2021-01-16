@@ -30,53 +30,53 @@ public class LoginTests {
 	@Setter(onMethod_ = @Autowired)
 	private DataSource ds;
 
-	@Test
-	public void testInsertUser() {
-		String sql = "insert into tbl_user(id, password, name, phone, email, grade) values (?,?,?,?,?,?)";		
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			String id = "admin";
-			
-			try {
-				con = ds.getConnection();
-				pstmt = con.prepareStatement(sql);				
-				
-				if(id == "admin") {
-					pstmt.setString(1, "admin");
-					pstmt.setString(2, "admin");
-					pstmt.setString(3, "admin");
-					pstmt.setString(4, "123123123");				
-					pstmt.setString(5, "abc@abc.com");				
-					pstmt.setString(6, "0");				
-				} else {
-					pstmt.setString(1, "user");
-					pstmt.setString(2, "1234");
-					pstmt.setString(3, "hong");				
-					pstmt.setString(4, "123123123");				
-					pstmt.setString(5, "abc@abc.com");				
-					pstmt.setString(6, "0");	
-				}
-				pstmt.executeUpdate();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if(pstmt != null) {
-					try {
-						pstmt.close();
-					} catch (Exception e) {
-						
-					}
-				}
-				if(con != null) {
-					try {
-						con.close();
-					} catch (Exception e) {
-
-					}
-				}
-			}
-		
-	}
+//	@Test
+//	public void testInsertUser() {
+//		String sql = "insert into tbl_user(id, password, name, phone, email, grade) values (?,?,?,?,?,?)";		
+//			Connection con = null;
+//			PreparedStatement pstmt = null;
+//			String id = "admin";
+//			
+//			try {
+//				con = ds.getConnection();
+//				pstmt = con.prepareStatement(sql);				
+//				
+//				if(id == "admin") {
+//					pstmt.setString(1, "admin");
+//					pstmt.setString(2, pwencoder.encode("admin"));
+//					pstmt.setString(3, "admin");
+//					pstmt.setString(4, "123123123");				
+//					pstmt.setString(5, "abc@abc.com");				
+//					pstmt.setString(6, "0");				
+//				} else {
+//					pstmt.setString(1, "user");
+//					pstmt.setString(2, "1234");
+//					pstmt.setString(3, "hong");				
+//					pstmt.setString(4, "123123123");				
+//					pstmt.setString(5, "abc@abc.com");				
+//					pstmt.setString(6, "0");	
+//				}
+//				pstmt.executeUpdate();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			} finally {
+//				if(pstmt != null) {
+//					try {
+//						pstmt.close();
+//					} catch (Exception e) {
+//						
+//					}
+//				}
+//				if(con != null) {
+//					try {
+//						con.close();
+//					} catch (Exception e) {
+//
+//					}
+//				}
+//			}
+//		
+//	}
 	
 	@Test
 	public void testInsertAuth() {
@@ -91,10 +91,10 @@ public class LoginTests {
 				pstmt = con.prepareStatement(sql);
 				
 				if( id == "admin" ) {
-					pstmt.setString(1, "1");
+					pstmt.setString(1, "ROLE_ADMIN");
 					pstmt.setString(2, "admin");				
 				} else {
-					pstmt.setString(1, "0");
+					pstmt.setString(1, "ROLE_MEMBER");
 					pstmt.setString(2, "aa");
 				}
 				pstmt.executeUpdate();

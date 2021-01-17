@@ -35,15 +35,15 @@ public class LoginTests {
 		String sql = "insert into tbl_user(id, password, name, phone, email, grade) values (?,?,?,?,?,?)";		
 			Connection con = null;
 			PreparedStatement pstmt = null;
-			String id = "admin";
+			String id = "admin22";
 			
 			try {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(sql);				
 				
-				if(id == "admin") {
-					pstmt.setString(1, "admin");
-					pstmt.setString(2, "admin");
+				if(id == "admin22") {
+					pstmt.setString(1, "admin22");
+					pstmt.setString(2, pwencoder.encode("admin"));
 					pstmt.setString(3, "admin");
 					pstmt.setString(4, "123123123");				
 					pstmt.setString(5, "abc@abc.com");				
@@ -80,19 +80,19 @@ public class LoginTests {
 	
 	@Test
 	public void testInsertAuth() {
-		String sql = "insert into tbl_auth (auth, id) values (?,?)";
+		String sql = "insert into tbl_auth2 (auth, id) values (?,?)";
 	
 			Connection con = null;
 			PreparedStatement pstmt = null;
-			String id = "admin";
+			String id = "admin22";
 			
 			try {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(sql);
 				
-				if( id == "admin" ) {
-					pstmt.setString(1, "1");
-					pstmt.setString(2, "admin");				
+				if( id == "admin22" ) {
+					pstmt.setString(1, "ROLE_ADMIN");
+					pstmt.setString(2, "admin22");				
 				} else {
 					pstmt.setString(1, "0");
 					pstmt.setString(2, "aa");

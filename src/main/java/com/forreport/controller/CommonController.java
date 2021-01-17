@@ -40,4 +40,9 @@ public class CommonController {
 	public void logoutGet() {
 		log.info("custom logout");
 	}
+	
+//	@GetMapping("/")
+//	public void login() {
+//		log.info("loginPage");
+//	}
 }

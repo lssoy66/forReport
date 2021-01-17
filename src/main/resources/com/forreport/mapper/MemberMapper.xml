@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.forreport.mapper.MemberMapper">
+  	<!-- 
+  	p662 ~ 3 : Mybatis를 사용하기 위한 xml
+  	-->
+	<resultMap type="com.forreport.domain.MemberVO" id="memberMap">
+		<id property="id" column="id"/>
+		<result property="id" column="id"/>
+		<result property="password" column="password"/>
+		<result property="name" column="name"/>
+		<collection property="authList" resultMap="authMap">
+		</collection>		
+	</resultMap>
+  	
+  	<resultMap type="com.forreport.domain.AuthVO" id="authMap">
+  		<result property="userid" column="userid"/>
+		<result property="auth" column="auth"/>
+  	</resultMap>
+  	
+  	
+  	<select id="read" resultMap="memberMap">
+  		SELECT
+  			mem.id, password, name, enabled, auth
+  		FROM
+  			tbl_user mem LEFT OUTER JOIN tbl_auth2 auth on mem.id = auth.id
+  		WHERE mem.id = #{id}
+  	</select>
+</mapper>

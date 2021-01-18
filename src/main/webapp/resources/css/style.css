@@ -175,6 +175,20 @@ ol {
 	border: none;
 }
 
+/* 버튼 스타일 추가 */
+.site-btn.orderButton {
+	font-size: 20px;
+	color: #ffffff;
+	font-weight: 700;
+	text-transform: uppercase;
+	display: block;
+	margin: auto;
+	margin-top: 50px;
+	padding: 13px 100px 12px;
+	background: #f03250;
+	border: none;
+}
+
 /* Preloder */
 
 #preloder {
@@ -1883,6 +1897,19 @@ td a {
 	margin-left: -2px;
 }
 
+/* 장바구니 삭제 표시 추가 시작 */
+.listing__details__comment__item__text .listing__details__comment__item__exit {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.listing__details__comment__item__text .listing__details__comment__item__exit i {
+	font-size: 16px;
+	color: #000000;
+	margin-left: -2px;
+}
+/* 끝 */
+
 .listing__details__comment__item__text span {
 	font-size: 13px;
 	color: #f03250;
@@ -2460,7 +2487,8 @@ td a {
 	box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.1);
 	border-radius: 5px;
 	background: #ffffff;
-	padding: 30px 30px 10px 30px;
+/* 	수정 전 : 30 30 10 30 */
+	padding: 30px 30px 30px 30px;
 	margin-bottom: 50px;
 }
 
@@ -2832,6 +2860,22 @@ td a {
 	line-height: 54px;
 	margin-bottom: 26px;
 }
+
+/* 추가 시작 */
+.about__title h4 {
+	font-size: 45px;
+	font-weight: 700;
+	color: #323232;
+	line-height: 54px;
+	margin-bottom: 26px;
+	display: inline;
+}
+
+.about__title p {
+	font-size: 30px;
+	display: inline;
+}
+/* 추가 끝 */
 
 .about__text h5 {
 	font-size: 20px;

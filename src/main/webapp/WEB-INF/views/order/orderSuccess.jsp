@@ -57,13 +57,13 @@
 						</div>
 						<div class="col-lg-4 col-md-4" id="custom">
 							<br>
-							구매자이름<br><br>
+							${orderVO.id }<br><br>
 							구매자폰번호<br><br>
 							구매자이메일<br><br>
 							<br>
-							주문번호<br><br>
-							결제방식<br><br>
-							주문일자<br><br>
+							${orderVO.ordernum }<br><br>
+							${orderVO.paymethod }<br><br>
+							${orderVO.orderdate }<br><br>
 							<br>
 							<p id="customP">총 결제금액</p><br><br>						
 						</div>

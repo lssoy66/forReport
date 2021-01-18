@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,6 +54,7 @@ public class OrderController {
 	}
 	
 	// 주문 테이블에 데이터 저장
+	// 결제 완료 = 주문 테이블 저장이므로 장바구니 삭제도 동시에
 	@PostMapping("orderProcess.fr")
 	public String orderProcess(OrderVO order) {
 		// 뷰 페이지로 전달해야 하는 것 : 주문정보테이블의 정보, 주문한 상품리스트, 가상계좌 정보

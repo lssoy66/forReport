@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.forreport.domain.IdPronumVO;
+import com.forreport.domain.OrderVO;
 import com.forreport.domain.ProductVO;
 import com.forreport.service.CartService;
 import com.forreport.service.OrderService;
@@ -43,6 +44,7 @@ public class OrderController {
 		model.addAttribute("orderProductList", service.getCartProduct(id, checkPronum));
 	}
 	
+	// 결제 API 테스트
 	@GetMapping(value = "complete", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
 	@ResponseBody
 	public ResponseEntity<String> TestAmount(Long amount){
@@ -50,6 +52,20 @@ public class OrderController {
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	
+	// 주문 테이블에 데이터 저장
+	@PostMapping("orderProcess.fr")
+	public String orderProcess(OrderVO order) {
+		// 뷰 페이지로 전달해야 하는 것 : 주문정보테이블의 정보, 주문한 상품리스트, 가상계좌 정보
+		log.info(order);
+		int result = service.addOrder(order);
+		
+		return result > 0 ? "order/orderSuccess" : null;
+	}
+	
+	@GetMapping("orderSuccessTestPage")
+	public void orderSuccessTestPage() {
+		
+	}
 	
 }
 

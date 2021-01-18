@@ -8,6 +8,6 @@ import lombok.Data;
 public class IdPronumVO {
 
 	private String id;
-	private int pronum;
+	private long pronum;
 	
 }

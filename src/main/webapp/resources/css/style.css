@@ -127,6 +127,17 @@ ol {
 	color: #707070;
 }
 
+/* 왼쪽정렬 우선적용 추가 */
+div #custom {
+	text-align: left;
+}
+
+/* 글씨 우선적용 추가(파란색) */
+#customP {
+	font-size: 20px;
+	color: #0084ff;
+}
+
 .set-bg {
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -187,6 +198,34 @@ ol {
 	padding: 13px 100px 12px;
 	background: #f03250;
 	border: none;
+}
+
+#orderButton {
+	font-size: 20px;
+	color: #ffffff;
+	font-weight: 700;
+	text-transform: uppercase;
+	display: inline;
+	margin: auto;
+	margin-top: 50px;
+	padding: 13px 60px 12px;
+	background: #f03250;
+	border: 1px solid;
+	border-color: #f03250;
+}
+
+#orderButton2 {
+	font-size: 20px;
+	color: #f03250;
+	font-weight: 700;
+	text-transform: uppercase;
+	display: inline;
+	margin: auto;
+	margin-top: 50px;
+	padding: 13px 60px 12px;
+	background: white;
+	border: 1px solid;
+	border-color: #f03250;
 }
 
 /* Preloder */
@@ -310,10 +349,10 @@ ol {
 .header__menu ul li:hover .dropdown li a {
 	color: #ffffff;
 }
-
+/* 
 .header__menu ul li:hover .dropdown li a:after {
 	display: none;
-}
+} */
 
 .header__menu ul li:hover>a:after {
 	opacity: 1;
@@ -2868,6 +2907,10 @@ td a {
 	color: #323232;
 	line-height: 34px;
 	margin-bottom: 16px;
+}
+
+.about__text.custom h5 {
+	margin-bottom: 5px;
 }
 
 .about__text p {

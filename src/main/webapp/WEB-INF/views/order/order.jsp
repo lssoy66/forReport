@@ -28,6 +28,7 @@
 <!-- About Section Begin -->
 <section class="about spad">
 	<div class="container">
+	
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="about__text">
@@ -44,7 +45,7 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${orderProductList }" var="orderProduct">
-								<tr>
+								<tr data-pronum="${orderProduct.pronum }">
 									<td><img src="/resources/img/listing/details/comment.png"
 										alt=""></td>
 									<td><c:out value="${orderProduct.title }" /></td>
@@ -87,19 +88,19 @@
 				<div class="about__title">
 					<b>일반결제</b><br><br>
 					<b>무통장</b><br><br>
-					<b>카카오</b><br><br>
 				</div>
 			</div>
 			<div class="col-lg-10 col-md-10">
 				<div class="about__text">
-					<form action="#">
-						<input type="radio" name="paymethod" value="Test1" checked="checked"> 신용카드<br><br>
-						<input type="radio" name="paymethod" value="Test2"> 무통장입금<br><br>
+					<form action="/order/orderProcess.fr" method="post" >
+						<input type="radio" name="paymethod" value="card" checked="checked"> 신용카드<br><br>
+						<input type="radio" name="paymethod" value="vBank"> 무통장입금<br><br>
 					</form>
 				</div>
 			</div>
 		</div>
-				
+			
+		
 		<div class="row">
 			<div class="col-lg-12">
 				<hr>
@@ -108,7 +109,7 @@
 					<p>총 결제 금액 : </p>
 					<h4><c:out value="${price }" /><h4>
 					<p>원</p>
-					<input type="submit" class="site-btn orderButton" value="결제하기">
+					<button class="site-btn orderButton">결제하기</button>
 				<br>
 				</div>
 			</div>
@@ -130,46 +131,122 @@
 		$(".orderButton").click(function(e){
 			
 			e.preventDefault();
+			var str = "";
 			
-			// console.log($("input[type='radio']:checked").attr("value"));
+			console.log($("input[type='radio']:checked").attr("value"));
 			// 현재 amount만 넘어가도록, GET 방식으로 작성하였음
 			// 1. POST 방식으로 변경, 2. 주문테이블에 필요한 데이터를 전달하도록 변경(data), 3. 성공 시 주문내역 페이지로 이동
-			if($("input[type='radio']:checked").attr("value") == "Test1"){
-				//alert("Test3");
+			// >>> 주문성공페이지를 따로 생성하기(무통장의 경우 가상계좌명을 보여줘야 하기 때문)
+			if($("input[type='radio']:checked").attr("value") == "card"){
+				//alert("Test1");
+				
+				
 				IMP.request_pay({ // param
 			          pg: "html5_inicis",
 			          pay_method: "card",
 			          name: "주문명:결제테스트",
-			          amount: price,
+			          amount: 100,
 			          buyer_email: "lssoy66@naver.com",
-			          buyer_name: "이수연",
+			          buyer_name: "user3",
 			          buyer_tel: "010-8755-6019"
 			      }, function (rsp) { // callback
 			          if (rsp.success) {
+			        	  
 			        	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-			          	$.ajax({
-			          		url: "/order/complete", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
-			          		type: 'GET',
-			          		dataType: 'text',
-			          		data: { "amount" : 100 },
-			          		contentType : "application/json; charset=utf-8",
-			          		success : function(result){
- 			          			var msg = '결제가 완료되었습니다.';
- 			          			msg += '\n고유ID : ' + rsp.imp_uid;
- 			          			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
- 			          			msg += '\n결제 금액 : ' + rsp.paid_amount;
- 			          			msg += '\n카드 승인번호 : ' + rsp.apply_num;
+// 			          	$.ajax({
+// 			          		url: "/order/complete", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+// 			          		type: 'GET',
+// 			          		dataType: 'text',
+// 			          		data: { "amount" : 100 },
+// 			          		contentType : "application/json; charset=utf-8",
+// 			          		success : function(result){
+//  			          			var msg = '결제가 완료되었습니다.';
+//  			          			msg += '\n고유ID : ' + rsp.imp_uid;
+//  			          			msg += '\n결제수단 : ' + rsp.pay_method;
+//  			          			msg += '\n주문명 : ' + rsp.name;
+//  			          			msg += '\n주문자명 : ' + rsp.buyer_name;
+//  			          			msg += '\n주문자Email : ' + rsp.buyer_email;
+//  			          			msg += '\n주문자연락처 : ' + rsp.buyer_tel;
+//  			          			msg += '\n결제 금액 : ' + rsp.paid_amount;
+//  			          			msg += '\n가상계좌 입금계좌명(무통장 결제 시) : ' + rsp.vbank_num;
+//  			          			msg += '\n가상계좌 은행명(무통장 결제 시) : ' + rsp.vbank_name;
+//  			          			msg += '\n가상계좌 예금주(무통장 결제 시) : ' + rsp.vbank_holder;
+//  			          			msg += '\n가상계좌 입금기한(무통장 결제 시) : ' + rsp.vbank_date;
+//  			          			msg += '\n카드 승인번호(신용카드 결제 시) : ' + rsp.apply_num;
 			          			
-			          			alert(result + " :: " + msg);
-							}
-			          	});
+// 			          			alert(result + " :: " + msg);
+// 							}
+// 			          	});	// end ajax
+						
+						str += "<input type='hidden' name='id' value='" + rsp.buyer_name + "'>";
+						//str += "<input type='hidden' name='paymethod' value='111'>";
+						str += "<input type='hidden' name='payprice' value='" + rsp.paid_amount + "'>";
+						str += "<input type='hidden' name='applynum' value='" + rsp.apply_num + "'>";
+						
+						$(".table tbody tr").each(function(i, obj){
+							console.log($(obj).data("pronum"));
+							str += "<input type='hidden' name='pronumList[" + i + "]' value='" + $(obj).data("pronum") + "'>";
+						});
+						
+						var formObj = $("form").append(str);
+						
+						formObj.submit();
+						
 			          } else {
 			        	  var msg = '결제에 실패하였습니다.';
 			              msg += '\n에러내용 : ' + rsp.error_msg;
 			              alert(msg);
 			          }
-			      });
+			      });	// end request_pay
+			      
+				
+				
+ 			} else if($("input[type='radio']:checked").attr("value") == "vBank") {
+ 				
+//  				IMP.request_pay({ // param
+// 			          pg: "html5_inicis",
+// 			          pay_method: "vbank",
+// 			          name: "주문명:결제테스트",
+// 			          amount: price,
+// 			          buyer_email: "lssoy66@naver.com",
+// 			          buyer_name: "이수연",
+// 			          buyer_tel: "010-8755-6019"
+// 			    }, function (rsp) { // callback
+// 			          if (rsp.success) {
+// 			        	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+// 			          	$.ajax({
+// 			          		url: "/order/complete", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+// 			          		type: 'GET',
+// 			          		dataType: 'text',
+// 			          		data: { "amount" : 100 },
+// 			          		contentType : "application/json; charset=utf-8",
+// 			          		success : function(result){
+// 			          			var msg = '결제가 완료되었습니다.';
+// 			          			msg += '\n고유ID : ' + rsp.imp_uid;
+// 			          			msg += '\n결제수단 : ' + rsp.pay_method;
+// 			          			msg += '\n주문명 : ' + rsp.name;
+// 			          			msg += '\n주문자명 : ' + rsp.buyer_name;
+// 			          			msg += '\n주문자Email : ' + rsp.buyer_email;
+// 			          			msg += '\n주문자연락처 : ' + rsp.buyer_tel;
+// 			          			msg += '\n결제 금액 : ' + rsp.paid_amount;
+// 			          			msg += '\n가상계좌 입금계좌명(무통장 결제 시) : ' + rsp.vbank_num;
+// 			          			msg += '\n가상계좌 은행명(무통장 결제 시) : ' + rsp.vbank_name;
+// 			          			msg += '\n가상계좌 예금주(무통장 결제 시) : ' + rsp.vbank_holder;
+// 			          			msg += '\n가상계좌 입금기한(무통장 결제 시) : ' + rsp.vbank_date;
+// 			          			msg += '\n카드 승인번호(신용카드 결제 시) : ' + rsp.apply_num;
+			          			
+// 			          			alert(result + " :: " + msg);
+// 							}
+// 			          	});	// end ajax
+// 			          } else {
+// 			        	  var msg = '결제에 실패하였습니다.';
+// 			              msg += '\n에러내용 : ' + rsp.error_msg;
+// 			              alert(msg);
+// 			          }
+// 			      });	// end request_pay
+ 				
  			}
+		
 			
 		});
 		

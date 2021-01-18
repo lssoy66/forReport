@@ -21,17 +21,27 @@ import lombok.extern.log4j.Log4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 @Log4j
-public class CartServiceTests {
+public class OrderServiceTests {
 	
 	@Setter(onMethod_ = @Autowired)
-	private CartService service;
-
+	private OrderService orderService;
+	
 	@Test
-	public void testGetCartList() {
+	public void testAddOrder() {
+		OrderVO order = new OrderVO();
+		order.setId("user3");
 		
-		List<ProductVO> productList = service.getCartList("user3");
-		log.info(productList);
+		List<Long> proList = new ArrayList<Long>();
+		proList.add((long) 67);
+		proList.add((long) 69);
+		order.setPronumList(proList);
 		
+		order.setPaymethod("card");
+		order.setPayprice(50000);
+		
+		int result = orderService.addOrder(order);
+		log.info(result);
 	}
+	
 
 }

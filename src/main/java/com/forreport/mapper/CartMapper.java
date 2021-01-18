@@ -16,8 +16,8 @@ public interface CartMapper {
 	// 주문자의 장바구니 리스트 가져오기
 	public List<CartVO> getCartList(String id);
 	
-	// 상품 가져오기(테스트를 위해 임의로 작성)
-	public ProductVO getProduct(int pronum);
+	// 상품 가져오기
+	public ProductVO getProduct(long pronum);
 	
 	// 장바구니 사용자가 담은 상품 중 특정 상품 삭제
 	public int deleteCartProduct(IdPronumVO cart);

@@ -9,5 +9,11 @@
    		insert into tbl_order(ordernum, pronum, id, paymethod, payprice) 
    		values(seq_order.nextval, #{pronum}, #{id}, #{paymethod}, #{payprice})
    </insert>
+   
+   <select id="getOrderList" resultType="com.forreport.domain.OrderVO">
+   		select ordernum, pronum, id, paymethod, payprice, orderdate
+   		from tbl_order
+   		where id = #{id}
+   </select>
   
 </mapper>

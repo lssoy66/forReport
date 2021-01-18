@@ -57,6 +57,13 @@ public class OrderServiceImpl implements OrderService {
 		log.info("success Number :: " + success);
 		return success;
 	}
+
+	@Override
+	public List<OrderVO> getOrderList(String id) {
+		return mapper.getOrderList(id);
+	}
+	
+	
 	
 	
 

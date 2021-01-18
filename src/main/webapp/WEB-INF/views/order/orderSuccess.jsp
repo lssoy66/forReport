@@ -57,15 +57,15 @@
 						</div>
 						<div class="col-lg-4 col-md-4" id="custom">
 							<br>
-							${orderVO.id }<br><br>
+							${order.id }<br><br>
 							구매자폰번호<br><br>
 							구매자이메일<br><br>
 							<br>
-							${orderVO.ordernum }<br><br>
-							${orderVO.paymethod }<br><br>
-							${orderVO.orderdate }<br><br>
+							${order.ordernum }<br><br>
+							${order.paymethod }<br><br>
+							${order.orderdate }<br><br>
 							<br>
-							<p id="customP">총 결제금액</p><br><br>						
+							<p id="customP">총 주문금액</p><br><br>						
 						</div>
 						
 						<div class="col-lg-3 col-md-3">
@@ -90,20 +90,15 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td><img src="/resources/img/listing/details/comment.png"
-												alt=""></td>
-											<td>상품명</td>
-											<td>판매자id</td>
-											<td>상품가격</td>
-										</tr>
-										<tr>
-											<td><img src="/resources/img/listing/details/comment.png"
-												alt=""></td>
-											<td>상품명</td>
-											<td>판매자id</td>
-											<td>상품가격</td>
-										</tr>
+										<c:forEach items="${productList }" var="product">
+											<tr data-price="${product.price }">
+												<td><img src="/resources/img/listing/details/comment.png"
+													alt=""></td>
+												<td><c:out value="${product.title }" /> </td>
+												<td><c:out value="${product.id }" /></td>
+												<td><c:out value="${product.price }" /></td>
+											</tr>
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
@@ -128,6 +123,21 @@
 	</div>
 </section>
 <!-- Work Section End -->
+
+<script>
+
+	$(document).ready(function(){
+		
+		var priceAll = 0;
+		$(".table tbody tr").each(function(i, obj){
+			priceAll += $(obj).data("price");
+		});
+		
+		$("#customP").html(priceAll);
+		
+	});
+
+</script>
 
 <%@ include file="../includes/footer.jsp"%>
 

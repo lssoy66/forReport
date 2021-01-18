@@ -188,6 +188,10 @@
 							str += "<input type='hidden' name='pronumList[" + i + "]' value='" + $(obj).data("pronum") + "'>";
 						});
 						
+						// 총주문금액
+						var price = "<c:out value='${price }' />";
+						str += "<input type='hidden' name='priceAll' value='" + price + "'";
+						
 						var formObj = $("form").append(str);
 						
 						formObj.submit();

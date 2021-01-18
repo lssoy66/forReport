@@ -13,4 +13,7 @@ public interface OrderService {
 	// 주문 테이블에 추가
 	public int addOrder(OrderVO order);
 	
+	// 사용자의 주문 정보 가져오기
+	public List<OrderVO> getOrderList(String id);
+	
 }

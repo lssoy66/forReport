@@ -56,10 +56,20 @@ public class OrderController {
 	// 주문 테이블에 데이터 저장
 	// 결제 완료 = 주문 테이블 저장이므로 장바구니 삭제도 동시에
 	@PostMapping("orderProcess.fr")
-	public String orderProcess(OrderVO order) {
-		// 뷰 페이지로 전달해야 하는 것 : 주문정보테이블의 정보, 주문한 상품리스트, 가상계좌 정보
+	public String orderProcess(OrderVO order, Model model) {
+		// 뷰 페이지로 전달해야 하는 것 : 주문정보테이블의 정보, 총 결제금액, 주문한 상품리스트, 가상계좌 정보, 주문자 정보
 		log.info(order);
 		int result = service.addOrder(order);
+		log.info(result);
+		
+		// 상품번호만 다를 뿐 나머지 정보는 모두 같으므로, 해당 사용자의 첫번째 주문내역을 전달
+		model.addAttribute("order", service.getOrderList(order.getId()).get(0));
+		
+		String[] pronumArr = new String[order.getPronumList().size()];
+		for(int i = 0; i < order.getPronumList().size(); i++) {
+			pronumArr[i] = order.getPronumList().get(i).toString();
+		}	
+		model.addAttribute("productList", service.getCartProduct(order.getId(), pronumArr));
 		
 		return result > 0 ? "order/orderSuccess" : null;
 	}

@@ -3,6 +3,7 @@ package com.forreport.persistence;
 import static org.junit.Assert.*;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 import javax.sql.DataSource;
 
@@ -31,5 +32,17 @@ public class DataSourceTests {
 			fail(e.getMessage());
 		}
 	}
+	
+//	@Test
+//	public void testInsertCart() {
+//		try(Connection con = dataSource.getConnection()){
+//			String sql = "insert into tbl_cart(cartnum, id, pronum) values(seq_cart.nextval, ?, ?)";
+//			PreparedStatement stmt = con.prepareStatement(sql);
+//			stmt.setString(1, "admin");
+//			stmt.setString(1, "");
+//		}catch (Exception e) {
+//			fail(e.getMessage());
+//		}
+//	}
 
 }

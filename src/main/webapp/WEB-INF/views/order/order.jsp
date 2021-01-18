@@ -95,7 +95,6 @@
 					<form action="#">
 						<input type="radio" name="paymethod" value="Test1" checked="checked"> 신용카드<br><br>
 						<input type="radio" name="paymethod" value="Test2"> 무통장입금<br><br>
-						<input type="radio" name="paymethod" value="Test3"> 카카오페이<br><br>
 					</form>
 				</div>
 			</div>
@@ -109,7 +108,7 @@
 					<p>총 결제 금액 : </p>
 					<h4><c:out value="${price }" /><h4>
 					<p>원</p>
-					<button class="site-btn orderButton">결제하기</button>
+					<input type="submit" class="site-btn orderButton" value="결제하기">
 				<br>
 				</div>
 			</div>
@@ -123,32 +122,54 @@
 
 	$(document).ready(function(){
 		
+		var price = "<c:out value='${price }' />";
+		//console.log(price);
 		var IMP = window.IMP;
 		IMP.init("imp17511892");
 		
 		$(".orderButton").click(function(e){
-			console.log($("input[type='radio']:checked").attr("value"));
-			if($("input[type='radio']:checked").attr("value") == "Test3"){
+			
+			e.preventDefault();
+			
+			// console.log($("input[type='radio']:checked").attr("value"));
+			// 현재 amount만 넘어가도록, GET 방식으로 작성하였음
+			// 1. POST 방식으로 변경, 2. 주문테이블에 필요한 데이터를 전달하도록 변경(data), 3. 성공 시 주문내역 페이지로 이동
+			if($("input[type='radio']:checked").attr("value") == "Test1"){
 				//alert("Test3");
 				IMP.request_pay({ // param
 			          pg: "html5_inicis",
 			          pay_method: "card",
-			          merchant_uid: "ORD20180131-0000011",
-			          name: "노르웨이 회전 의자",
-			          amount: 64900,
-			          buyer_email: "gildong@gmail.com",
-			          buyer_name: "홍길동",
-			          buyer_tel: "010-4242-4242",
-			          buyer_addr: "서울특별시 강남구 신사동",
-			          buyer_postcode: "01181"
+			          name: "주문명:결제테스트",
+			          amount: price,
+			          buyer_email: "lssoy66@naver.com",
+			          buyer_name: "이수연",
+			          buyer_tel: "010-8755-6019"
 			      }, function (rsp) { // callback
 			          if (rsp.success) {
-			        	  
+			        	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+			          	$.ajax({
+			          		url: "/order/complete", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+			          		type: 'GET',
+			          		dataType: 'text',
+			          		data: { "amount" : 100 },
+			          		contentType : "application/json; charset=utf-8",
+			          		success : function(result){
+ 			          			var msg = '결제가 완료되었습니다.';
+ 			          			msg += '\n고유ID : ' + rsp.imp_uid;
+ 			          			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+ 			          			msg += '\n결제 금액 : ' + rsp.paid_amount;
+ 			          			msg += '\n카드 승인번호 : ' + rsp.apply_num;
+			          			
+			          			alert(result + " :: " + msg);
+							}
+			          	});
 			          } else {
-			        	  
+			        	  var msg = '결제에 실패하였습니다.';
+			              msg += '\n에러내용 : ' + rsp.error_msg;
+			              alert(msg);
 			          }
 			      });
-			}
+ 			}
 			
 		});
 		

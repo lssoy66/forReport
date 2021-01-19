@@ -1354,6 +1354,10 @@ td a:hover {
 	outline: none;
 	color: red;
 }
+
+
+
+
 td a {
 	color: black;
 }
@@ -1624,6 +1628,14 @@ td a {
 	margin-bottom: 6px;
 }
 
+/*은지추가 - 제품 상세 페이지용*/
+.listing__hero__text h3 {
+	font-size: 20px;
+	color: #ffffff;
+	font-weight: 300;
+	margin-bottom: 6px;
+}
+
 .listing__hero__text p {
 	font-size: 15px;
 	color: #E1DEDE;
@@ -1769,6 +1781,7 @@ td a {
 	padding-top: 12px;
 }
 
+
 .listing__details__rating h4 {
 	color: #323232;
 	font-weight: 600;
@@ -1789,7 +1802,7 @@ td a {
 }
 
 .listing__details__rating__overall .listing__details__rating__star {
-	margin-bottom: 6px;
+	margin-bottom: 6px;	
 }
 
 .listing__details__rating__overall .listing__details__rating__star span {
@@ -1824,7 +1837,8 @@ td a {
 
 .listing__details__rating__bar__item .barfiller {
 	display: inline-block;
-	width: 460px;
+/*예전: width: 460px; */
+	width: 850px;
 	margin-bottom: 0;
 	height: 8px;
 	border-radius: 50px;

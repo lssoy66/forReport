@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
 	
 	// 회원가입
 	@Override
-	public void join(UserVO vo) throws Exception {
-		userMapper.join(vo);
+	public void joinProcess(UserVO vo) throws Exception {
+		userMapper.joinProcess(vo);
 	}
 
 	@Override

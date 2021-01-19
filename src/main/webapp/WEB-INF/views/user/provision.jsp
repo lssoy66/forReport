@@ -317,9 +317,8 @@
 								<input type="checkbox" id="check_3" name=""/> 위의 약관에 동의 합니다.<br />
 							<div class="reg_button" style="float: right;">
 								<br>
-								<button class="btn btn-primary px-3" id="nextBtn">
-									<i class="fa fa-arrow-right" aria-hidden="true"></i>다음단계
-								</button>
+								<input type="button" id="nextBtn" class="button_big"
+									style="padding: 0 10px 10px 10px; height: 24px;" value="다음단계로" />
 							</div>
 							</p>
 						</form>

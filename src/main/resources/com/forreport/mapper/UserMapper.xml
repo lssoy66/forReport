@@ -6,8 +6,8 @@
 <mapper namespace="com.forreport.mapper.UserMapper">
   
 	<!-- 회원 정보 등록 -->
-	<insert id="join">
-		insert into tbl_user values #{id}, #{password}, #{name}, #{phone}, #{email}, #{grade}
+	<insert id="joinProcess">
+		insert into tbl_user (id, password, name, phone, email) values (#{id}, #{password}, #{name}, #{phone}, #{email})
 	</insert>
 	
 	<!-- id로 회원 불러오기 -->

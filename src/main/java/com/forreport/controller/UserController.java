@@ -1,26 +1,18 @@
 package com.forreport.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.forreport.domain.UserVO;
 import com.forreport.service.UserService;
@@ -40,14 +32,18 @@ public class UserController {
 	@Autowired
 	private JavaMailSender mailSender;
 
-	// 로깅을 위한 변수
-//	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-//	private static final String String = null;
 
-	// 이용 약관
+	// 이용 약관 페이지 이동
 	@RequestMapping("/provision.fr")
 	public void provision() throws Exception {
 		log.info("provision");
+	}
+	
+	
+	// 이메일 인증 페이지 이동
+	@RequestMapping("/certification.fr")
+	public void certification() throws Exception {
+		log.info("certification");
 	}
 
 	// 이메일 중복 체크
@@ -64,10 +60,13 @@ public class UserController {
 		}
 	}
 
-	// 본인 인증 (메일 발송) post
-	@RequestMapping("/certification.fr")
+
+	// 본인 인증 (메일 발송) 
+	@GetMapping("/certificationProcess.fr")
 	@ResponseBody
-	public String certification(String email) throws Exception {
+	public String certificationProcess(String email) throws Exception {
+		
+		log.info("이메일 = "+email);
 
 		// 이메일로 받는 인증코드 부분 (난수)
 		Random r = new Random();
@@ -103,58 +102,6 @@ public class UserController {
 
 	}
 
-	// 인증번호 확인
-	@RequestMapping("/certificationProcess2.fr{dice}")
-	public ModelAndView join(String email_injeung, @PathVariable String dice, HttpServletResponse response_equals)
-			throws IOException {
-
-		System.out.println("마지막 : email_injeung : " + email_injeung);
-
-		System.out.println("마지막 : dice : " + dice);
-
-		// 페이지이동과 데이터 전송을 동시에 하기위해 ModelAndView를 사용
-
-		ModelAndView mv = new ModelAndView();
-
-		mv.setViewName("/join.fr");
-
-		mv.addObject("e_mail", email_injeung);
-
-		if (email_injeung.equals(dice)) {
-
-			// 인증번호가 일치할 경우 인증번호가 맞다는 창을 출력하고 회원가입창으로 이동함
-
-			mv.setViewName("/join.fr{dice}");
-
-			mv.addObject("e_mail", email_injeung);
-
-			// 만약 인증번호가 같다면 이메일을 회원가입 페이지로 같이 넘겨서 이메일을
-			// 한번더 입력할 필요가 없게 한다.
-
-			response_equals.setContentType("text/html; charset=UTF-8");
-			PrintWriter out_equals = response_equals.getWriter();
-			out_equals.println("<script>alert('인증번호가 일치하였습니다. 회원가입창으로 이동합니다.');</script>");
-			out_equals.flush();
-
-			return mv;
-
-		} else if (email_injeung != dice) {
-
-			ModelAndView mv2 = new ModelAndView();
-
-			mv2.setViewName("/email_injeung.fr");
-
-			response_equals.setContentType("text/html; charset=UTF-8");
-			PrintWriter out_equals = response_equals.getWriter();
-			out_equals.println("<script>alert('인증번호가 일치하지않습니다. 인증번호를 다시 입력해주세요.'); history.go(-1);</script>");
-			out_equals.flush();
-
-			return mv2;
-
-		}
-
-		return mv;
-	}
 
 	// 아이디 중복 확인
 	@ResponseBody
@@ -168,13 +115,19 @@ public class UserController {
 			return "success";
 		}
 	}
-
-	// 회원 가입
+	
+	// 회원가입 페이지 이동
 	@RequestMapping("/join.fr")
-	public String join(UserVO vo) throws Exception {
+	public void join() throws Exception{
+		log.info("join");
+	}
+
+	// 회원 가입 처리 후, 메인페이지 이동
+	@RequestMapping("/joinProcess.fr")
+	public String joinProcess(UserVO vo) throws Exception {
 		log.info("join");
 
-		userService.join(vo);
+		userService.joinProcess(vo);
 
 		return "redirect:/";
 	}

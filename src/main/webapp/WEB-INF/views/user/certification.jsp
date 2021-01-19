@@ -23,47 +23,51 @@
 			<div class="hero__text">
 				<article id="content" class="cols-d">
 					<div>
-						<form action="/user/.fr" method="POST">
 
-							<!-- 이메일 발송 -->
+						<!-- 이메일 발송 -->
+						<form id="form1">
 							<div class="form-group">
 								<label for="email">이메일</label> <input type="text"
 									class="form-control" name="email" id="email"
-									placeholder="이메일 주소를 입력하세요" required>
+									placeholder="이메일 주소를 입력하세요" required style="width: 250px">
 								<div class="check_font" id="emailCheck"></div>
-								<button type="submit" id="sendBtn"
-									class="btn btn-outline-danger btn-sm px-3">
+								<br>
+								<button type="button" id="sendBtn"
+									class="btn btn-outline-danger btn-sm px-3" disabled="disabled">
 									<i class="fa fa-envelope"></i>&nbsp;이메일 인증받기 (이메일 보내기)
 								</button>
 								&nbsp;
 							</div>
 
+						<!-- 인증번호입력 -->
 							<div class="form-group">
-								<!-- 인증번호입력 -->
 								<div>
-									<input type="number" style="margin-top: 5px;"
-										class="email_form" name="email_confirm" id="email_confirm"
-										placeholder="인증번호 입력" required>
+									<input type="number" class="codeCheck"
+										name="codeCheck" id="codeCheck" placeholder="인증번호 입력" required>
 									<button type="button" class="btn btn-outline-info btn-sm px-3"
-										onclick="">
+										id="codeCheckBtn">
 										<i class="fa fa-envelope"></i>&nbsp;확인
 									</button>
+									<div class="check_font" id="checkResult"></div>
 									&nbsp;
 								</div>
 							</div>
+						</form>
 
-							<!-- 취소 | 다음 버튼-->
+						<!-- 취소 | 다음 버튼-->
+						<form method="POST">
 							<div class="reg_button">
 								<a class="btn btn-danger px-3"
 									href="${pageContext.request.contextPath}"> <i
 									class="fa fa-rotate-right pr-2" aria-hidden="true"></i>취소하기
 								</a>&emsp;&emsp;
-								<button class="btn btn-primary px-3" id="reg_submit"
-									type="submit">
+								<button class="btn btn-primary px-3" id="nextBtn"
+									type="button" disabled="disabled">
 									<i class="fa fa-heart pr-2" aria-hidden="true"></i>다음단계
 								</button>
 							</div>
 						</form>
+
 					</div>
 				</article>
 			</div>
@@ -72,31 +76,85 @@
 </div>
 
 <script>
-// 이메일 유효성 검사(1 = 중복 / 0 = 중복x)
-	$("#email").on(function() {
-		var email = $("#email").val();
-		
+	var code = ""; // 이메일 인증번호
+
+
+	// 이메일 유효성 검사
+	$("#email").blur(function() {
+		var email = $("#email").val();	// 이메일 주소
+		var mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
 		$.ajax({
 			url : '/user/emailCheck.fr',
 			type : 'post',
-			data : {email : email},
+			data : {
+				email : email
+			},
 			success : function(result) {
-			
-			// 1 : 이메일 중복
-			if(result != 'fail'){
-				$("#emailCheck").text("사용중인 이메일입니다");
-				$("#emailCheck").css("color", "red");
-				$("#sendBtn").attr("disabled", false);	// 메일 보내기 버튼 비활성화	
-				
-				
-			} else if(email == ""){
+
+				if (result == 'fail') {
+					$("#emailCheck").text("사용중인 이메일입니다");
+					$("#emailCheck").css("color", "red");
+
+				} else if (email == "") {
+
+					$('#emailCheck').text('이메일을 입력해주세요');
+					$('#emailCheck').css('color', 'red');
 					
-				$('#emailCheck').text('이메일을 입력해주세요 :)');
-				$('#emailCheck').css('color', 'red');
-				$("#sendBtn").attr("disabled", false);							
+				} else if (!mailJ.test(email)) {
+
+					$('#emailCheck').text('이메일을 다시 입력해주세요 예)forreport0202@gmail.com');
+					$('#emailCheck').css('color', 'red');
+
+				} else {
+
+					$('#emailCheck').text('사용 가능한 이메일입니다');
+					$('#emailCheck').css('color', 'green');
+					$("#sendBtn").attr("disabled", false); // 메일 보내기 버튼 활성화 변경						
+				}
 			}
-		}
+		});
 	});
-});
+
+	// 인증번호 이메일 전송
+	$("#sendBtn").click(function() {
+		var email = $("#email").val();	// 이메일 주소
+
+		$.ajax({
+			type : 'get',
+			url : 'certificationProcess.fr?email=' + email,
+			success : function(data) {
+
+				code = data;
+			}
+		});
+		$("#codeCheck").focus();
+	});
+
+	// 인증번호 비교
+	$("#codeCheckBtn").click(function() {
+		var inputCode = $("#codeCheck").val(); //입력 코드
+		var checkResult = $("#checkResult"); // 비교 결과
+		
+		if(inputCode == code){
+			checkResult.text("인증번호가 일치합니다");
+			checkResult.css('color', 'green');
+			$("#nextBtn").attr('disabled', false);		// 다음단계 버튼 활성화
+
+		} else {
+			checkResult.text("인증번호를 다시 확인해주세요");
+			checkResult.css('color', 'red');
+		}
+
+	});
+	
+	// 회원가입 페이지 이동(이메일 주소 포함)
+	$("#nextBtn").click(function(){
+		var email = $("#email").val();	// 이메일 주소
+		
+		$("#form1").attr('action', '/user/join.fr');
+		$("#form1").submit();
+		
+	});
 </script>
 <%@ include file="../includes/footer.jsp"%>

@@ -7,22 +7,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-@RequestMapping("/login/*")
 @Controller
 public class LoginController {
 	
-	@GetMapping("/all")
+	@GetMapping("/login/all.fr")
 	public void doAll() {
 		log.info("do all can access everybody");
 	}
 	
-	@GetMapping("/member")
+	@GetMapping("/login/member.fr")
 	public void doMember() {
 		log.info("logined member");
 	}
 	
-	@GetMapping("/admin")
+	@GetMapping("/login/admin.fr")
 	public void doAdmin() {
-		log.info("admin only");
+		  log.info("admin only");
 	}
+	
+	
 }

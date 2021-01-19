@@ -7,6 +7,8 @@ import com.forreport.domain.UserVO;
 public interface UserMapper {
 	
 	// 회원 목록
-	public List<UserVO> getUserList(String id);
+//	public List<UserVO> getUserList(String id);
+	
+	public UserVO read(String id);
 
 }

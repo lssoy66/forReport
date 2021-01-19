@@ -63,7 +63,7 @@
                                         <li><a href="#">자주 묻는 질문(FAQ)</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#">마이페이지/로그인</a>
+                                <li><a href="/login/customLogin.fr">마이페이지/로그인</a>
                                 	<ul class="dropdown">
                                         <li><a href="/cart/cartList.fr">장바구니</a></li>
                                         <li><a href="#">주문내역</a></li>

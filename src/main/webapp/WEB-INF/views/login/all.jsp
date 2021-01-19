@@ -10,6 +10,9 @@
 </head>
 <body>
 	<h1>/login/all Page</h1>
-	<a href="/login/customLogout">Logout</a>
+	<form action="/forreport.fr" method='post'>
+     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
+     <button>로그아웃</button>
+     </form>
 </body>
 </html>

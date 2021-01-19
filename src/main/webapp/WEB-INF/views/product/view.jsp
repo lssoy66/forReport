@@ -202,6 +202,17 @@
 
 $(document).ready(function(){
 	
+	/////////////////////////////////////////////////////////////////////
+	
+	/** 시큐리티를 위해 토큰 추가 */
+	
+	/////////////////////////////////////////////////////////////////////
+	var header = "${_csrf.headerName}";
+	var token = "${_csrf.token}";
+	
+	console.log("header: " + header);
+	console.log("token: " + token);
+	
 	
 	/////////////////////////////////////////////////////////////////////
 	
@@ -487,7 +498,8 @@ $(document).ready(function(){
 				rate: ratingCnt
 		};
 		
-		reviewService.add(addReview, function(result){
+		// 댓글 등록 시큐리티 토큰 헤더 추가
+		reviewService.add(addReview, header, token, function(result){
 			alert(result);
 		});
 		
@@ -502,12 +514,7 @@ $(document).ready(function(){
 	/** 삭제 구현 >> append되는 곳에서 호출해서 사용*/
 	function remove(pageNum){
 
-		// 시큐리티 처리를 위해 토큰 추가
-		var header = "${_csrf.headerName}";
-		var token = "${_csrf.token}";
 		
-		console.log("header: " + header);
-		console.log("token: " + token);
 		
 		
 		$(".listing__details__comment__item__text a").on("click", function(e){

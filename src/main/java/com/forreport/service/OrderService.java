@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.forreport.domain.OrderVO;
 import com.forreport.domain.ProductVO;
+import com.forreport.domain.VbankVO;
 
 public interface OrderService {
 
@@ -15,5 +16,8 @@ public interface OrderService {
 	
 	// 사용자의 주문 정보 가져오기
 	public List<OrderVO> getOrderList(String id);
+	
+	// 가상계좌정보 가져오기
+	public VbankVO getVbank(String id);
 	
 }

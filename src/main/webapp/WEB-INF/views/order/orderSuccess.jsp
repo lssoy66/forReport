@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
@@ -23,8 +24,8 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="section-title">
-					<h2>결제성공!</h2>
-					<p>결제가 정상적으로 완료되었습니다.</p>
+					<h2>주문성공!</h2>
+					<p>주문이 정상적으로 확인되었습니다.</p>
 				</div>
 			</div>
 		</div>
@@ -63,9 +64,9 @@
 							<br>
 							${order.ordernum }<br><br>
 							${order.paymethod }<br><br>
-							${order.orderdate }<br><br>
+							<fmt:formatDate pattern="yyyy-MM-dd" value="${order.orderdate }"/><br><br>
 							<br>
-							<p id="customP">총 주문금액</p><br><br>						
+							<p id="customP">${order.payprice }</p><br><br>						
 						</div>
 						
 						<div class="col-lg-3 col-md-3">
@@ -103,6 +104,34 @@
 								</table>
 							</div>
 							
+							<c:if test="${!empty vbank }">
+								<div class="about__text">
+									<br>
+									<div class="section-title">
+										<p>아래 계좌로 입금해주셔야 결제가 완료됩니다.</p>
+									</div>
+									<table class="table text-center">
+										<thead>
+											<tr>
+												<th>입금계좌명</th>
+												<th>은행명</th>
+												<th>예금주</th>
+												<th>입금기한</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><c:out value="${vbank.vbnum }" /></td>
+												<td><c:out value="${vbank.vbname }" /> </td>
+												<td><c:out value="${vbank.vbholder }" /></td>
+												<td><fmt:formatDate pattern="yyyy-MM-dd" value="${vbank.vbdate }"/></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</c:if>
+							
+							
 							<br><br>
 							<div class="section-title">
 								<a href="/" class="site-btn" id="orderButton2">홈으로</a>&nbsp;
@@ -128,24 +157,17 @@
 
 	$(document).ready(function(){
 		
-		var priceAll = 0;
-		$(".table tbody tr").each(function(i, obj){
-			priceAll += $(obj).data("price");
-		});
+// 		var priceAll = 0;
+// 		$(".table tbody tr").each(function(i, obj){
+// 			priceAll += $(obj).data("price");
+// 		});
 		
-		$("#customP").html(priceAll);
+// 		$("#customP").html(priceAll);
+
 		
 	});
 
 </script>
 
 <%@ include file="../includes/footer.jsp"%>
-
-
-<%-- 
-	주문이 확인되었습니다.<hr>
-	
-	${orderVO.id }
-	${orderVO.pronumList[0] } --%>
-
 

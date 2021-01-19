@@ -65,11 +65,15 @@ public class OrderController {
 		// 상품번호만 다를 뿐 나머지 정보는 모두 같으므로, 해당 사용자의 첫번째 주문내역을 전달
 		model.addAttribute("order", service.getOrderList(order.getId()).get(0));
 		
+		// 상품리스트를 전달
 		String[] pronumArr = new String[order.getPronumList().size()];
 		for(int i = 0; i < order.getPronumList().size(); i++) {
 			pronumArr[i] = order.getPronumList().get(i).toString();
 		}	
 		model.addAttribute("productList", service.getCartProduct(order.getId(), pronumArr));
+		
+		// 가상계좌정보를 전달
+		model.addAttribute("vbank", service.getVbank(order.getId()));
 		
 		return result > 0 ? "order/orderSuccess" : null;
 	}

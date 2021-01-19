@@ -20,11 +20,11 @@ public class OrderVO {
 	// 신용카드 결제 시
 	private long applynum;	// 카드 승인번호
 	
-	// 무통장 결제 시(가상계좌) - 테스트용
-//	private String vbanknum;	// 입금계좌명
-//	private String vbankName;	// 은행명
-//	private String vbankHolder;	// 입금기한
-//	private String vbankDate;	// 승인번호
+	// 무통장 결제 시(가상계좌)
+	private String vbnum;	// 입금계좌명
+	private String vbname;	// 은행명
+	private String vbholder;	// 예금주
+	private String vbdate;	// 입금기한
 	
 	
 }

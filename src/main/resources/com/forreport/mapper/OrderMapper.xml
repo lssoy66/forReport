@@ -15,5 +15,14 @@
    		from tbl_order
    		where id = #{id}
    </select>
+   
+   <insert id="addVbank">
+   		insert into tbl_vbank(id, vbnum, vbname, vbholder, vbdate) 
+   		values(#{id}, #{vbnum}, #{vbname}, #{vbholder}, #{vbdate})
+   </insert>
+   
+   <select id="getVbank" resultType="com.forreport.domain.VbankVO">
+   		select * from tbl_vbank where id = #{id}
+   </select>
   
 </mapper>

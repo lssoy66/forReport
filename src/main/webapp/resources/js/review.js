@@ -98,7 +98,7 @@ var reviewService = (function(){
 		})
 	}
 	
-	/** 리뷰 삭제하기 */
+	/** 리뷰 삭제하기 -> 시큐리티 토큰 추가*/
 	function remove(reviewNum, header, token, callback, error){
 		
 		console.log("js.header: " + header);

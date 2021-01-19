@@ -9,6 +9,7 @@
 <head>
 <title>ForReport</title>
 
+<!-- 시큐리티 토큰 추가 -->
 <meta name="_csrf_header" th:content="${_csrf.headerName}">
 <meta name="_csrf" th:content="${_csrf.token}">
 

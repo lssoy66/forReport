@@ -53,9 +53,15 @@ public class ProductController {
 		model.addAttribute("productVO", productVO);
 	}
 	
-	/* 상품 등록 */
+	/* 상품 등록 전 규정 및 주의사항 */
 	@GetMapping("agree.fr")
 	public void productUploadAgree() {
+		
+	}
+	
+	/* 상품 등록 */
+	@GetMapping("write.fr")
+	public void productUploadWrite() {
 		
 	}
 	

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.forreport.domain.PageDTO;
@@ -59,9 +60,15 @@ public class ProductController {
 		
 	}
 	
-	/* 상품 등록 */
+	/* 상품 등록 관련 내용 작성*/
 	@GetMapping("write.fr")
-	public void productUploadWrite() {
+	public void productWrite() {
+		
+	}
+	
+	/* 상품 등록 진행*/
+	@PostMapping("write.fr")
+	public void productUpload() {
 		
 	}
 	

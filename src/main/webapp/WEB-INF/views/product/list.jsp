@@ -72,11 +72,13 @@
     					<th>제목</th>
     					<th>작성자</th>
     					<th>등록일</th>
+    					<th>별점</th>
+    					<th>댓글 수</th>
     				</tr>
     			</thead>
     			<tbody>
     				<c:forEach items="${productList}" var="list">
-						<tr>
+						<tr class="pronumList">
 							<td><c:out value="${list.pronum}"/></td>
 							<td>썸네일</td>
 							<td>
@@ -86,6 +88,8 @@
 							</td>
 							<td><c:out value="${list.id}"/></td>
 							<td><fmt:formatDate value="${list.uploadDate}" pattern="yyyy-MM-dd"/></td>
+							<td class="avgRate" value='<c:out value="${list.pronum}"/>'>별점</td>
+							<td class="reviewTotal" value='<c:out value="${list.pronum}"/>'>댓글수</td>
 						</tr>
 					</c:forEach>	
     				
@@ -148,8 +152,32 @@
 </section>
 <!-- 페이징 처리:Blog Section End -->
 
+
+<script type="text/javascript" src="/resources/js/review.js"></script>
+
 <script>
 	$(document).ready(function(){
+				
+		// 별점, 댓글수 표시
+		//console.log($(".pronumList .avgRate"));
+		//console.log($(".pronumList .reviewTotal"));
+		
+		$(".pronumList .reviewTotal").each(function(index, item){
+			var pronum = $(this).attr("value");
+			//console.log("pronum: " + pronum);
+			reviewService.getTotalAndAvgRate(pronum, function(reviewTotal, avgRate){
+				console.log("reviewTotal: " + reviewTotal);
+				$(item).html(reviewTotal);
+			})
+		});
+		$(".pronumList .avgRate").each(function(index, item){
+			var pronum = $(this).attr("value");
+			reviewService.getTotalAndAvgRate(pronum, function(reviewTotal, avgRate){
+				console.log("avgRate: " + avgRate);
+				$(item).html(avgRate.toFixed(2));
+			})
+		});
+	
 		
 		/*
 			카테고리 상단부 smallCategory 처리

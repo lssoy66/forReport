@@ -14,7 +14,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @AllArgsConstructor // mapper 의존성 주입해준다.
 @Service
-public class ListServiceImpl implements ListService {
+public class ProductServiceImpl implements ProductService {
 
 	private ProductMapper mapper;
 	
@@ -36,6 +36,12 @@ public class ListServiceImpl implements ListService {
 		return mapper.getTotalCount(searchingVO);
 	}
 
-	
+	/* 게시글 번호를 이용해서 실제 게시글(상품내용) 가져오기*/
+	@Override
+	public ProductVO getProduct(int pronum) {
+		log.info("getProduct");		
+		
+		return mapper.getProduct(pronum);
+	}
 
 }

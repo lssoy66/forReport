@@ -11,14 +11,14 @@
     <bean id="customUserDetailsService" class="com.forreport.security.CustomUserDetailsService"></bean>
      
 	<security:http>
-		<security:intercept-url pattern="/login/all" access="permitAll" />
-		<security:intercept-url pattern="/login/member" access="hasRole('ROLE_MEMBER')" />
-		<security:intercept-url pattern="/login/admin" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/login/all.fr" access="permitAll" />
+		<security:intercept-url pattern="/login/member.fr" access="hasRole('ROLE_MEMBER')" />
+		<security:intercept-url pattern="/login/admin.fr" access="hasRole('ROLE_ADMIN')" />
 		
 <!-- 		<security:access-denied-handler error-page="/login/accessError"/> -->
         <security:access-denied-handler ref="customAccessDenied"/>
-        <security:form-login login-page="/login/customLogin" authentication-success-handler-ref="customLoginSuccess" />
-        <security:logout logout-url="/login/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID"/><!-- 로그아웃 시 쿠키 삭제 -->
+        <security:form-login login-page="/login/customLogin.fr" authentication-success-handler-ref="customLoginSuccess" />
+        <security:logout logout-url="/login/customLogout.fr" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID"/><!-- 로그아웃 시 쿠키 삭제 -->
         <!-- remember-me -->
         <security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/> <!--유효시간 지정-->
         

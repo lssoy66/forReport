@@ -15,5 +15,9 @@
 	
 	
 	Page672 JSP에서 로그인한 사용자의 정보<br>
-	
+<!-- 	<a href="/login/customLogout.fr">Logout</a> -->
+    <form action="/forreport.fr" method='post'>
+     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
+     <button>로그아웃</button>
+     </form>
 </html>

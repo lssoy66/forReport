@@ -78,10 +78,7 @@ public class OrderController {
 		return result > 0 ? "order/orderSuccess" : null;
 	}
 	
-	@GetMapping("orderSuccessTestPage")
-	public void orderSuccessTestPage() {
-		
-	}
+	
 	
 }
 

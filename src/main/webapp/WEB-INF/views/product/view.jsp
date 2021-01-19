@@ -2,10 +2,15 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <title>ForReport</title>
+
+<meta name="_csrf_header" th:content="${_csrf.headerName}">
+<meta name="_csrf" th:content="${_csrf.token}">
 
 </head>
 
@@ -195,6 +200,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+	
 	
 	/////////////////////////////////////////////////////////////////////
 	
@@ -386,6 +392,7 @@ $(document).ready(function(){
 						
 			reviewListDiv.html(reviewStr);
 			
+			
 			remove(pageNum); // append가 되어 값이 처리되는 곳에서 이벤트를 넣어주어야 한다.(remove 함수를 외부에서 만든 후 끌어다 씀)
 			
 	}) /* -- END: showReviewList 자리*/
@@ -493,6 +500,14 @@ $(document).ready(function(){
 	
 	/** 삭제 구현 >> append되는 곳에서 호출해서 사용*/
 	function remove(pageNum){
+
+		// 시큐리티 처리를 위해 토큰 추가
+		var header = "${_csrf.headerName}";
+		var token = "${_csrf.token}";
+		
+		console.log("header: " + header);
+		console.log("token: " + token);
+		
 		
 		$(".listing__details__comment__item__text a").on("click", function(e){
 					
@@ -511,8 +526,10 @@ $(document).ready(function(){
 			console.log("reviewNum: " + reviewNum);
 
 			
-			reviewService.remove(reviewNum*1, function(result){
+			reviewService.remove(reviewNum*1, header, token, function(result){
 				alert(result);
+			}, function(){
+				alert("ajax delete 실패");
 			});
 			
 			//reviewService.remove($(this).attr)

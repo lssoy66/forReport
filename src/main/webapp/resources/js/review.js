@@ -99,7 +99,10 @@ var reviewService = (function(){
 	}
 	
 	/** 리뷰 삭제하기 */
-	function remove(reviewNum, callback, error){
+	function remove(reviewNum, header, token, callback, error){
+		
+		console.log("js.header: " + header);
+		console.log("js.token: " + token);
 		
 		console.log("리뷰 삭제하기");
 		console.log(typeof(reviewNum));
@@ -108,14 +111,24 @@ var reviewService = (function(){
 		$.ajax({
 			type: 'delete',
 			url: '/review/delete/' + reviewNum,
+			beforeSend : function(xhr)
+            {   
+				/*데이터를 전송하기 전에 헤더에 csrf값을 설정한다 -> null체크 필수*/
+				if(token && header){
+					xhr.setRequestHeader(header, token);
+				}
+				
+            },
 			data: JSON.stringify(reviewNum), // 서버로 데이터를 전송할 때 사용하는 옵션
 			contentType: "application/json; charset=utf-8",
 			success: function(result, status, xhr){
 				if(callback){
+					console.log("안녕");
 					callback(result);
 				}
 			}, error: function(xhr, stauts, er){
 				if(error){
+					console.log("실패");
 					error(er);
 				}
 			}

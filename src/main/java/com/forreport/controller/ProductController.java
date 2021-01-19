@@ -26,7 +26,7 @@ public class ProductController {
 	private ProductService productService;
 
 	/* 각 페이지별로 조건(키워드, 카테고리)과 페이지 번호에 맞는 게시글 출력 */
-	@GetMapping("list")
+	@GetMapping("list.fr")
 	public void productPage(SearchingVO searchingVO, Model model) {
 		
 		int total = productService.getTotal(searchingVO);
@@ -43,7 +43,7 @@ public class ProductController {
 	}
 	
 	/* 댓글을 제외한 전체 상품 상세 뷰 살펴보기 -> 댓글은 ReviewController + Ajax를 이용해 확인 가능*/
-	@GetMapping("view")
+	@GetMapping("view.fr")
 	public void productView(int pronum, Model model) {
 		
 		ProductVO productVO = productService.getProduct(pronum);
@@ -52,4 +52,11 @@ public class ProductController {
 						
 		model.addAttribute("productVO", productVO);
 	}
+	
+	/* 상품 등록 */
+	@GetMapping("agree.fr")
+	public void productUploadAgree() {
+		
+	}
+	
 }

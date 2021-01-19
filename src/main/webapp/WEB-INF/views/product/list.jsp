@@ -82,7 +82,7 @@
 							<td><c:out value="${list.pronum}"/></td>
 							<td>썸네일</td>
 							<td>
-								<a href="view?pronum=${list.pronum}">
+								<a href="view.fr?pronum=${list.pronum}">
 									<c:out value="${list.title}"/>
 								</a>
 							</td>

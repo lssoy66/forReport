@@ -44,4 +44,24 @@ public class ProductServiceImpl implements ProductService {
 		return mapper.getProduct(pronum);
 	}
 
+	/* 카테고리에 맞춰서 제품 썸네일 만들기 */
+	@Override
+	public boolean makeThumbnail(long largeCa) {
+		
+		if(largeCa == 0) { // 레포트
+			
+			// 아직
+		
+		} else if(largeCa == 1) { // 논문
+			
+			// 아직
+			
+		} else {
+			return false;
+		}
+		
+		
+		return true;		
+	}
+
 }

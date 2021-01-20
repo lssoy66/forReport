@@ -89,7 +89,11 @@
 					<!-- ..END: containerPopup -->
 					<br>
 					<div class="col-lg-7 col-md-7" style="margin:auto">
-						<button id="uploadBtn" class="primary-btn" style="float:right">자료 등록 &nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button>
+						<form action="write.fr" method="post">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+							<input type="submit" id="uploadBtn" class="primary-btn" style="float:right" value="자료 등록">
+						</form>
+						
 					</div>						
                 </div>
             </div>
@@ -100,7 +104,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	$("#uploadBtn").on("click", function(e){
+	$("#uploadBtn").on("submit", function(e){
 		
 		e.preventDefault();
 		
@@ -118,8 +122,7 @@ $(document).ready(function(){
 			return;
 		}
 		
-		$(location).attr('href','/product/write.fr');
-		
+		e.submit();	
 		
 	});
 	

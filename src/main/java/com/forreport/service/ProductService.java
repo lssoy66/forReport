@@ -15,4 +15,7 @@ public interface ProductService {
 	
 	/* pronum과 일치하는 제품 상세 정보 가져오기*/
 	public ProductVO getProduct(int pronum);
+	
+	/* 카테고리에 맞춰서 제품 썸네일 만들기 */
+	public boolean makeThumbnail(long largeCa);
 }

@@ -98,7 +98,7 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="/admin/adminTest"><i class="fa fa-credit-card fa-fw"></i> 주문관리</a>
+                            <a href="/admin/orderList.fr"><i class="fa fa-credit-card fa-fw"></i> 주문관리</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bookmark fa-fw"></i> 공지사항</a>

@@ -28,12 +28,12 @@
    <!-- 페이징 처리(주문리스트) -->
    <select id="getOrderListAllWithPaging" resultType="com.forreport.domain.OrderVO">
    <![CDATA[	
-   		select ordernum, pronum, id, paymethod, payprice, orderdate
+   		select ordernum, tpro.proname, torder.id, paymethod, payprice, orderdate
    		from (select /*+INDEX_DESC(tbl_order pk_tbl_order)*/
    			  rownum rn, ordernum, pronum, id, paymethod, payprice, orderdate
    			  from tbl_order
-   			  where rownum <= #{pageNum} * #{amount})
-   		where rn > (#{pageNum} - 1) * #{amount}
+   			  where rownum <= #{pageNum} * #{amount}) torder, tbl_product tpro
+   		where (rn > (#{pageNum} - 1) * #{amount}) and (torder.pronum = tpro.pronum)
    ]]>
    </select>
    

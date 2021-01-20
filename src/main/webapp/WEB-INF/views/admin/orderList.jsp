@@ -27,7 +27,7 @@
 					<thead>
 						<tr>
 							<th>주문번호</th>
-							<td>상품번호</td>
+							<td>상품명</td>
 							<td>구매자ID</td>
 							<td>결제방식</td>
 							<td>결제금액</td>
@@ -38,7 +38,7 @@
 						<tr>
 						
 							<td><c:out value="${order.ordernum }" /></td>
-							<td><c:out value="${order.pronum }" /></td>
+							<td><c:out value="${order.proname }" /></td>
 							<td><c:out value="${order.id }" /></td>	
 							<td><c:out value="${order.paymethod }" /></td>	
 							<td><c:out value="${order.payprice }" /></td>
@@ -67,6 +67,12 @@
 				</div>
 				<!-- end Pagination -->
 				
+				<form id="actionForm" action="/admin/orderList.fr" method="get">
+					<input type="hidden" name="pageNum" value="${pageMaker.criteria.pageNum }">	
+					<input type="hidden" name="amount" value="${pageMaker.criteria.amount }">
+				</form>
+				
+				
 			</div>
 			<!-- end panel-body -->
 		</div>
@@ -78,6 +84,20 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
+		// 페이징 처리
+		var actionForm = $("#actionForm");
+		
+		$(".paginate_button a").on("click", function(e){
+			e.preventDefault();
+			console.log("click");
+			actionForm.find("input[name='pageNum']")
+						.val($(this).attr("href"));
+			actionForm.submit();
+		});
+		
+		
+
+		
 		
 	});
 </script>

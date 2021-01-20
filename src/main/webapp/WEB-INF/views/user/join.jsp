@@ -84,7 +84,7 @@
 </div>
 
 <script>
-
+// test
 // 유효성 검사 통과 유무 변수
 var idChk = false;					// 아이디 정규식, 중복 확인
 var pwChk = false;					// 비밀번호 정규식 확인

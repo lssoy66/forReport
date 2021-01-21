@@ -35,16 +35,16 @@ public class LoginTests {
 		String sql = "insert into tbl_user(id, password, name, phone, email, grade) values (?,?,?,?,?,?)";		
 			Connection con = null;
 			PreparedStatement pstmt = null;
-			String id = "admin22";
+			String id = "member";
 			
 			try {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(sql);				
 				
-				if(id == "admin22") {
-					pstmt.setString(1, "admin22");
-					pstmt.setString(2, pwencoder.encode("admin"));
-					pstmt.setString(3, "admin");
+				if(id == "member") {
+					pstmt.setString(1, "member");
+					pstmt.setString(2, pwencoder.encode("member"));
+					pstmt.setString(3, "member");
 					pstmt.setString(4, "123123123");				
 					pstmt.setString(5, "abc@abc.com");				
 					pstmt.setString(6, "0");				
@@ -84,15 +84,15 @@ public class LoginTests {
 	
 			Connection con = null;
 			PreparedStatement pstmt = null;
-			String id = "admin22";
+			String id = "member";
 			
 			try {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(sql);
 				
-				if( id == "admin22" ) {
-					pstmt.setString(1, "ROLE_ADMIN");
-					pstmt.setString(2, "admin22");				
+				if( id == "member" ) {
+					pstmt.setString(1, "ROLE_MEMBER");
+					pstmt.setString(2, "member");				
 				} else {
 					pstmt.setString(1, "0");
 					pstmt.setString(2, "aa");

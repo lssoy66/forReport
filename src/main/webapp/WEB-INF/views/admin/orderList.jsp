@@ -31,6 +31,7 @@
 							<tr>
 								<th>기간</th>
 								<td>
+ 									<input type="date" name="keywordDayCustom" id="custom"> &nbsp; 
 									<input type="radio" name="keywordDay" id="to"> 오늘 &nbsp;
 									<input type="radio" name="keywordDay" id="yester"> 어제 &nbsp;
 									<input type="radio" name="keywordDay" id="week"> 일주일
@@ -145,6 +146,10 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		
+// 		$("input[id='custom']").change(function(){
+// 			alert($(this).val().toString());
+// 		});
 
 		// 페이징 처리
 		var actionForm = $("#actionForm");
@@ -162,6 +167,23 @@
 		var newDate = "";
 		var str = "";
 		var searchForm = $("#searchForm");
+		
+		// 즉시실행함수
+		(function(){
+			
+			$("input[id='custom']").change(function(){
+				$("input[name='keywordDay']").each(function(){
+					$(this).prop("checked", false);
+				});
+			});
+			
+			$("input[name='keywordDay']").change(function(){
+				$("input[id='custom']").val(null);
+				
+			});
+			
+		})();	// end function 
+		
 		
 		$("#searchForm button").on("click", function(e){
 			
@@ -185,6 +207,13 @@
 			}
 			if($("input:radio[name='keywordDay']").is(':checked')){
 				type += "D";
+			}
+			if($("input[id='custom']").val()){
+				newDate = $("input[id='custom']").val().toString();
+				$("input:radio[id='week']").prop("checked", true);
+				$("input:radio[id='week']").attr("value", newDate);
+				$("input[id='custom']").remove();
+				type += "C";
 			}
 			if($("input[name='keywordPname']").val()){
 				type += "P";
@@ -223,6 +252,7 @@
 			} else if(checkOme == 'vBank'){
 				$("input[value='vBank']").prop('checked', true);
 			}
+
 		})();	// end function
 		
 		

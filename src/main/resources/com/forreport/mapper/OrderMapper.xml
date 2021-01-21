@@ -40,6 +40,11 @@
 		    		</if>
 				</trim>
 				<trim prefix="AND">
+					<if test="type.contains('C'.toString())">
+		    			to_char(orderdate) = to_date(#{keywordDay}, 'yyyy-mm-dd')
+		    		</if>
+				</trim>
+				<trim prefix="AND">
 					<if test="type.contains('O'.toString())"> 
 		    			paymethod = #{keywordOme} 
 		    		</if>

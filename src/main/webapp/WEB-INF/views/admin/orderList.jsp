@@ -71,7 +71,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-info">
-			<div class="panel-heading">Order List</div>
+			<div class="panel-heading">Order List(${pageMaker.total })</div>
 			<!--  /.panel-heading  -->
 			<div class="panel-body">
 				

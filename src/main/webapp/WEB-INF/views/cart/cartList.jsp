@@ -39,6 +39,7 @@
 							<!-- 아이디는 세션에서 가져온다 -->
 							<input type="hidden" name="id" id="id" value="user3">
 							<input type="hidden" name="price" id="price" value="">
+							<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 					
 							<c:forEach items="${cartProductList }" var="cartProduct">
 								
@@ -96,6 +97,10 @@
 		
 		var cartProductList = '<c:out value="${cartProductList.isEmpty() }" />';
 // 		console.log(typeof(cartProductList));
+
+		// 스프링 시큐리티 토큰 전달
+		var csrfHeaderName = "${_csrf.headerName}";
+		var csrfTokenValue = "${_csrf.token}";
 		
  		// 즉시 실행 함수
 		(function(){
@@ -166,6 +171,9 @@
 			
 			$.ajax({
 				url : '/cart/deleteProcess.fr',
+				beforeSend : function(xhr){
+					xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+				},
 				data : JSON.stringify({id:id, pronum:pronum}),
 				dataType : 'text',
 				contentType : "application/json; charset=utf-8",
@@ -187,6 +195,9 @@
 				
 				$.ajax({
 					url : '/cart/deleteAllProcess.fr/' + id,
+					beforeSend : function(xhr){
+						xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+					},
 					dataType : 'text',
 					type : 'DELETE',
 					success : function(result){

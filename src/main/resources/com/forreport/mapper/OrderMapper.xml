@@ -24,5 +24,69 @@
    <select id="getVbank" resultType="com.forreport.domain.VbankVO">
    		select * from tbl_vbank where id = #{id}
    </select>
+   
+   <!-- 검색 -->
+   <sql id="criteria">  
+		<trim prefix="(" suffix=") AND " prefixOverrides="AND">
+		    <if test="type != null &amp;&amp; !type.equals('')">
+		    	<trim prefix="AND">
+		    		<if test="type.contains('N'.toString())">
+		    			ordernum like '%'||#{keywordOnum}||'%'
+		    		</if>
+				</trim>
+				<trim prefix="AND">
+					<if test="type.contains('D'.toString())">
+		    			orderdate between to_date(#{keywordDay}, 'yyyy-mm-dd') and sysdate
+		    		</if>
+				</trim>
+				<trim prefix="AND">
+					<if test="type.contains('O'.toString())"> 
+		    			paymethod = #{keywordOme} 
+		    		</if>
+				</trim>
+		    </if>
+		</trim>
+	</sql>
+	
+	<!-- 상품이름검색(조인테이블) -->
+	<sql id="criteria_proname">  
+		<if test="type != null &amp;&amp; !type.equals('')">
+		   <trim prefix="AND (" suffix=")">
+		    	<if test="type.contains('P'.toString())">
+		    		tpro.proname like '%'||#{keywordPname}||'%'
+		    	</if>
+		   </trim>
+		</if>
+	</sql>
+		    		   
+   <!-- 페이징 처리(주문리스트) -->
+   <select id="getOrderListAllWithPaging" resultType="com.forreport.domain.OrderVO">
+   <![CDATA[	
+   		select ordernum, tpro.proname, torder.id, paymethod, payprice, orderdate
+   		from (select /*+INDEX_DESC(tbl_order pk_tbl_order)*/
+   			  rownum rn, ordernum, tbl_order.pronum, tbl_order.id, paymethod, payprice, orderdate
+   			  from tbl_order
+   			  where 
+   ]]>
+   			  <include refid="criteria"></include>		
+   <![CDATA[			  
+   			  (rownum <= #{pageNum} * #{amount})) torder, tbl_product tpro
+   		where (rn > (#{pageNum} - 1) * #{amount}) and (torder.pronum = tpro.pronum)
+   ]]>
+   		<include refid="criteria_proname"></include>	
+   </select>
+   
+   <!-- 총 주문 개수 구하기 -->
+   <select id="getTotalCount" resultType="int">
+   		select count(*) from tbl_order
+   		where 
+   		<include refid="criteria"></include>
+   		(ordernum > 0)
+   </select>
   
 </mapper>
+
+
+
+
+

@@ -108,8 +108,8 @@ public class OrderServiceImpl implements OrderService {
 
 	// 총 주문 개수 구하기
 	@Override
-	public int getTotalCount() {
-		return mapper.getTotalCount();
+	public int getTotalCount(ReviewCriteria criteria) {
+		return mapper.getTotalCount(criteria);
 	}
 	
 	

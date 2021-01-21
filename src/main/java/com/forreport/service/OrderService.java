@@ -25,6 +25,6 @@ public interface OrderService {
 	public List<OrderVO> getOrderListAllWithPaging(ReviewCriteria criteria);
 	
 	// 전체 주문 수 가져오기
-	public int getTotalCount();
+	public int getTotalCount(ReviewCriteria criteria);
 	
 }

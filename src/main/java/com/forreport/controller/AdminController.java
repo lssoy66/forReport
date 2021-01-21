@@ -27,13 +27,14 @@ public class AdminController {
 	@GetMapping("orderList.fr")
 	public void adminTestPage(ReviewCriteria criteria, Model model) {
 		log.info("controller ~ start orderList");
+		log.info(criteria);
+		log.info(criteria.getKeywordDay());
 		
 		// 페이징 처리 된 주문 목록 전달
 		model.addAttribute("orderList", orderService.getOrderListAllWithPaging(criteria));
-		log.info(orderService.getOrderListAllWithPaging(criteria));
 		
 		// 화면 페이지 처리를 위한 정보 전달
-		model.addAttribute("pageMaker", new PageDTO(criteria, orderService.getTotalCount()));
+		model.addAttribute("pageMaker", new PageDTO(criteria, orderService.getTotalCount(criteria)));
 	}
 	
 }

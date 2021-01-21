@@ -13,6 +13,61 @@
 </div>
 <!-- /.row -->
 
+<!-- 검색 폼 -->
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">Search Form</div>
+			<!--  /.panel-heading  -->
+			<div class="panel-body">
+				
+				<form id="searchForm" action="/admin/orderList.fr" method="get">
+
+					<table class="table">
+							<tr>
+								<th>주문번호</th>
+								<td><input type="text" name="keywordOnum" value='<c:out value="${pageMaker.criteria.keywordOnum }"/>' /></td>
+							</tr>
+							<tr>
+								<th>기간</th>
+								<td>
+									<input type="radio" name="keywordDay" id="to"> 오늘 &nbsp;
+									<input type="radio" name="keywordDay" id="yester"> 어제 &nbsp;
+									<input type="radio" name="keywordDay" id="week"> 일주일
+								</td>
+							</tr>
+							<tr>
+								<th>상품명</th>
+								<td><input type="text" name="keywordPname" value='<c:out value="${pageMaker.criteria.keywordPname }"/>' /></td>
+							</tr>
+							<tr>
+								<th>결제방식</th>
+								<td>
+<!-- 										<input type="radio" name="keywordOme" value=""> 모두 &nbsp; -->
+										<input type="radio" name="keywordOme" value="card"> 신용카드 &nbsp;
+										<input type="radio" name="keywordOme" value="vBank"> 무통장입금
+								</td>
+							</tr>
+					</table>
+		
+					
+<!-- 					<input type="hidden" name="keywordDay" value="" /> -->
+<!-- 					<input type="hidden" name="keywordOme" value="" /> -->
+					
+					<input type="hidden" name="pageNum" value='<c:out value="${pageMaker.criteria.pageNum }"/>' />
+					<input type="hidden" name="amount" value='<c:out value="${pageMaker.criteria.amount }"/>' />
+		
+					<button class="btn btn-default">Search</button>
+				</form>
+				
+				
+			</div>
+			<!-- end panel-body -->
+		</div>
+		<!-- end panel -->
+	</div>
+</div>
+
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-info">
@@ -20,8 +75,7 @@
 			<!--  /.panel-heading  -->
 			<div class="panel-body">
 				
-				
-				
+								
 				<table class="table table-striped table-bordered table-hover">
 				
 					<thead>
@@ -70,6 +124,14 @@
 				<form id="actionForm" action="/admin/orderList.fr" method="get">
 					<input type="hidden" name="pageNum" value="${pageMaker.criteria.pageNum }">	
 					<input type="hidden" name="amount" value="${pageMaker.criteria.amount }">
+					
+					<!-- 추가 -->
+					<input type="hidden" name="type" value='<c:out value="${pageMaker.criteria.type }"/>'>
+					<input type="hidden" name="keywordOnum" value='<c:out value="${pageMaker.criteria.keywordOnum }"/>'>
+					<input type="hidden" name="keywordDay" value='<c:out value="${pageMaker.criteria.keywordDay }"/>' >
+					<input type="hidden" name="keywordPname" value='<c:out value="${pageMaker.criteria.keywordPname }"/>' >
+					<input type="hidden" name="keywordOme" value='<c:out value="${pageMaker.criteria.keywordOme }"/>' >
+					
 				</form>
 				
 				
@@ -93,10 +155,75 @@
 			actionForm.find("input[name='pageNum']")
 						.val($(this).attr("href"));
 			actionForm.submit();
+		}); 
+		
+		// 검색
+		var date = new Date();
+		var newDate = "";
+		var str = "";
+		var searchForm = $("#searchForm");
+		
+		$("#searchForm button").on("click", function(e){
+			
+			e.preventDefault();
+			
+			if($("input:radio[id='to']").is(':checked')){
+				newDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();	
+				$("input:radio[id='to']").attr("value", newDate);
+			} else if($("input:radio[id='yester']").is(':checked')) {
+				newDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate() - 1);
+				$("input:radio[id='yester']").attr("value", newDate);
+			} else if($("input:radio[id='week']").is(':checked')) {
+				newDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate() - 7);
+				$("input:radio[id='week']").attr("value", newDate);
+			}
+			
+			var type = "";
+			if($("input[name='keywordOnum']").val()){
+				//alert("dd");
+				type += "N";
+			}
+			if($("input:radio[name='keywordDay']").is(':checked')){
+				type += "D";
+			}
+			if($("input[name='keywordPname']").val()){
+				type += "P";
+			}
+			if($("input:radio[name='keywordOme']").is(':checked')){
+				type += "O";
+			}
+			
+			str += "<input type='hidden' name='type' value='" + type + "' />";
+			
+			// 1페이지로 이동하도록
+			searchForm.find("input[name='pageNum']").val("1");
+			searchForm.append(str);
+			searchForm.submit();
+			
 		});
 		
+		var checkDay = '<c:out value="${pageMaker.criteria.keywordDay }"/>';
+		var checkOme = '<c:out value="${pageMaker.criteria.keywordOme }"/>';
 		
-
+		// 즉시 실행 함수
+		(function(){
+			
+			// 기간 라디오 버튼에 체크(검색조건 유지)
+			if(checkDay == (date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate())){
+				$("input:radio[id='to']").prop('checked', true);
+			} else if (checkDay == (date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate() - 1))){
+				$("input:radio[id='yester']").prop('checked', true);
+			} else if (checkDay == (date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate() - 7))){
+				$("input:radio[id='week']").prop('checked', true);
+			}
+			
+			// 결제방식 라디오 버튼에 체크(검색조건 유지)
+			if(checkOme == 'card'){
+				$("input[value='card']").prop('checked', true);
+			} else if(checkOme == 'vBank'){
+				$("input[value='vBank']").prop('checked', true);
+			}
+		})();	// end function
 		
 		
 	});

@@ -245,6 +245,34 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>5.0.6.RELEASE</version>
 		</dependency>
+		
+		<!-- pdf to img ... 은지 -->
+		<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+		<dependency>
+		    <groupId>org.apache.pdfbox</groupId>
+		    <artifactId>pdfbox</artifactId>
+		    <version>2.0.13</version>
+		</dependency>
+		
+		<!-- word to pdf ... 은지 -->
+		<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/xmpbox -->
+		<dependency>
+		    <groupId>org.apache.pdfbox</groupId>
+		    <artifactId>xmpbox</artifactId>
+		    <version>2.0.13</version>
+		</dependency>
+		
+		<!-- word to pdf ... 은지 -->
+		<!-- https://mvnrepository.com/artifact/fr.opensagres.xdocreport/org.apache.poi.xwpf.converter.pdf -->
+		<dependency>
+		    <groupId>fr.opensagres.xdocreport</groupId>
+		    <artifactId>org.apache.poi.xwpf.converter.pdf</artifactId>
+		    <version>1.0.6</version>
+		</dependency>
+		
+
+		
+		
 
 	</dependencies>
 	<build>

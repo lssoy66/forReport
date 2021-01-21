@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -114,10 +113,12 @@ public class ProductController {
 		UUID uuid = UUID.randomUUID();
 		uploadFileName = uuid.toString()+"_"+uploadFileName;
 		
+		
+		File saveFile = null;
 		try {
 			
 			// 위에서 만들어둔 오늘 날짜로 된 폴더에 파일 업로드하기 위한 셋팅
-			File saveFile = new File(uploadPath, uploadFileName);
+			saveFile = new File(uploadPath, uploadFileName);
 			uploadFile.transferTo(saveFile); // 업로드하려고 브라우저에서 올린 파일을 해당 위치에 저장
 			
 			uploadVO.setUUID(uuid.toString());
@@ -136,6 +137,8 @@ public class ProductController {
 		log.info("last productVO: " + productVO);
 		log.info("last uploadVO: " + uploadVO);
 		
+		productService.makeThumbnail(uploadVO, productVO.getLargeCa());
+				
 	} // END: productUpload
 	
 	/*날짜별 폴더 만들어 파일 분산 저장*/

@@ -57,7 +57,7 @@
 	    						<!-- accept: 입력 가능한 확장자 지정 가능(단, 파일 선택할 때 모든 파일로 변경할 수 있기 때문에 자바스크립트에서 확장자 잡아줘야한다.) -->
 	    						<input type="file"
 	    							   name="uploadFile"
-	    							   accept=".hwp,.pdf,.pptx,.docx"
+	    							   accept=".pdf,.pptx,.docx"
 	    							   required>
 							</td>
 	    				</tr>
@@ -138,7 +138,7 @@ $(document).ready(function(){
 	// 파일 확장자 및 최대 크기 설정
 						    
 //	var regex = new RegExp("(.*?)\.(docx|hwp|pdf|pptx)$");
-	var regex = new RegExp("(.*?)\.(docx|hwp|pdf|pptx)$");
+	var regex = new RegExp("(.*?)\.(docx|pdf|pptx)$");
 	var maxSize = 5 * 1024 * 1024; // 임시로 설정한 최대값 5MB
 	
 	// 파일 확장자 및 크기 확인 함수(파일 사이즈, 확장자 종류 모두 일치하는 경우 treu 리턴)

@@ -20,7 +20,7 @@
                             <p>검증형 시스템으로 당신에게 딱 맞는 정보를 찾아보세요.</p>
                         </div>
                         <div class="hero__search__form">
-                            <form id="mainInputKeywordForm" action="/product/list" method="get">
+                            <form id="mainInputKeywordForm" action="/product/list.fr" method="get">
                                 <input type="text" placeholder="Search..." name="inputKeyword">
                                 <input type="hidden" name="largeCategory" value=999>                                
                                 <input type="hidden" name="smallCategory" value=999>                                

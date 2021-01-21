@@ -1,9 +1,12 @@
 package com.forreport.service;
 
+import java.io.File;
 import java.util.List;
 
 import com.forreport.domain.ProductVO;
 import com.forreport.domain.SearchingVO;
+import com.forreport.domain.UploadVO;
+
 
 public interface ProductService {
 	
@@ -17,5 +20,5 @@ public interface ProductService {
 	public ProductVO getProduct(int pronum);
 	
 	/* 카테고리에 맞춰서 제품 썸네일 만들기 */
-	public boolean makeThumbnail(long largeCa);
+	public boolean makeThumbnail(UploadVO uploadVO, long largeCa);
 }

@@ -1,8 +1,12 @@
 package com.forreport.controller;
 
+import java.security.Principal;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,9 +33,11 @@ public class CartController {
 
 	// 장바구니 리스트
 	@GetMapping("cartList.fr")
-	public void cartList(Model model) {
+	public void cartList(Model model, Principal principal) {
 		//log.info("CartListController");
-		// 아이디는 세션에서 가져온다(현재 임의로 작성함!)
+		// log.info(principal.getName());
+		User activeUser = (User) ((Authentication)principal).getPrincipal();
+		log.info(activeUser.getUsername());
 		model.addAttribute("cartProductList", service.getCartList("user3"));
 	}
 

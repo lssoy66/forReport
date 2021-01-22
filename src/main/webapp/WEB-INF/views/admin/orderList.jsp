@@ -2,8 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <%@ include file="../includes_admin/header.jsp"%>
+
+<!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
+<sec:authorize access="isAuthenticated()">
+                    <sec:authentication property="principal.username" var="user_id" />
+</sec:authorize>
 
 <div class="row">
 	<div class="col-lg-12">

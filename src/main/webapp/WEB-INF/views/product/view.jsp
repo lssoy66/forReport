@@ -2,6 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<!-- 스프링 시큐리티에서 로그인 사용자 정보 가져오기 -->
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +14,11 @@
 </head>
 
 <%@ include file="../includes/header.jsp"%>
+
+<!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
+<sec:authorize access="isAuthenticated()">
+                    <sec:authentication property="principal.username" var="user_id" />
+</sec:authorize>
 
 
 <!-- 상단표시: Listing Section Begin -->
@@ -65,7 +74,7 @@
             </div>
             <div class="col-lg-4">
             	<div class="listing__hero__btns">
-                	<a href="#" class="primary-btn"><i class="fa fa-bookmark"></i> 장바구니</a>
+                	<a href="${productVO.proname}" class="primary-btn cartAdd"><i class="fa fa-bookmark"></i> 장바구니</a>
                 </div>
             </div>
         </div>
@@ -522,6 +531,34 @@ $(document).ready(function(){
 		}); 
 		
 	} // remove 끝
+	
+	
+	// 추가 :: 스프링 시큐리티 토큰 전달
+	var csrfHeaderName = "${_csrf.headerName}";
+	var csrfTokenValue = "${_csrf.token}";
+	
+	// 추가 :: 로그인한 사용자의 아이디 가져오기
+	var testId = "${user_id }";
+		
+	// 추가 :: 장바구니 버튼 클릭 시 장바구니에 추가
+	$(".cartAdd").click(function(e){
+		e.preventDefault();
+		
+		$.ajax({
+			url : '/cart/writeProcess.fr',
+			beforeSend : function(xhr){
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+			},
+			data : JSON.stringify({id:testId, pronum:pronum}),
+			dataType : 'text',
+			contentType : 'application/json; charset=utf-8',
+			type : 'POST',
+			success : function(result){
+				alert(result + " :: 장바구니에 상품이 담겼습니다.");
+			}
+		}); // ajax 끝
+		
+	});
 	
 }); // ready 끝
 </script>

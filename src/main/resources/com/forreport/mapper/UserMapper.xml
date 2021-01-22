@@ -36,7 +36,7 @@
   		SELECT
   			mem.id, password, name, enabled, phone, email, grade, auth
   		FROM
-  			tbl_user mem LEFT OUTER JOIN tbl_auth2 auth on mem.id = auth.id
+  			tbl_user mem LEFT OUTER JOIN tbl_auth auth on mem.id = auth.id
   		WHERE mem.id = #{id}
   	</select>
   

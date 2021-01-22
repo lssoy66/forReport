@@ -25,7 +25,7 @@
 					<div>
 						<form method="POST" id="joinForm">
 						<!-- spring security csrf token 설정1 -->
-							<input type="hidden" name="${_csrf.headerName}" value="${_csrf.token}">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 							<!-- 아이디 -->
 							<div class="form-group">
 								<label for="user_id">아이디</label> <input type="text"
@@ -220,28 +220,15 @@ $('#phone').keyup(function(){
 
 //회원가입 처리
 $("#joinBtn").click(function(){
-	
-	$.ajax({
-		type : 'post',
-		url : '/user/joinProcess.fr',
-		// spring security csrf token 설정3
-		beforeSend : function(xhr){
-			if(token && header){
-				xhr.setRequestHeader(header, token);
-			}
-		},
-		success : function() {
-			
-			if(idChk && pwChk && pwCheckChk && nameChk && phoneChk){
-				$("#joinForm").attr("action", "/user/joinProcess.fr");
-				$("#joinForm").submit();
-			} else {
-				alert("정보를 다시 입력해주세요");
-			}
-			
-		}
-	});
+
+	if(idChk && pwChk && pwCheckChk && nameChk && phoneChk){
+		$("#joinForm").attr("action", "/user/joinProcess.fr");
+		$("#joinForm").submit();
+	} else {
+		alert("정보를 다시 입력해주세요");
+	}
 
 });
+	
 </script>
 <%@ include file="../includes/footer.jsp"%>

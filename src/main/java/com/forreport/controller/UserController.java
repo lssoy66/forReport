@@ -8,6 +8,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,9 @@ public class UserController {
 
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	@Autowired
+	BCryptPasswordEncoder pwEncoder;
 
 
 	// 이용 약관 페이지 이동
@@ -126,10 +130,15 @@ public class UserController {
 	@RequestMapping("/joinProcess.fr")
 	public String joinProcess(UserVO vo) throws Exception {
 		log.info("join");
-
+		
+		// 비밀번호 암호화
+		String inputPw = vo.getPassword();
+		String pw = pwEncoder.encode(inputPw);
+		vo.setPassword(pw);
+		
 		userService.joinProcess(vo);
 
-		return "redirect:/login/all.fr";
+		return "redirect:/";
 	}
 
 }

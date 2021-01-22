@@ -87,6 +87,7 @@
    		where 
    		<include refid="criteria"></include>
    		(ordernum > 0)
+   		<include refid="criteria_proname"></include>	
    </select>
   
 </mapper>

@@ -34,11 +34,9 @@ public class CartController {
 	// 장바구니 리스트
 	@GetMapping("cartList.fr")
 	public void cartList(Model model, Principal principal) {
-		//log.info("CartListController");
-		// log.info(principal.getName());
-		User activeUser = (User) ((Authentication)principal).getPrincipal();
-		log.info(activeUser.getUsername());
-		model.addAttribute("cartProductList", service.getCartList("user3"));
+		log.info("CartController userName2 :: " + principal.getName());
+		String userID = principal.getName();
+		model.addAttribute("cartProductList", service.getCartList(userID));
 	}
 
 	// 장바구니 추가 :: JSON 형식({"id":"aa","pronum":10})으로
@@ -46,7 +44,6 @@ public class CartController {
 	@ResponseBody
 	public ResponseEntity<String> writeCart(@RequestBody IdPronumVO cart) {
 		log.info("writeCartController");
-		// 아이디는 세션에서 가져온다
 		int result = service.addCart(cart);
 
 		if (result == 1) {
@@ -61,7 +58,6 @@ public class CartController {
 	@ResponseBody
 	public ResponseEntity<String> deleteCart(@RequestBody IdPronumVO cart) {
 		log.info("deleteCartController");
-		// 아이디는 세션에서 가져온다
 		int result = service.deleteCartProduct(cart);
 
 		if (result == 1) {
@@ -76,7 +72,6 @@ public class CartController {
 	@ResponseBody
 	public ResponseEntity<String> deleteCartAll(@PathVariable("id") String id) {
 		log.info("deleteCartAllController");
-		// 아이디는 세션에서 가져온다
 		int result = service.deleteCartAll(id);
 		log.info(result);
 

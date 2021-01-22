@@ -38,11 +38,18 @@ public class UserServiceImpl implements UserService {
 		return userMapper.emailCheck(email);
 	}
 
-	// 비밀번호 중복 확인
+	// 아이디 중복 확인
 	@Override
 	public int idCheck(String id) throws Exception {
 		
 		return userMapper.idCheck(id);
+	}
+
+	// 아이디 찾기
+	@Override
+	public String findId(String email) throws Exception {
+
+		return userMapper.findId(email);
 	}
 
 }

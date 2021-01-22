@@ -29,6 +29,11 @@
 	<select id="pwCheck" resultType="int">
 		SELECT COUNT(*) FROM tbl_user WHERE id = #{id} and password = #{password}
 	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="findIdProcess" parameterType="String" resultType="String">
+		select id from member where email = #{email}
+	</select>
 
 
 	<!-- p662 ~ 3 : Mybatis를 사용하기 위한 xml -->

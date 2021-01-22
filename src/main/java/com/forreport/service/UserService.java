@@ -18,6 +18,6 @@ public interface UserService {
 	// 아이디 중복 확인
 	public int idCheck(String id) throws Exception;
 
-
-
+	// 아이디 찾기
+	public String findId(String email) throws Exception;
 }

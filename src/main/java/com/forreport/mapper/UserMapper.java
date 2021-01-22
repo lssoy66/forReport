@@ -19,5 +19,9 @@ public interface UserMapper {
 	public int idCheck(String id);
 	
 	public UserVO read(String id);
+	
+	// 아이디 찾기
+	public String findId(String email) throws Exception;
+
 
 }

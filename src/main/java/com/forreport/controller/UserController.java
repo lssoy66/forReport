@@ -140,5 +140,18 @@ public class UserController {
 
 		return "redirect:/";
 	}
-
+	
+	// 아이디 찾기 페이지 이동
+	@RequestMapping("/findId.fr")
+	public void findId() throws Exception{
+		log.info("findId");
+	}
+	
+	// 아이디 찾기
+	@RequestMapping("/findIdProcess.fr")
+	public String findIdProcess(String email) throws Exception{
+		log.info("findIdProcess");
+		
+		return "/user/findIdResult";
+	}
 }

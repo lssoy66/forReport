@@ -80,7 +80,7 @@ public class LoginTests {
 	
 	@Test
 	public void testInsertAuth() {
-		String sql = "insert into tbl_auth2 (auth, id) values (?,?)";
+		String sql = "insert into tbl_auth (auth, id) values (?,?)";
 	
 			Connection con = null;
 			PreparedStatement pstmt = null;

@@ -21,4 +21,7 @@ public interface ProductService {
 	
 	/* 카테고리에 맞춰서 제품 썸네일 만들기 */
 	public boolean makeThumbnail(UploadVO uploadVO, long largeCa);
+	
+	/* 제품 등록 */
+	public boolean uploadProduct(ProductVO productVO, UploadVO uploadVO);
 }

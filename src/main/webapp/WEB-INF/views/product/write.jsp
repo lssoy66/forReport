@@ -102,7 +102,7 @@
 	    					</td>
 	    				</tr>
 	    			</table>	    			
-	    			<input type="hidden" name="id" value="#"> 
+	    			<input type="hidden" name="id" value="aa"> 
 	    			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
 	    			<input type="submit" value="자료 등록" class="primary-btn" style="float:right">
 	    		</form>

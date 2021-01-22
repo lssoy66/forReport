@@ -34,6 +34,7 @@ import org.apache.poi.xwpf.converter.pdf.PdfOptions;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.xmlbeans.XmlException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.forreport.domain.ProductVO;
 import com.forreport.domain.SearchingVO;
@@ -296,6 +297,22 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		return true;				
-	}	
+	}
+	
+	/* 제품 등록 */
+	@Transactional
+	@Override
+	public boolean uploadProduct(ProductVO productVO, UploadVO uploadVO) {
+		
+		int resultAddProduct = mapper.uploadTblProduct(productVO);
+		int resultAddUpload = mapper.uploadTblUpload(uploadVO);
+		
+		if(resultAddProduct==1 && resultAddUpload==1) {
+			return true;
+		}
+		
+		return false;
+		
+	}
 		
 }

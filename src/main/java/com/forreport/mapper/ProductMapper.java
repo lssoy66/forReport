@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.forreport.domain.ProductVO;
 import com.forreport.domain.SearchingVO;
+import com.forreport.domain.UploadVO;
 
 public interface ProductMapper {
 	
@@ -15,5 +16,12 @@ public interface ProductMapper {
 	
 	/*상품 상세페이지 만들기 위해서 tbl_product 한 행의 정보 가져오기*/
 	public ProductVO getProduct(int pronum);
+	
+	/*등록 상품 내역 tbl_product에 업로드*/
+	public int uploadTblProduct(ProductVO productVO);
+	
+	/*등록 상품 내역 tbl_upload에 업로드*/
+	public int uploadTblUpload(UploadVO uploadVO);
+	
 	
 }

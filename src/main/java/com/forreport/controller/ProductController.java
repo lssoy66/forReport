@@ -72,7 +72,7 @@ public class ProductController {
 		log.info("write.fr -> 상품 등록 창 출력");
 	}
 	
-	/* 상품 서버 등록 */
+	/* 상품 서버 등록 + DB 저장*/
 	@PostMapping("upload.fr")
 	public void productUpload(MultipartFile uploadFile, ProductVO productVO) {
 				
@@ -137,8 +137,27 @@ public class ProductController {
 		log.info("last productVO: " + productVO);
 		log.info("last uploadVO: " + uploadVO);
 		
-		productService.makeThumbnail(uploadVO, productVO.getLargeCa());
+		boolean uploadCheck = productService.makeThumbnail(uploadVO, productVO.getLargeCa());
 				
+		if(uploadCheck) { // 업로드 된 경우 > DB에 등록
+			
+			// DB 등록
+			boolean uploadResult = productService.uploadProduct(productVO, uploadVO);
+			
+			
+			if(uploadResult) { // DB에도 제대로 등록이 된 경우
+				log.info("등록이 완료되었습니다.");
+			} else { // DB에 등록 안 된 경우 > 등록된 파일 삭제, 안내 문구 팝업 필요
+				log.info("등록에 실패했습니다.");
+				// 파일 삭제
+			}
+						
+		} else { // 업로드 안 된 경우 > DB 등록 X
+			log.info("상품 등록에 실패했습니다.");
+		}
+		
+	
+		
 	} // END: productUpload
 	
 	/*날짜별 폴더 만들어 파일 분산 저장*/

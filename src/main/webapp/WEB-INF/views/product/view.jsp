@@ -7,6 +7,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<!-- AJAX를 사용하기 위해 review.js 가져오기 -->
+<script type="text/javascript" src="/resources/js/review.js"></script>
+
 <title>ForReport</title>
 
 </head>
@@ -119,6 +123,8 @@
                            	</div>
                             <span>0명</span>
                        	</div>
+                       	
+                       	
                         <div class="listing__details__rating__bar">
                         	<div class="listing__details__rating__bar__item">
                             	<span>1점</span>
@@ -161,7 +167,8 @@
                     
                    
                     <div class="listing__details__comment">
-                        <h4>리뷰</h4>                       
+                        <h4>리뷰</h4>
+                        <!-- 리뷰 리스트 처리 -->                   
                       	<div class="reviewListDiv"></div>
                       	 <!-- 리뷰 페이징 처리 --> 
                       	<div class="blog__pagination"></div> 
@@ -190,13 +197,14 @@
 </section>
 <!-- Listing Details Section End -->
 
-<!-- AJAX를 사용하기 위해 review.js 가져오기 -->
-<script type="text/javascript" src="/resources/js/review.js"></script>
 
 <!-- 자바스크립트 효과 -->
 <script type="text/javascript">
 
 $(document).ready(function(){
+	
+	
+
 	
 	/////////////////////////////////////////////////////////////////////
 	
@@ -266,111 +274,168 @@ $(document).ready(function(){
 	
 	/////////////////////////////////////////////////////////////////////
 	
-	/** AJAX를 이용해서 리뷰 전체 가져오기 + 평균 별점, 리뷰 개수*/
+	/////////////////////////////////////////////////////////////////////
 	
+	/** 리뷰 처리를 위한 변수들 사전 선언 및 작성한 함수 호출 */
+	
+	/////////////////////////////////////////////////////////////////////
+		
+	// 게시글 번호 가져오기(-> 해당 게시글에 맞는 리뷰를 처리할 때 사용)
 	var pronum = '<c:out value="${productVO.pronum}"/>';
+	// 페이징 처리 입력할 하단부
+	var reviewPageFooter = $(".blog__pagination");
 	
-	showReviewList(1); // 해당 제품의 리뷰 1페이지 출력	
 	
-	/*showReviewList 자리*/
-	function showReviewList(pageNum){
-		
-		var reviewListDiv = $(".reviewListDiv");
-		var reviewStr = "";
-		
-		
-		reviewService.getReviewList({pronum:pronum, pageNum: pageNum||1},
-				function(reviewTotal, reviewList, avgRate, reviewCriteria, rateOne, rateTwo, rateThree, rateFour, rateFive){
+	// session에 저장된 값을 확인해서 리뷰등록으로 인한 새로고침을 한 경우 마지막 페이지 출력, 그 외는 1페이지 출력
+	if(sessionStorage.getItem("reviewAddReload")){
+		sessionStorage.clear();
+		showReviewList(-1);
+	} else {
+		showReviewList(1);
+	}
+	
+	
+			/////////////////////////////////////////////////////////////////////
+			
+			/** 리뷰 처리를 위한 함수 선언 */
+			
+			/////////////////////////////////////////////////////////////////////
+			
+			//리뷰 페이지에 맞는 리뷰 보여주기
+			function showReviewList(pageNum){
+				
+				
+				console.log("리뷰 페이지에 맞는 리뷰 보여주기 - showReviewList");
+				
+				// 리뷰 리스트가 들어갈 곳
+				var reviewListDiv = $(".reviewListDiv");
+				// 실제로 넣을 리뷰 내용
+				var reviewStr = "";
+				
+				console.log("getReviewList 외부 pageNum: " + pageNum);
+				
+				
+				
+				reviewService.getReviewList({pronum:pronum, pageNum: pageNum||1},
+						function(reviewTotal, reviewList, avgRate, reviewCriteria, rateOne, rateTwo, rateThree, rateFour, rateFive){
+					
+					console.log("getReviewList 내부 pageNum: " + pageNum);
+					
+					if(pageNum == -1) {
 						
-			showReviewPage(reviewTotal); // 댓글 페이징 처리			
-			
-			// 페이지번호가 -1인 경우 가장 마지막 페이지 출력
-			if(pageNum == -1){
+						if(reviewTotal == 0){
+							
+							console.log("pageNum == -1 reviewTotal == 0");
+							
+							pageNum = 1;
+							showReviewList(1);
+							return false;
+							
+						} else {
+							
+							console.log("pageNum == -1 reviewTotal != 0");
+							
+							pageNum = Math.ceil(reviewTotal/10.0); // 마지막 페이지 번호
+							showReviewList(pageNum); // 마지막 페이지 번호를 보여달라고 재귀함수로 처리
+							return false;
+							
+						}
+					}
 				
-				pageNum = Math.ceil(reviewTotal/10.0); // 마지막 페이지 번호
-				showReviewList(pageNum); 
-				return;
-			}
+			///////////////////////////////////////////////////////////////
 			
-			// 해당 게시글에 댓글이 없는 경우 -> 그냥 돌아간다.
-			if(reviewList==null || reviewList.length == 0) {
-				
-				return;
-			}
+			/* 리뷰 상단부 - 별점 준 사람, 별점 별 사람 수, 평균 별점 표시*/
 			
-			/* 얻어온ReviewPageDTO값을 이용해서 전체 리뷰 개수 표시하기 */
+			///////////////////////////////////////////////////////////////
+			
+			// 얻어온ReviewPageDTO값을 이용해서 전체 리뷰 개수 표시하기
+			console.log(".listing__details__comment h4에 넣을 reviewTotal" + reviewTotal);
 			$(".listing__details__comment h4").html('리뷰('+reviewTotal+')');
 			
-			
-			/* 얻어온ReviewPageDTO값을 이용해서 평균 별점 표시하기 - 상단 */
+			// 얻어온ReviewPageDTO값을 이용해서 평균 별점 표시하기(소수점 둘째자리)
 			console.log("평균 별점: " + avgRate);
 			avgRate = avgRate.toFixed(2);
 			console.log("평균 별점 반올림: " + avgRate);
 			
-			var avgRateShowStr = ''; // 별점 표시를 위한 변수
+			// 평균 별점 표시를 위한 변수
+			var avgRateShowStr = ''; 
 			var star_text = '<span> 별점  &nbsp;</span>';
-			console.log("평균별점: " + avgRateShowStr);
+			// 평균만큼 반복해서 별점 표시
 			for(var i = 1; i<=avgRate; i++){
 				avgRateShowStr += "<span class='icon_star'>&nbsp;</span>";
 			}
-			$(".listing__hero__widget__rating").html(star_text + avgRateShowStr);
-						
-			/* 평균 별점 표시: 하단*/			
+			
+			console.log(".listing__details__rating__star 위의 reviewTotal: " + reviewTotal);
+			
+			// 평균 별점 표시
+			$(".listing__hero__widget__rating").html(star_text + avgRateShowStr);	
 			$(".listing__details__rating__overall h2").html(avgRate||0);
 			$(".listing__details__rating__star").html(avgRateShowStr||0);
 			$(".listing__details__rating__star").siblings("span").html("총 " +reviewTotal +"명"||0+"명");
 			
-			/*점수 별 사람들 표시*/
-			
+			/*점수 별 사람들 표시*/			
 			var ratePerPerson = "";
 			
-			console.log("reviewTotal: " + reviewTotal);
+
+			ratePerPerson += '<div class="listing__details__rating__bar__item">' +
+							 '<span>5점</span>' +
+							 '<div id="bar1" class="barfiller">' +
+							 	'<span class="fill" data-percentage="'+Math.ceil(rateFive/reviewTotal*100)+'"'+
+							 		'style="background:rgb(240,50,80); width:'+Math.ceil(rateFive/reviewTotal*100)+'%; transition: width 1s ease-in-out 0s;"></span>' +
+							 '</div>' + 
+							 ' <span class="right">'+rateFive+'명</span>';
+							 
+			ratePerPerson += '<div class="listing__details__rating__bar__item">' +
+							 '<span>4점</span>' +
+							 '<div id="bar4" class="barfiller">' +
+							 	'<span class="fill" data-percentage="'+Math.ceil(rateFour/reviewTotal*100)+'"'+
+							 		'style="background:rgb(240,50,80); width:'+Math.ceil(rateFour/reviewTotal*100)+'%; transition: width 1s ease-in-out 0s;"></span>' +
+							 '</div>' + 
+							 ' <span class="right">'+rateFour+'명</span>';
+							 
+			ratePerPerson += '<div class="listing__details__rating__bar__item">' +
+							 '<span>3점</span>' +
+							 '<div id="bar3" class="barfiller">' +
+							 	'<span class="fill" data-percentage="'+Math.ceil(rateThree/reviewTotal*100)+'"'+
+							 		'style="background:rgb(240,50,80); width:'+Math.ceil(rateThree/reviewTotal*100)+'%; transition: width 1s ease-in-out 0s;"></span>' +
+							 '</div>' + 
+							 ' <span class="right">'+rateThree+'명</span>';
+							 
+			ratePerPerson += '<div class="listing__details__rating__bar__item">' +
+							 '<span>2점</span>' +
+							 '<div id="bar2" class="barfiller">' +
+							 	'<span class="fill" data-percentage="'+Math.ceil(rateTwo/reviewTotal*100)+'"'+
+							 		'style="background:rgb(240,50,80); width:'+Math.ceil(rateTwo/reviewTotal*100)+'%; transition: width 1s ease-in-out 0s;"></span>' +
+							 '</div>' + 
+							 ' <span class="right">'+rateTwo+'명</span>';
+							 
+			ratePerPerson += '<div class="listing__details__rating__bar__item">' +
+							 '<span>1점</span>' +
+							 '<div id="bar1" class="barfiller">' +
+							 	'<span class="fill" data-percentage="'+Math.ceil(rateOne/reviewTotal*100)+'"'+
+							 		'style="background:rgb(240,50,80); width:'+Math.ceil(rateOne/reviewTotal*100)+'%; transition: width 1s ease-in-out 0s;"></span>' +
+							 '</div>' + 
+							 ' <span class="right">'+rateOne+'명</span>';
 			
-			console.log("rateFive: " + rateFive);
-							
-			ratePerPerson += '<div class="listing__details__rating__bar__item">' +
-								 '<span>5점</span>' +
-								 '<div id="bar1" class="barfiller">' +
-								 	'<span class="fill" data-percentage="'+Math.ceil(rateFive/reviewTotal*100)+'"'+
-								 		'style="background:rgb(240,50,80); width:'+Math.ceil(rateFive/reviewTotal*100)+'%; transition: width 1s ease-in-out 0s;"></span>' +
-								 '</div>' + 
-								 ' <span class="right">'+rateFive+'명</span>';
-								 
-			ratePerPerson += '<div class="listing__details__rating__bar__item">' +
-								 '<span>4점</span>' +
-								 '<div id="bar4" class="barfiller">' +
-								 	'<span class="fill" data-percentage="'+Math.ceil(rateFour/reviewTotal*100)+'"'+
-								 		'style="background:rgb(240,50,80); width:'+Math.ceil(rateFour/reviewTotal*100)+'%; transition: width 1s ease-in-out 0s;"></span>' +
-								 '</div>' + 
-								 ' <span class="right">'+rateFour+'명</span>';
-								 
-			ratePerPerson += '<div class="listing__details__rating__bar__item">' +
-								 '<span>3점</span>' +
-								 '<div id="bar3" class="barfiller">' +
-								 	'<span class="fill" data-percentage="'+Math.ceil(rateThree/reviewTotal*100)+'"'+
-								 		'style="background:rgb(240,50,80); width:'+Math.ceil(rateThree/reviewTotal*100)+'%; transition: width 1s ease-in-out 0s;"></span>' +
-								 '</div>' + 
-								 ' <span class="right">'+rateThree+'명</span>';
-								 
-			ratePerPerson += '<div class="listing__details__rating__bar__item">' +
-								 '<span>2점</span>' +
-								 '<div id="bar2" class="barfiller">' +
-								 	'<span class="fill" data-percentage="'+Math.ceil(rateTwo/reviewTotal*100)+'"'+
-								 		'style="background:rgb(240,50,80); width:'+Math.ceil(rateTwo/reviewTotal*100)+'%; transition: width 1s ease-in-out 0s;"></span>' +
-								 '</div>' + 
-								 ' <span class="right">'+rateTwo+'명</span>';
-								 
-			ratePerPerson += '<div class="listing__details__rating__bar__item">' +
-								 '<span>1점</span>' +
-								 '<div id="bar1" class="barfiller">' +
-								 	'<span class="fill" data-percentage="'+Math.ceil(rateOne/reviewTotal*100)+'"'+
-								 		'style="background:rgb(240,50,80); width:'+Math.ceil(rateOne/reviewTotal*100)+'%; transition: width 1s ease-in-out 0s;"></span>' +
-								 '</div>' + 
-								 ' <span class="right">'+rateOne+'명</span>';
 			
+			// 각 점수 별 준 사람들 수 표시
 			$(".listing__details__rating__bar").html(ratePerPerson);			
-				
+
 			
+			///////////////////////////////////////////////////////////////
+			
+			/* 리뷰 중간부 - 리뷰 리스트 상세보기*/
+			
+			///////////////////////////////////////////////////////////////
+						
+			//해당 게시글에 댓글이 없는 경우 -> 그냥 돌아간다(만약 앞에 남은 페이지가 있을 경우 남은 페이지의 가장 마지막 페이지로 돌아간다.)
+			if((reviewList==null || reviewList.length == 0)&&pageNum > 1) {
+				
+				showReviewList(pageNum-1);				
+				return;
+			}
+			
+						
 			// 댓글이 있는 경우 게시글 출력하기
 			for(var i = 0, len=reviewList.length||0; i<len; i++){
 				
@@ -396,88 +461,146 @@ $(document).ready(function(){
 				reviewStr +=		'<a href="#"><span data-reviewNum="'+reviewList[i].reviewNum+'" class="btn_removeReview" style="border: 2px ridge pink"><i class="fa fa-hand-o-right"></i> 삭제</span></a>';
 				reviewStr +=	'</div>';
 				reviewStr +=  '</div>';
-			} // 바깥 for문
+			} // ..END:: 바깥 for문
 						
+			// 리뷰 삽입하기
 			reviewListDiv.html(reviewStr);
+					
+			console.log("remove위 reviewTotal: " + reviewTotal);
+			//remove(pageNum, reviewTotal); // append가 되어 값이 처리되는 곳에서 이벤트를 넣어주어야 한다.(remove 함수를 외부에서 만든 후 끌어다 씀)
+			
+			reviewPageFooter.on("click", "a", function(e){
+					
+					e.preventDefault();
+					
+					var targetPageNum = $(this).attr("href");
+					
+					pageNum = targetPageNum;
+					
+					showReviewList(pageNum);
+					
+			}); // --END: reviewPageFooter
+			
+			///////////////////////////////////////////////////////////////
+			
+			/* 리뷰 하단부 - 페이징 처리*/
+			
+			///////////////////////////////////////////////////////////////
 			
 			
-			remove(pageNum); // append가 되어 값이 처리되는 곳에서 이벤트를 넣어주어야 한다.(remove 함수를 외부에서 만든 후 끌어다 씀)
+			showReviewPage(reviewTotal); // 페이징 처리
 			
-	}) /* -- END: showReviewList 자리*/
-	
-		/** 블로그 페이징 처리 하단부 등장할 부분 */
-		/*다른 곳에서도 쓰기 때문에 ready에 있어야 한다.*/
-		//var reviewPageFooter = $(".blog__pagination");
-	
-		/** 댓글 페이징 처리 자리(showReviewPage(reviewTotal 자리))*/
-		/** 댓글 페이징 처리*/		
-		function showReviewPage(reviewTotal) {
-			
-			console.log("showReviiewPage" + reviewTotal);
-			
-			var endNum = Math.ceil(pageNum / 10.0) * 10; // 현재 리뷰 페이지가 속한 페이지 리스트의 마지막 번호
-			var startNum = endNum - 9;
-			
-			var prev = startNum != 1; // 시작페이지 번호가 1이 아닌 경우 prev버튼 넣을 것
-			var next = false;
-			
-			if(endNum * 10 > reviewTotal){
-				endNum = Math.ceil(reviewTotal/10.0); // 마지막 페이지가 전체 페이지 개수보다 많은 경우 조정
-			}
-			
-			if(endNum * 10 < reviewTotal){
-				next = true; // 더 뒤로 갈 페이지가 남은 경우 next 버튼 넣기
-			}
-			
-			var str = "";
-			
-			if(prev){
-				str += '<a href="'+(startNum-1)+'"><i class="fa fa-long-arrow-left"></i> Pre</a>';
-			}
-			
-			for(var i = startNum; i<= endNum; i++){
+			/** 삭제 구현*/
+			$(".listing__details__comment__item__text a").on("click", function(e){
+						
+				//function remove(pageNum, reviewTotal){
 				
-				//var actvie = pageNum == i ? "<strong>"+i+"</strong":i; // 현재 페이지의 경우 활성화 표시
+				console.log("remove");
 				
-				if(pageNum == i) {
-					str += '<a href="'+i+'"><strong style="color:red">'+i+'</strong></a>';
-				} else {
-					str += '<a href="'+i+'">'+i+'</a>';
-				}
+				console.log(reviewTotal);
 				
+				e.preventDefault();
+				
+				var reviewNum = $(this).children().attr("data-reviewNum");
+				var reviewPageNum = pageNum;
+							
+				console.log(typeof(reviewNum));
+				console.log("reviewNum: " + reviewNum);
+				
+				reviewNum = Number(reviewNum);
+				console.log(typeof(reviewNum));
+				console.log("reviewNum: " + reviewNum);
+
+				
+				reviewService.remove(reviewNum*1, header, token, function(result){
+					alert(result);
+				}, function(){
+					alert("ajax delete 실패");
+				});			
+				
+				console.log("remove 호출 후 reviewTotal"+reviewTotal);
+				
+				console.log("showReviewList(pageNum): "+ showReviewList(pageNum));
+				showReviewList(pageNum);
+							
+			});  
+			
+			
+			
+		}); /* -- END: showReviewList 자리*/
+		
+
+	// 댓글 하단부 페이징 처리
+	function showReviewPage(reviewTotal){
+		
+		console.log("댓글 페이징 처리 - showReviewPage")
+		console.log("showReviewPage_reviewTotal" + reviewTotal);
+		
+		// 현재 리뷰 페이지가 속한 페이지 리스트의 마지막 번호
+		var endNum = Math.ceil(pageNum / 10.0) * 10;
+		// 현재 리뷰 페이지가 속한 페이지 리스트의 첫번째 번호
+		var startNum = endNum - 9;
+		
+		// 시작페이지 번호가 1보다 큰 경우 prev버튼 넣을 것
+		var prev = startNum > 1; 
+		var next = false;
+		
+		// 마지막 페이지가 전체 페이지 개수보다 많은 경우 조정
+		if(endNum * 10 > reviewTotal){
+			endNum = Math.ceil(reviewTotal/10.0); 
+		}
+		
+		// 더 뒤로 갈 페이지가 남은 경우 next 버튼 넣기
+		if(endNum * 10 < reviewTotal){
+			next = true; 
+		}
+		
+		// 페이징 처리를 위해 넣을 변수
+		var str = "";
+		
+		// prev가 true인 경우 prev버튼 넣기
+		if(prev){
+			str += '<a href="'+(startNum-1)+'"><i class="fa fa-long-arrow-left"></i> Pre</a>';
+		}
+		
+		// 일반 페이지 번호 입력(현재 페이지는 활성화 표시)
+		for(var i = startNum; i<= endNum; i++){
+			
+			//var actvie = pageNum == i ? "<strong>"+i+"</strong":i; // 현재 페이지의 경우 활성화 표시
+			
+			if(pageNum == i) {
+				str += '<a href="'+i+'"><strong style="color:red">'+i+'</strong></a>';
+			} else {
+				str += '<a href="'+i+'">'+i+'</a>';
 			}
-			
-			if(next){
-				str += '<a href="'+(endNum+1)+'">Next<i class="fa fa-long-arrow-right"></i></a>';
-			}
-			
-			reviewPageFooter.html(str);
-			
-		} // -- END: showReviewPage(reviewTotal)
+		}
 		
-	};
+		// next가 true인 경우 prev버튼 넣기
+		if(next){
+			str += '<a href="'+(endNum+1)+'">Next<i class="fa fa-long-arrow-right"></i></a>';
+		}
+		
+		// 하단부 페이지 버튼 자리에 페이지 html 넣기
+		reviewPageFooter.html(str);
+		
+		}	 // ..END: getReviewList
+		
+	} // ..END: showReviewPage
 	
-	
-	var reviewPageFooter = $(".blog__pagination");
-	/** 페이지 번호 클릭하면 해당 페이지의 리뷰 출력*/		
-	reviewPageFooter.on("click", "a", function(e){
-		
-		e.preventDefault();
-		
-		var targetPageNum = $(this).attr("href");
-		
-		pageNum = targetPageNum;
-		
-		showReviewList(pageNum);
-		
-	}); // --END: reviewPageFooter
-	
-	
+
 	/** AJAX를 이용해서 리뷰 등록하기 */	
 	/*구매 여부 확인 필요:: #reviewForm button 클릭 이벤트*/
 	$("#reviewForm button").on("click", function(e){
 		
 		e.preventDefault();
+		
+		console.log("리뷰 등록 버튼 클릭시 일시 멈춤");
+		
+		// 리뷰를 작성하지 않은 경우 별점 등록 불가
+		if(!$(".review").val()){
+			alert("onClick:: 리뷰를 입력해주세요.");
+			return false;
+		}
 		
 		var ratingCnt = 0; // 체크된 별의 개수
 		$("i[name=checked]").each(function(i){
@@ -499,52 +622,31 @@ $(document).ready(function(){
 			alert(result);
 		});
 		
+		
 		// 댓글 등록 후 리뷰, 별점 리셋
 		review.val("");
 		$("i[name=checked]").css("color", "gray");
+		$("i[name=checked]:nth-child(1)").css("color", "orange");
 		$("i[name=checked]").nextAll("i").attr("name", 'unchecked');
+		$("i[name=checked]:nth-child(1)").nextAll("i").attr("name", 'unchecked');
 		
-		showReviewList(-1);
+		console.log("=================");
+		//console.log("showReviewList(-1): "+ showReviewList(-1));
+		
+		sessionStorage.setItem("reviewAddReload",true);
+			
+		window.location.reload();
+		
+		
+		//showReviewList(-1);
+		//showReviewList(0);
+		//return false;
 	}); // /* -- END:: 구매 여부 확인 필요:: #reviewForm button 클릭 이벤트*/
+
 	
-	/** 삭제 구현 >> append되는 곳에서 호출해서 사용*/
-	function remove(pageNum){
-
-		
-		
-		
-		$(".listing__details__comment__item__text a").on("click", function(e){
-					
-			console.log("remove");
-			
-			e.preventDefault();
-			
-			var reviewNum = $(this).children().attr("data-reviewNum");
-			var reviewPageNum = pageNum;
-						
-			console.log(typeof(reviewNum));
-			console.log("reviewNum: " + reviewNum);
-			
-			reviewNum = Number(reviewNum);
-			console.log(typeof(reviewNum));
-			console.log("reviewNum: " + reviewNum);
-
-			
-			reviewService.remove(reviewNum*1, header, token, function(result){
-				alert(result);
-			}, function(){
-				alert("ajax delete 실패");
-			});
-			
-			//reviewService.remove($(this).attr)
-			
-			showReviewList(pageNum);
-			
-		}); 
-		
-	} // remove 끝
 	
 }); // ready 끝
+
 </script>
 <!-- footer에서 가져옴 -->
 

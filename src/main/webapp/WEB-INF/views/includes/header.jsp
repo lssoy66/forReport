@@ -82,7 +82,7 @@
                             </ul>
                         </nav>
                         <div class="header__menu__right">
-                            <a href="#" class="primary-btn"><i class="fa fa-plus"></i> 회원가입</a>
+                            <a href="/user/provision.fr" class="primary-btn"><i class="fa fa-plus"></i> 회원가입</a>
 <!--                             <a href="#" class="login-btn"><i class="fa fa-user"></i></a> -->
                         </div>
                     </div>

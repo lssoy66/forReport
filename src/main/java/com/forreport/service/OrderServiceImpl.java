@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.forreport.domain.IdPronumVO;
 import com.forreport.domain.OrderVO;
 import com.forreport.domain.ProductVO;
+import com.forreport.domain.ReviewCriteria;
 import com.forreport.domain.VbankVO;
 import com.forreport.mapper.CartMapper;
 import com.forreport.mapper.OrderMapper;
@@ -96,6 +97,19 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public VbankVO getVbank(String id) {
 		return mapper.getVbank(id);
+	}
+
+	// 페이징 처리 한 총 주문리스트 가져오기
+	@Override
+	public List<OrderVO> getOrderListAllWithPaging(ReviewCriteria criteria) {
+		log.info("service ~ criteria :: " + criteria);
+		return mapper.getOrderListAllWithPaging(criteria);
+	}
+
+	// 총 주문 개수 구하기
+	@Override
+	public int getTotalCount(ReviewCriteria criteria) {
+		return mapper.getTotalCount(criteria);
 	}
 	
 	

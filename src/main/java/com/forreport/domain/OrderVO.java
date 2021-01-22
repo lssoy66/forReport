@@ -15,6 +15,9 @@ public class OrderVO {
 	private long payprice;	// 결제금액
 	private Date orderdate;	// 주문일자
 	
+	// 상품 이름(mapper에서 두 테이블을 조인하여 가져와 주문리스트에 상품번호 대신 이름을 표시)
+	private String proname;	
+	
 	private List<Long> pronumList;	// 상품번호 리스트
 	
 	// 신용카드 결제 시

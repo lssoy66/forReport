@@ -132,6 +132,7 @@
 			
 			e.preventDefault();
 			var str = "";
+			str += "<input type='hidden' name='${_csrf.parameterName }' value='${_csrf.token }'>";
 			
 			console.log($("input[type='radio']:checked").attr("value"));
 			// 현재 amount만 넘어가도록, GET 방식으로 작성하였음

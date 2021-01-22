@@ -45,16 +45,17 @@
 	</resultMap>
 
 	<resultMap type="com.forreport.domain.AuthVO" id="authMap">
-		<result property="id" column="id" />
-		<result property="auth" column="auth" />
-	</resultMap>
 
-	<select id="read" resultMap="userMap">
-		SELECT
-		mem.id, password, name, enabled, phone, email, grade, auth
-		FROM
-		tbl_user mem LEFT OUTER JOIN tbl_auth2 auth on mem.id = auth.id
-		WHERE mem.id = #{id}
-	</select>
-
+  	<result property="id" column="id"/>
+		<result property="auth" column="auth"/>
+  </resultMap>
+  	
+  	<select id="read" resultMap="userMap">
+  		SELECT
+  			mem.id, password, name, enabled, phone, email, grade, auth
+  		FROM
+  			tbl_user mem LEFT OUTER JOIN tbl_auth auth on mem.id = auth.id
+  		WHERE mem.id = #{id}
+  	</select>
+  
 </mapper>

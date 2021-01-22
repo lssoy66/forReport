@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.forreport.domain.OrderVO;
 import com.forreport.domain.ProductVO;
+import com.forreport.domain.ReviewCriteria;
 import com.forreport.domain.VbankVO;
 
 public interface OrderService {
@@ -19,5 +20,11 @@ public interface OrderService {
 	
 	// 가상계좌정보 가져오기
 	public VbankVO getVbank(String id);
+	
+	// 페이징 처리 된 주문리스트 가져오기
+	public List<OrderVO> getOrderListAllWithPaging(ReviewCriteria criteria);
+	
+	// 전체 주문 수 가져오기
+	public int getTotalCount(ReviewCriteria criteria);
 	
 }

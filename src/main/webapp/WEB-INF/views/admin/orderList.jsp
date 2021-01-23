@@ -157,6 +157,14 @@
 // 			alert($(this).val().toString());
 // 		});
 
+		// header.jsp의 로그아웃 처리
+		$("#logout").click(function(e){
+        			
+        	e.preventDefault();
+        	$(".logoutForm").submit();
+        			
+        });
+
 		// 페이징 처리
 		var actionForm = $("#actionForm");
 		

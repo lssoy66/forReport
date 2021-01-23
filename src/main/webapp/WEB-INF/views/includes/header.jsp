@@ -89,6 +89,7 @@
                             </ul>
                         </nav>
                         <div class="header__menu__right">
+
 	                        <form class="logoutForm" action="/login/customLogout.fr" method="post">
 	                    		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	                   		</form>
@@ -103,6 +104,7 @@
                         		<a href="/login/customLogin.fr" class="primary-btn"> 로그인</a>
                         		<a href="#" class="primary-btn"><i class="fa fa-plus"></i> 회원가입</a>
                         	</c:if>
+
                         </div>
                     </div>
                 </div>

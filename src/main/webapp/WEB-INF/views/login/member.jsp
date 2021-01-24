@@ -9,7 +9,7 @@
 <body>
 	<h1>/login/member Page</h1>
 	
-	<form action="/forreport.fr" method='post'>
+	<form action="/login/customLogout.fr"  method='post'>
      <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
      <button>로그아웃</button>
      </form>

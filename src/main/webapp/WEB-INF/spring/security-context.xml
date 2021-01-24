@@ -18,7 +18,8 @@
 <!-- 		<security:access-denied-handler error-page="/login/accessError"/> -->
         <security:access-denied-handler ref="customAccessDenied"/>
         <security:form-login login-page="/login/customLogin.fr" authentication-success-handler-ref="customLoginSuccess" />
-        <security:logout logout-url="/login/customLogout.fr" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID"/><!-- 로그아웃 시 쿠키 삭제 -->
+        <security:logout logout-url="/login/customLogout.fr" invalidate-session="true" delete-cookies="JSESSIONID,remember-me"
+        logout-success-url="/forreport.fr"/> <!-- 로그아웃 시 쿠키 삭제 -->
         <!-- remember-me -->
         <security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/> <!--유효시간 지정-->
         

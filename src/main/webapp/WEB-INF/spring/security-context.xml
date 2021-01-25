@@ -13,7 +13,7 @@
 	<security:http>
 		<security:intercept-url pattern="/login/all.fr" access="permitAll" />
 		<security:intercept-url pattern="/login/member.fr" access="hasRole('ROLE_MEMBER')" />
-		<security:intercept-url pattern="/login/admin.fr" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')" />
 		
 <!-- 		<security:access-denied-handler error-page="/login/accessError"/> -->
         <security:access-denied-handler ref="customAccessDenied"/>

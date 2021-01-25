@@ -4,6 +4,12 @@
 
 <%@ include file="../includes/cartHeader.jsp"%>
 
+<!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.username" var="user_id" />
+</sec:authorize>
+
 <!-- Blog Hero Begin -->
 <div class="blog-details-hero set-bg"
 	data-setbg="/resources/img/blog/details/blog-hero.jpg">
@@ -30,14 +36,14 @@
 					
 					<div class="footer__copyright__links">
 						<!-- 아이디는 세션에서 가져온다 -->
-						<a href="user3" id="allDelete">전체삭제</a>
+						<a href="${user_id }" id="allDelete">전체삭제</a>
 					</div>
 					
 					<div class="listing__details__comment cartList">
 						
 						<form action="/order/order.fr" id="checkForm" method="post">
 							<!-- 아이디는 세션에서 가져온다 -->
-							<input type="hidden" name="id" id="id" value="user3">
+							<input type="hidden" name="id" id="id" value="${user_id }">
 							<input type="hidden" name="price" id="price" value="">
 							<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 					
@@ -160,11 +166,14 @@
 			
 		});
 		
+		// 로그인한 사용자 아이디
+		var id = "${user_id }";
+		
 		// 상품 삭제
 		$(".exitButton a").click(function(e){
 			e.preventDefault();
 			//console.log(typeof($(this).attr("href")));
-			var id = "user3";	// 아이디는 세션에서 가져온다
+			
 			var pronum = Number($(this).attr("href"));
 			console.log(pronum);
 			$(this).parent().parent().parent().remove();
@@ -190,7 +199,6 @@
 			
 			e.preventDefault();
 			if(confirm("장바구니를 비우시겠습니까?") == true){
-				var id = $(this).attr("href");
 				$(".cartList").html("<h5>장바구니에 담긴 상품이 없습니다.</h5>");
 				
 				$.ajax({

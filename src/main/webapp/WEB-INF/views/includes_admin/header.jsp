@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
+<!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.username" var="user_id" />
+</sec:authorize>
+    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,20 +66,28 @@
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
+            	<li>현재 사용자 : ${user_id }</li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
+                    <form class="logoutForm" action="/login/customLogout.fr" method="post">
+                    	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+                    </form>
+                    
+	                    <ul class="dropdown-menu dropdown-user">
+	                    	<li><a href="/"><i class="fa fa-th-list fa-fw"></i> Main</a>
+	                        </li>
+	                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+	                        </li>
+	                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+	                        </li>
+	                        <li class="divider"></li>
+		                    <li><a href="/" id="logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+		                    </li>
+	                    </ul>
+                    
                     <!-- /.dropdown-user -->
                 </li>
                 <!-- /.dropdown -->
@@ -118,6 +134,8 @@
         </nav>
 
         <div id="page-wrapper">
+        
+        
         
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

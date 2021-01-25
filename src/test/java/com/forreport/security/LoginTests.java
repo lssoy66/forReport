@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -35,7 +36,7 @@ public class LoginTests {
 		String sql = "insert into tbl_user(id, password, name, phone, email, grade) values (?,?,?,?,?,?)";		
 			Connection con = null;
 			PreparedStatement pstmt = null;
-			String id = "admin22";
+			String id = "user";
 			
 			try {
 				con = ds.getConnection();
@@ -50,10 +51,10 @@ public class LoginTests {
 					pstmt.setString(6, "0");				
 				} else {
 					pstmt.setString(1, "user");
-					pstmt.setString(2, "1234");
-					pstmt.setString(3, "hong");				
+					pstmt.setString(2, pwencoder.encode("user"));
+					pstmt.setString(3, "user");				
 					pstmt.setString(4, "123123123");				
-					pstmt.setString(5, "abc@abc.com");				
+					pstmt.setString(5, "user@user.com");				
 					pstmt.setString(6, "0");	
 				}
 				pstmt.executeUpdate();
@@ -94,8 +95,8 @@ public class LoginTests {
 					pstmt.setString(1, "ROLE_ADMIN");
 					pstmt.setString(2, "admin22");				
 				} else {
-					pstmt.setString(1, "0");
-					pstmt.setString(2, "aa");
+					pstmt.setString(1, "ROLE_MEMBER");
+					pstmt.setString(2, "user");
 				}
 				pstmt.executeUpdate();
 			} catch (Exception e) {

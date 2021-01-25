@@ -433,6 +433,11 @@ div #custom {
 	display: inline-block;
 }
 
+.header__menu__right p {
+	display: inline-block;
+	color: #e3e3e3;
+}
+
 .slicknav_menu {
 	display: none;
 }

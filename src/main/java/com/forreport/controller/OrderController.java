@@ -59,6 +59,8 @@ public class OrderController {
 	public String orderProcess(OrderVO order, Model model) {
 		// 뷰 페이지로 전달해야 하는 것 : 주문정보테이블의 정보, 총 결제금액, 주문한 상품리스트, 가상계좌 정보, 주문자 정보
 		log.info(order);
+		model.addAttribute("priceAll", order.getPayprice());
+		
 		int result = service.addOrder(order);
 		log.info(result);
 		

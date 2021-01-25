@@ -35,14 +35,14 @@ public class LoginTests {
 		String sql = "insert into tbl_user(id, password, name, phone, email, grade) values (?,?,?,?,?,?)";		
 			Connection con = null;
 			PreparedStatement pstmt = null;
-			String id = "admin22";
+			String id = "admin";
 			
 			try {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(sql);				
 				
-				if(id == "admin22") {
-					pstmt.setString(1, "admin22");
+				if(id == "admin") {
+					pstmt.setString(1, "admin");
 					pstmt.setString(2, pwencoder.encode("admin"));
 					pstmt.setString(3, "admin");
 					pstmt.setString(4, "123123123");				
@@ -80,7 +80,7 @@ public class LoginTests {
 	
 	@Test
 	public void testInsertAuth() {
-		String sql = "insert into tbl_auth2 (auth, id) values (?,?)";
+		String sql = "insert into tbl_auth (auth, id) values (?,?)";
 	
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -99,17 +99,17 @@ public class LoginTests {
 				}
 				pstmt.executeUpdate();
 			} catch (Exception e) {
-			
+			e.printStackTrace();
 			} finally {
 				if(pstmt != null) {
 					try {
 						pstmt.close();
-					} catch (Exception e) { }
+					} catch (Exception e) {e.printStackTrace(); }
 				}
 				if(con != null) {
 					try {
 						con.close();
-					} catch (Exception e) { }
+					} catch (Exception e) { e.printStackTrace();}
 				}
 			}
 		

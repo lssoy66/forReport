@@ -12,6 +12,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+// Mapper의 DB 연결 설정이 root-context.xml에 지정되어 있으므로 아래 코드를 작성합니다
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 @Log4j
 public class CartMapperTests {

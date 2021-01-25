@@ -1,8 +1,12 @@
 package com.forreport.controller;
 
+import java.security.Principal;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,10 +33,10 @@ public class CartController {
 
 	// 장바구니 리스트
 	@GetMapping("cartList.fr")
-	public void cartList(Model model) {
-		//log.info("CartListController");
-		// 아이디는 세션에서 가져온다(현재 임의로 작성함!)
-		model.addAttribute("cartProductList", service.getCartList("user3"));
+	public void cartList(Model model, Principal principal) {
+		log.info("CartController userName2 :: " + principal.getName());
+		String userID = principal.getName();
+		model.addAttribute("cartProductList", service.getCartList(userID));
 	}
 
 	// 장바구니 추가 :: JSON 형식({"id":"aa","pronum":10})으로
@@ -40,7 +44,6 @@ public class CartController {
 	@ResponseBody
 	public ResponseEntity<String> writeCart(@RequestBody IdPronumVO cart) {
 		log.info("writeCartController");
-		// 아이디는 세션에서 가져온다
 		int result = service.addCart(cart);
 
 		if (result == 1) {
@@ -55,7 +58,6 @@ public class CartController {
 	@ResponseBody
 	public ResponseEntity<String> deleteCart(@RequestBody IdPronumVO cart) {
 		log.info("deleteCartController");
-		// 아이디는 세션에서 가져온다
 		int result = service.deleteCartProduct(cart);
 
 		if (result == 1) {
@@ -70,7 +72,6 @@ public class CartController {
 	@ResponseBody
 	public ResponseEntity<String> deleteCartAll(@PathVariable("id") String id) {
 		log.info("deleteCartAllController");
-		// 아이디는 세션에서 가져온다
 		int result = service.deleteCartAll(id);
 		log.info(result);
 

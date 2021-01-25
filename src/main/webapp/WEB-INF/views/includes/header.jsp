@@ -2,6 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.username" var="user_id" />
+</sec:authorize>
+
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -82,8 +89,22 @@
                             </ul>
                         </nav>
                         <div class="header__menu__right">
-                            <a href="#" class="primary-btn"><i class="fa fa-plus"></i> 회원가입</a>
-<!--                             <a href="#" class="login-btn"><i class="fa fa-user"></i></a> -->
+
+	                        <form class="logoutForm" action="/login/customLogout.fr" method="post">
+	                    		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	                   		</form>
+                            <c:if test="${user_id != null}">
+                            	<p>${user_id }님</p>
+                            	<a href="/" id="logout" class="primary-btn"> 로그아웃</a>
+                            	<sec:authorize access="hasRole('ROLE_ADMIN')">
+                            		&nbsp;<a href="/admin/orderList.fr" class="primary-btn">관리자</a>
+                            	</sec:authorize>
+                        	</c:if>
+                        	<c:if test="${user_id == null}">
+                        		<a href="/login/customLogin.fr" class="primary-btn"> 로그인</a>
+                        		<a href="#" class="primary-btn"><i class="fa fa-plus"></i> 회원가입</a>
+                        	</c:if>
+
                         </div>
                     </div>
                 </div>
@@ -101,6 +122,15 @@
     			
     			$("#inputKeyword").val(inputKeyword);
     		}
+    		
+    		// header.jsp의 로그아웃 처리
+    		$("#logout").click(function(e){
+            			
+            	e.preventDefault();
+            	$(".logoutForm").submit();
+            			
+            });
+    		
     	});
     </script>
   

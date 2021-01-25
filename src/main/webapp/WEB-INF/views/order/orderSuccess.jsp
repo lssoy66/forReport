@@ -166,16 +166,13 @@
 
 	$(document).ready(function(){
 		
-// 		var priceAll = 0;
-// 		$(".table tbody tr").each(function(i, obj){
-// 			priceAll += $(obj).data("price");
-// 		});
-		
-// 		$("#customP").html(priceAll);
-
-	
-		// 
-
+		// cartHeader.jsp의 로그아웃 처리
+		$("#logout").click(function(e){
+        			
+        	e.preventDefault();
+        	$(".logoutForm").submit();
+        			
+        });
 		
 	});
 

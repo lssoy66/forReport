@@ -132,6 +132,14 @@
 
 	$(document).ready(function(){
 		
+		// cartHeader.jsp의 로그아웃 처리
+		$("#logout").click(function(e){
+        			
+        	e.preventDefault();
+        	$(".logoutForm").submit();
+        			
+        });
+		
 		var price = "<c:out value='${price }' />";
 		var userID = "<c:out value='${user_id }' />";
 		var userName = "<c:out value='${user_name }' />";

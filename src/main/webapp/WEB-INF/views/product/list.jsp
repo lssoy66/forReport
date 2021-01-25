@@ -30,24 +30,24 @@
 					</div>
 					
 					<div class="category smallCategory">
-						<a href="list?largeCategory=<c:out value="${pageDTO.searchingVO.largeCategory}"/>
+						<a href="list.fr?largeCategory=<c:out value="${pageDTO.searchingVO.largeCategory}"/>
 									&smallCategory=0
 									&inputKeyword=${pageDTO.searchingVO.inputKeyword}">인문사회</a>
-						<a href="list?largeCategory=<c:out value="${pageDTO.searchingVO.largeCategory}"/>
+						<a href="list.fr?largeCategory=<c:out value="${pageDTO.searchingVO.largeCategory}"/>
 									&smallCategory=1
 									&inputKeyword=${pageDTO.searchingVO.inputKeyword}">자연공학</a>
-						<a href="list?largeCategory=<c:out value="${pageDTO.searchingVO.largeCategory}"/>
+						<a href="list.fr?largeCategory=<c:out value="${pageDTO.searchingVO.largeCategory}"/>
 									&smallCategory=2
 									&inputKeyword=${pageDTO.searchingVO.inputKeyword}">예술체육</a>
-						<a href="list?largeCategory=<c:out value="${pageDTO.searchingVO.largeCategory}"/>
+						<a href="list.fr?largeCategory=<c:out value="${pageDTO.searchingVO.largeCategory}"/>
 									&smallCategory=3
 									&inputKeyword=${pageDTO.searchingVO.inputKeyword}">교양</a>
 					</div>
 					<div class="category largeCategory">
-						<a href="list?largeCategory=0
+						<a href="list.fr?largeCategory=0
 									&smallCategory=999
 									&inputKeyword=${pageDTO.searchingVO.inputKeyword}">Report</a>
-						<a href="list?largeCategory=1
+						<a href="list.fr?largeCategory=1
 									&smallCategory=999
 									&inputKeyword=${pageDTO.searchingVO.inputKeyword}">Paper</a>
 					</div>
@@ -82,7 +82,7 @@
 							<td><c:out value="${list.pronum}"/></td>
 							<td>썸네일</td>
 							<td>
-								<a href="view?pronum=${list.pronum}">
+								<a href="view.fr?pronum=${list.pronum}">
 									<c:out value="${list.title}"/>
 								</a>
 							</td>
@@ -216,7 +216,7 @@
 				smallCategoryKor = "교양";
 			}
 					
-			$(".breadcrumb__option").append("<a href='list?largeCategory="+largeCategory
+			$(".breadcrumb__option").append("<a href='list.fr?largeCategory="+largeCategory
 													+"&smallCategory=999"
 													+"&inputKeyword=${pageDTO.searchingVO.inputKeyword}'>"+largeCategoryKor+"</a>"+"<span>"+smallCategoryKor+"</span>");
 		

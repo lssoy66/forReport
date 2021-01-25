@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.forreport.domain.ReviewCriteria;
 import com.forreport.domain.ReviewPageDTO;
 import com.forreport.domain.ReviewVO;
-import com.forreport.mapper.ProductMapper;
 import com.forreport.mapper.ReviewMapper;
 
 import lombok.AllArgsConstructor;

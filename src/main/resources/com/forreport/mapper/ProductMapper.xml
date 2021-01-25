@@ -114,4 +114,24 @@
 		select * from tbl_product where pronum = #{pronum}
 	</select>
 	
+	<!-- 등록 상품 내역 tbl_product에 업로드 -->
+	<insert id="uploadTblProduct">
+		insert into tbl_product values(seq_product.nextval, #{id}, #{largeCa}, #{smallCa}, #{title}, #{proname}, #{prodsc}, #{price}, sysdate, 0)
+	</insert>
+	
+	<!-- 등록 상품 내역 tbl_upload에 업로드 -->
+	<insert id="uploadTblUpload">
+		insert into tbl_upload values(seq_product.currval, #{UUID}, #{fileDirectory}, #{fileName})
+	</insert>
+	
+	<!-- UUID를 이용해서 pronum 가져오기 -->
+	<select id="getPronum" resultType="Integer">
+		select pronum from tbl_upload where UUID=#{UUID} and fileName=#{fileName} 
+	</select>	
+	
+	<!-- tbl_upload에서 썸네일 정보 가져오기 -->
+	<select id="getThumbnail" resultType="com.forreport.domain.UploadVO">
+		select * from tbl_upload where pronum = #{pronum}
+	</select>
+	
 </mapper>

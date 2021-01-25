@@ -11,9 +11,9 @@
    </insert>
    
    <select id="getOrderList" resultType="com.forreport.domain.OrderVO">
-   		select ordernum, pronum, id, paymethod, payprice, orderdate
-   		from tbl_order
-   		where id = #{id}
+   		select ordernum, tpro.proname, torder.id, paymethod, payprice, orderdate
+   		from tbl_order torder, tbl_product tpro
+   		where (torder.id = #{id}) and (torder.pronum = tpro.pronum)
    </select>
    
    <insert id="addVbank">

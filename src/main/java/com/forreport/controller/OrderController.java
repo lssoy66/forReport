@@ -1,5 +1,6 @@
 package com.forreport.controller;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.forreport.domain.IdPronumVO;
 import com.forreport.domain.OrderVO;
+import com.forreport.domain.PageDTO;
 import com.forreport.domain.ProductVO;
+import com.forreport.domain.ReviewCriteria;
 import com.forreport.service.CartService;
 import com.forreport.service.OrderService;
 
@@ -88,6 +91,14 @@ public class OrderController {
 		model.addAttribute("vbank", service.getVbank(order.getId()));
 		
 		return result > 0 ? "order/orderSuccess" : null;
+	}
+	
+	// 내 정보 - 주문리스트 페이지
+	@GetMapping("myOrderList.fr")
+	public void myOrderList(Model model, Principal principal) {
+		log.info(principal.getName());
+		log.info(service.getOrderList(principal.getName()));
+		model.addAttribute("orderList", service.getOrderList(principal.getName()));
 	}
 	
 	

@@ -149,6 +149,11 @@ div #custom {
 	padding-bottom: 100px;
 }
 
+.spad2 {
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
 .text-white h1,
 .text-white h2,
 .text-white h3,
@@ -2533,7 +2538,7 @@ td a {
 	background: #ffffff;
 /* 	수정 전 : 30 30 10 30 */
 	padding: 30px 30px 30px 30px;
-	margin-bottom: 50px;
+	margin-bottom: 20px;
 }
 
 .blog__sidebar__recent h5 {
@@ -2606,7 +2611,14 @@ td a {
 	font-size: 20px;
 	color: #323232;
 	font-weight: 600;
-	margin-bottom: 22px;
+	margin-bottom: 20px;
+}
+
+.blog__sidebar__categories h6 {
+	font-size: 18px;
+	color: #323232;
+	font-weight: 600;
+	margin-bottom: 15px;
 }
 
 .blog__sidebar__categories ul li {

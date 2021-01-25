@@ -10,8 +10,29 @@
 
 <!-- AJAX를 사용하기 위해 review.js 가져오기 -->
 <script type="text/javascript" src="/resources/js/review.js"></script>
+<script type="text/javascript" src="/resources/js/thumbnail.js"></script>
 
 <title>ForReport</title>
+
+<style>
+.bigPictureWrapper {
+		display: none;
+		justify-content: center;
+		align-items: center;
+		background-color: gray;
+		z-index: 100;
+		background: gray;
+		padding: 20px;
+	}
+	
+/*가운데 정렬*/
+.bigPicture {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+</style>
 
 </head>
 
@@ -51,18 +72,40 @@
                         <p class="showCategory">
                         	<span class="showLargeCategory">
                         		<c:choose>
-                        			<c:when test="${productVO.largeCa == 0}">Report</c:when>
-                        			<c:when test="${productVO.largeCa == 1}">Paper</c:when>
+                        			<c:when test="${productVO.largeCa == 0}">
+                        				<a href="list.fr?largeCategory=0&smallCategory=999">Report</a></c:when>
+                        			<c:when test="${productVO.largeCa == 1}">
+                        				<a href="list.fr?largeCategory=1&smallCategory=999">Paper</a></c:when>
                         			<c:otherwise>Report/Paper</c:otherwise>
                         		</c:choose>
                         	</span>
                         	> 
                         	<span class="showSmallCategroy">
                         		<c:choose>
-                        			<c:when test="${productVO.smallCa==0}">인문사회</c:when>
-                        			<c:when test="${productVO.smallCa==1}">자연공학</c:when>
-                        			<c:when test="${productVO.smallCa==2}">예술체육</c:when>
-                        			<c:when test="${productVO.smallCa==3}">교양</c:when>
+                        			<c:when test="${productVO.largeCa == 0}">
+                        				<c:choose>        			
+		                        			<c:when test="${productVO.smallCa==0}">
+		                        				<a href="list.fr?largeCategory=0&smallCategory=0">인문사회</a></c:when>
+		                        			<c:when test="${productVO.smallCa==1}">
+		                        				<a href="list.fr?largeCategory=0&smallCategory=1">자연공학</a></c:when>
+		                        			<c:when test="${productVO.smallCa==2}">
+		                        				<a href="list.fr?largeCategory=0&smallCategory=2">예술체육</a></c:when>
+		                        			<c:when test="${productVO.smallCa==3}">
+		                        				<a href="list.fr?largeCategory=0&smallCategory=3">교양</a></c:when>
+                        				</c:choose>
+                        			</c:when>
+                        			<c:when test="${productVO.largeCa == 1}">
+                        				<c:choose>
+		                        			<c:when test="${productVO.smallCa==0}">
+		                        				<a href="list.fr?largeCategory=1&smallCategory=0">인문사회</a></c:when>
+		                        			<c:when test="${productVO.smallCa==1}">
+		                        				<a href="list.fr?largeCategory=1&smallCategory=1">자연공학</a></c:when>
+		                        			<c:when test="${productVO.smallCa==2}">
+		                        				<a href="list.fr?largeCategory=1&smallCategory=2">예술체육</a></c:when>
+		                        			<c:when test="${productVO.smallCa==3}">
+		                        				<a href="list.fr?largeCategory=1&smallCategory=3">교양</a></c:when>
+	                        			</c:choose>
+                        			</c:when>
                         		 </c:choose>
                         	</span>
                         </p>
@@ -95,18 +138,14 @@
                     	<h4>콘텐츠 미리보기</h4>
                     	<!-- 만들어둔 썸네일 미리보기: 일정 시간 지나면 사진이 이동한다. -->
                     	<!-- 사진을 클릭하면 크게 보여주는 기능 추가 예정 -->
-                        <div class="listing__details__gallery__pic">
-                            <div class="listing__details__gallery__slider owl-carousel">
-                            	<img data-imgbigurl="/resources/img/listing/details/listing-details-1.jpg"
-                             		src="/resources/img/listing/details/thumb-1.jpg" alt="">
-                                <img data-imgbigurl="/resources/img/listing/details/listing-details-1.jpg"
-                                    src="/resources/img/listing/details/thumb-2.jpg" alt="">
-                                <img data-imgbigurl="/resources/img/listing/details/listing-details-1.jpg"
-                                    src="/resources/img/listing/details/thumb-3.jpg" alt="">
-                                <img data-imgbigurl="/resources/img/listing/details/listing-details-1.jpg"
-                                    src="/resources/img/listing/details/thumb-4.jpg" alt="">
-                            </div>
-                        </div>
+                    	
+                    	<div class="thumbnailShow" style="text-align:center; background-color: gray; padding: 10px">
+                    		썸네일을 보여줍니다.
+                    	</div>
+                    	<div class="bigPictureWrapper">
+                    		<div class="bigPicture">
+                    		</div>
+                    	</div>
 					</div>
 					
                     <div class="listing__details__rating">
@@ -203,9 +242,7 @@
 
 $(document).ready(function(){
 	
-	
-
-	
+		
 	/////////////////////////////////////////////////////////////////////
 	
 	/** 시큐리티를 위해 토큰 추가 */
@@ -633,6 +670,7 @@ $(document).ready(function(){
 		console.log("=================");
 		//console.log("showReviewList(-1): "+ showReviewList(-1));
 		
+		// 세션에 값을 넣어 해당 세션 값이 있는 경우는 마지막 페이지를 볼 수 있도록 처리
 		sessionStorage.setItem("reviewAddReload",true);
 			
 		window.location.reload();
@@ -643,9 +681,69 @@ $(document).ready(function(){
 		//return false;
 	}); // /* -- END:: 구매 여부 확인 필요:: #reviewForm button 클릭 이벤트*/
 
+
+	///////////////////////////////////////////////////////////////
+	
+	/* 썸네일 보여주기 + 클릭하면 원본 보여주기*/
+	
+	///////////////////////////////////////////////////////////////	
+	
+	var largeCa = '<c:out value="${productVO.largeCa}"/>'
+	var pronum = '<c:out value="${productVO.pronum}"/>'
+	var imgStr = "";
+	
+	console.log("largeCa: " + largeCa);
+	console.log("pronum: " + pronum);
+	var fileCallPath = "";
+	
+	if(largeCa==0) { // 레포트(Report) -> 3장 출력
+		for(var i = 0; i<3; i++) {
+			
+			fileCallPath = '/product/showThumbnail.fr?pronum='+pronum+'&index='+i;
+			
+			imgStr += "<a href=\"javascript:showImage(\'"+fileCallPath+"\')\">"+
+							'<img src="'+fileCallPath+'"'+
+							'alt="해당 게시글은 여기까지만 이미지 미리보기 파일이 존재합니다." style="width:200px; margin: 10px"></a>';
+		}	
+	} else if(largeCa==1) { // 논문(Paper) -> 5장 출력
+		for(var i = 0; i<5; i++) {
+			
+			fileCallPath = '/product/showThumbnail.fr?pronum='+pronum+'&index='+i;
+			
+			imgStr += "<a href=\"javascript:showImage(\'"+fileCallPath+"\')\">"+
+							'<img src="'+fileCallPath+'"'+
+							'alt="해당 게시글은 여기까지만 이미지 미리보기 파일이 존재합니다." style="width:200px; margin: 10px"></a>';
+		}
+	}
+	
+	$(".thumbnailShow").html(imgStr);
+	
+	// 보여준 원본 파일 닫기
+	$(".bigPictureWrapper").on("click", function(e){
+	
+		$(".bigPicture").animate({width: '0%', height:'0%'},1000);
+
+		setTimeout(()=>{
+			
+			$(this).hide();
+			
+		},1000)
+		
+	})
+	
+	
 	
 	
 }); // ready 끝
+
+// 원본 파일 보여주는 함수
+function showImage(fileCallPath){
+	
+	
+	$(".bigPictureWrapper").css("display","flex").show();
+	$(".bigPicture").html('<img src="'+fileCallPath+'">').animate({width: '100%', height:'100%'},1000);
+}
+
 
 </script>
 <!-- footer에서 가져옴 -->

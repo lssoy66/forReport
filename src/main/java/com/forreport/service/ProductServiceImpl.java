@@ -314,5 +314,16 @@ public class ProductServiceImpl implements ProductService {
 		return false;
 		
 	}
+	
+	/* 썸네일 정보 가져오기*/
+	@Override
+	public UploadVO getThumbnail(int pronum) {
+		return mapper.getThumbnail(pronum);
+	}
+	
+	/* UUID, fileName을 이용해서 pronum 가져오기 */
+	public Integer getPronum(String UUID, String fileName) {
+		return mapper.getPronum(UUID, fileName);
+	}
 		
 }

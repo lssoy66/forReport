@@ -187,6 +187,7 @@ $(document).ready(function(){
 					 	
 	}); // change
 	
+	
 }); // ready 끝
 
 </script>

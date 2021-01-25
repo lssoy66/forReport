@@ -1,22 +1,35 @@
 package com.forreport.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.head;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.websocket.server.PathParam;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.forreport.domain.PageDTO;
 import com.forreport.domain.ProductVO;
+import com.forreport.domain.ReviewPageDTO;
 import com.forreport.domain.SearchingVO;
 import com.forreport.domain.UploadVO;
 import com.forreport.service.ProductService;
@@ -74,7 +87,7 @@ public class ProductController {
 	
 	/* 상품 서버 등록 + DB 저장*/
 	@PostMapping("upload.fr")
-	public void productUpload(MultipartFile uploadFile, ProductVO productVO) {
+	public String productUpload(MultipartFile uploadFile, ProductVO productVO) {
 				
 		log.info("last productVO: " + productVO);
 		
@@ -143,20 +156,25 @@ public class ProductController {
 			
 			// DB 등록
 			boolean uploadResult = productService.uploadProduct(productVO, uploadVO);
-			
-			
+						
 			if(uploadResult) { // DB에도 제대로 등록이 된 경우
 				log.info("등록이 완료되었습니다.");
-			} else { // DB에 등록 안 된 경우 > 등록된 파일 삭제, 안내 문구 팝업 필요
+				
+				log.info("uploadVO.getUUID(): " + uploadVO.getUUID());
+				log.info("uploadVO.getFileName(): " + uploadVO.getFileName());
+				
+				int pronum = productService.getPronum(uploadVO.getUUID(), uploadVO.getFileName());
+				return "redirect:view.fr?pronum="+pronum;
+			} else { // DB에 등록 안 된 경우
 				log.info("등록에 실패했습니다.");
-				// 파일 삭제
+				return "redirect:write.fr";
+				
 			}
 						
 		} else { // 업로드 안 된 경우 > DB 등록 X
 			log.info("상품 등록에 실패했습니다.");
+			return "redirect:write.fr";
 		}
-		
-	
 		
 	} // END: productUpload
 	
@@ -172,4 +190,37 @@ public class ProductController {
 		return str.replace("-", File.separator);
 	}
 	
-}
+	/* 썸네일 데이터 전달하기(1개씩) */
+	@GetMapping("/showThumbnail.fr")
+	public ResponseEntity<byte[]> getThumbnail(int pronum, int index) {
+		
+		UploadVO uploadVO = productService.getThumbnail(pronum);
+		
+		File file = null;
+		ResponseEntity<byte[]> result = null;
+		HttpHeaders header = new HttpHeaders();
+			
+				
+		file = new File(uploadVO.getFileDirectory()+"\\th_"
+				+uploadVO.getUUID()+"_"+index+"_"
+				+uploadVO.getFileName().substring(0, uploadVO.getFileName().lastIndexOf("."))+".jpg");
+			
+		log.info(file);
+		
+		header = new HttpHeaders();
+		
+		try {
+			header.add("Content-type", Files.probeContentType(file.toPath()));
+			result = new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(file),header,HttpStatus.OK);
+		} catch (IOException e) {
+			byte[] nullByte = null;
+			result = new ResponseEntity<byte[]>(nullByte, HttpStatus.NO_CONTENT);
+			//e.printStackTrace();
+			
+		}
+		
+		return result;
+	}
+	
+}	
+	

@@ -2,6 +2,8 @@ package com.forreport.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.forreport.domain.ProductVO;
 import com.forreport.domain.SearchingVO;
 import com.forreport.domain.UploadVO;
@@ -22,6 +24,12 @@ public interface ProductMapper {
 	
 	/*등록 상품 내역 tbl_upload에 업로드*/
 	public int uploadTblUpload(UploadVO uploadVO);
+	
+	/* 썸네일 정보 가져오기*/
+	public UploadVO getThumbnail(int pronum);
+	
+	/* UUID, fileName을 이용해서 pronum 가져오기 */
+	public Integer getPronum(@Param("UUID") String UUID, @Param("fileName") String fileName);
 	
 	
 }

@@ -6,8 +6,8 @@
 <mapper namespace="com.forreport.mapper.OrderMapper">
   
    <insert id="addOrder">
-   		insert into tbl_order(ordernum, pronum, id, paymethod, payprice) 
-   		values(seq_order.nextval, #{pronum}, #{id}, #{paymethod}, #{payprice})
+   		insert into tbl_order(ordernum, pronum, id, paymethod, payprice, orderdate) 
+   		values(seq_order.nextval, #{pronum}, #{id}, #{paymethod}, #{payprice}, sysdate)
    </insert>
    
    <select id="getOrderList" resultType="com.forreport.domain.OrderVO">

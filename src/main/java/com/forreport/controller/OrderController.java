@@ -1,5 +1,8 @@
 package com.forreport.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,8 +67,15 @@ public class OrderController {
 		int result = service.addOrder(order);
 		log.info(result);
 		
-		// 상품번호만 다를 뿐 나머지 정보는 모두 같으므로, 해당 사용자의 첫번째 주문내역을 전달
-		model.addAttribute("order", service.getOrderList(order.getId()).get(0));
+		// 해당 사용자의 주문내역 중, 오늘 날짜인 것을 전달
+		List<OrderVO> orderList = service.getOrderList(order.getId());
+		SimpleDateFormat dataformat = new SimpleDateFormat("yyyy-MM-dd");
+		for(int i = 0; i < orderList.size(); i++) {
+			if(dataformat.format(orderList.get(i).getOrderdate()).equals(dataformat.format(new Date()))) {
+				log.info(orderList.get(i));
+				model.addAttribute("order", orderList.get(i));
+			}
+		}
 		
 		// 상품리스트를 전달
 		String[] pronumArr = new String[order.getPronumList().size()];

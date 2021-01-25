@@ -40,6 +40,11 @@
 		    		</if>
 				</trim>
 				<trim prefix="AND">
+					<if test="type.contains('C'.toString())">
+		    			to_char(orderdate) = to_date(#{keywordDay}, 'yyyy-mm-dd')
+		    		</if>
+				</trim>
+				<trim prefix="AND">
 					<if test="type.contains('O'.toString())"> 
 		    			paymethod = #{keywordOme} 
 		    		</if>
@@ -78,10 +83,11 @@
    
    <!-- 총 주문 개수 구하기 -->
    <select id="getTotalCount" resultType="int">
-   		select count(*) from tbl_order
+   		select count(*) from tbl_order torder, tbl_product tpro
    		where 
    		<include refid="criteria"></include>
-   		(ordernum > 0)
+   		(ordernum > 0) and (torder.pronum = tpro.pronum)
+   		<include refid="criteria_proname"></include>	
    </select>
   
 </mapper>

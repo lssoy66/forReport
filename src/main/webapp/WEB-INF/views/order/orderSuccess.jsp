@@ -7,6 +7,15 @@
 
 <%@ include file="../includes/cartHeader.jsp"%>
 
+<!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.username" var="user_id" />
+	<sec:authentication property="principal.user.email" var="user_email" />
+	<sec:authentication property="principal.user.phone" var="user_phone" />
+	<sec:authentication property="principal.user.name" var="user_name" />
+</sec:authorize>
+
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-area set-bg"
 	data-setbg="/resources/img/breadcrumb/breadcrumb-normal.jpg">
@@ -59,14 +68,14 @@
 						<div class="col-lg-4 col-md-4" id="custom">
 							<br>
 							${order.id }<br><br>
-							구매자폰번호<br><br>
-							구매자이메일<br><br>
+							${user_phone }<br><br>
+							${user_email }<br><br>
 							<br>
 							${order.ordernum }<br><br>
 							${order.paymethod }<br><br>
 							<fmt:formatDate pattern="yyyy-MM-dd" value="${order.orderdate }"/><br><br>
 							<br>
-							<p id="customP">${order.payprice }</p><br><br>						
+							<p id="customP">${priceAll }</p><br><br>						
 						</div>
 						
 						<div class="col-lg-3 col-md-3">
@@ -163,6 +172,9 @@
 // 		});
 		
 // 		$("#customP").html(priceAll);
+
+	
+		// 
 
 		
 	});

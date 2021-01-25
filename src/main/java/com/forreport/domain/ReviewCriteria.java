@@ -25,7 +25,6 @@ public class ReviewCriteria {
 	private String type;			// 검색 조건
 	private String keywordOnum;		// 키워드1 - 주문번호
 	private String keywordDay;		// 키워드2 - 주문일자
-	private String checkDay;
 	private String keywordPname;	// 키워드3 - 상품명
 	private String keywordOme;		// 키워드4 - 결제방식
 

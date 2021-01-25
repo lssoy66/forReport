@@ -5,6 +5,15 @@
 
 <%@ include file="../includes/cartHeader.jsp"%>
 
+<!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.username" var="user_id" />
+	<sec:authentication property="principal.user.email" var="user_email" />
+	<sec:authentication property="principal.user.phone" var="user_phone" />
+	<sec:authentication property="principal.user.name" var="user_name" />
+</sec:authorize>
+
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-area set-bg"
 	data-setbg="/resources/img/breadcrumb/breadcrumb-normal.jpg">
@@ -45,7 +54,7 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${orderProductList }" var="orderProduct">
-								<tr data-pronum="${orderProduct.pronum }">
+								<tr data-pronum="${orderProduct.pronum } " data-protitle="${orderProduct.title }">
 									<td><img src="/resources/img/listing/details/comment.png"
 										alt=""></td>
 									<td><c:out value="${orderProduct.title }" /></td>
@@ -72,9 +81,9 @@
 			</div>
 			<div class="col-lg-10 col-md-10">
 				<div class="about__text">
-					이름<br><br>
-					번호<br><br>
-					이메일
+					${user_name }<br><br>
+					${user_phone }<br><br>
+					${user_email }
 				</div>
 			</div>
 		</div>
@@ -124,7 +133,20 @@
 	$(document).ready(function(){
 		
 		var price = "<c:out value='${price }' />";
-		//console.log(price);
+		var userID = "<c:out value='${user_id }' />";
+		var userName = "<c:out value='${user_name }' />";
+		var userEmail = "<c:out value='${user_email }' />";
+		var userPhone = "<c:out value='${user_phone }' />"
+
+		var protitle = "";
+		var procount = $(".table tbody tr").length - 1;
+		
+		$(".table tbody tr").each(function(i, obj){
+			console.log($(obj).data("protitle"));
+			protitle = $(obj).data("protitle");
+		});
+		
+		
 		var IMP = window.IMP;
 		IMP.init("imp17511892");
 		
@@ -143,11 +165,11 @@
 				IMP.request_pay({ // param
 			          pg: "html5_inicis",
 			          pay_method: "card",
-			          name: "주문명:결제테스트",
-			          amount: 100,
-			          buyer_email: "lssoy66@naver.com",
-			          buyer_name: "user3",
-			          buyer_tel: "010-0000-0000"
+			          name: protitle + "외 " + procount + "건",
+			          amount: price,
+			          buyer_email: userEmail,
+			          buyer_name: userName,
+			          buyer_tel: userPhone
 			      }, function (rsp) { // callback
 			          if (rsp.success) {
 			        	  
@@ -207,11 +229,11 @@
  				IMP.request_pay({ // param
  					pg: "html5_inicis",
 			          pay_method: "vbank",
-			          name: "주문명:결제테스트",
-			          amount: 100,
-			          buyer_email: "lssoy66@naver.com",
-			          buyer_name: "user3",
-			          buyer_tel: "010-0000-0000"
+			          name: protitle + "외 " + procount + "건",
+			          amount: price,
+			          buyer_email: userEmail,
+			          buyer_name: userName,
+			          buyer_tel: userPhone
 			    }, function (rsp) { // callback
 			          if (rsp.success) {
 

@@ -101,12 +101,20 @@
 									</c:if> 
 									<tbody>
 										<tr>
-											<td><img src="/resources/img/listing/details/comment.png" alt=""></td>
-											<td><c:out value="${order.ordernum }" /></td>
-											<td><c:out value="${order.proname }" /></td>
-											<td><c:out value="${order.payprice}" /></td>
-											<td><c:out value="${order.paymethod }" /></td>
-											<td><fmt:formatDate value="${order.orderdate }" pattern="yyyy-MM-dd"/></td>
+											<td rowspan="2"><img src="/resources/img/listing/details/comment.png" alt=""></td>
+											<td>주문번호</td>
+											<td>상품명</td>
+											<td>결제금액</td>
+											<td>결제방식</td>
+											<td>-</td>
+										</tr>
+										<tr>
+											
+											<td><p><c:out value="${order.ordernum }" /></p></td>
+											<td><p><c:out value="${order.proname }" /></p></td>
+											<td><p><c:out value="${order.payprice}" /></p></td>
+											<td><p><c:out value="${order.paymethod }" /></p></td>
+											<td><button class="site-btn ">다운로드</button></td>
 										</tr>
 									</tbody>
 								</c:forEach>

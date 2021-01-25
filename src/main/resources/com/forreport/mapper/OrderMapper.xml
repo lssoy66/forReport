@@ -12,7 +12,9 @@
    
    <select id="getOrderList" resultType="com.forreport.domain.OrderVO">
    		select ordernum, tpro.proname, torder.id, paymethod, payprice, orderdate
-   		from tbl_order torder, tbl_product tpro
+   		from (select /*+INDEX_DESC(tbl_order pk_tbl_order)*/
+   			  rownum rn, ordernum, tbl_order.pronum, tbl_order.id, paymethod, payprice, orderdate
+   			  from tbl_order) torder, tbl_product tpro
    		where (torder.id = #{id}) and (torder.pronum = tpro.pronum)
    </select>
    

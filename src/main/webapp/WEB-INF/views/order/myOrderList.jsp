@@ -81,11 +81,24 @@
 						<table class="table text-center">
 								<thead>
 									<tr>
-										<th colspan="6"><fmt:formatDate value="${orderList.get(0).order.orderdate }" pattern="yyyy-MM-dd"/></th>
+										<th colspan="6">
+											<fmt:formatDate value="${orderList.get(0).orderdate }" var="day" pattern="yyyy-MM-dd"/>
+											<c:out value="${day }"></c:out>
+										</th>
 									</tr>
 								</thead>
 								<c:forEach items="${orderList }" var="order">
-									
+									<fmt:formatDate value="${order.orderdate }" var="orderdate" pattern="yyyy-MM-dd"/>
+									<c:if test="${orderdate != day}">
+										<c:set value="${orderdate }" var="day"></c:set>
+										<thead>
+											<tr> 
+												<th colspan="6"> 
+													<c:out value="${day }"></c:out> 
+												</th> 
+											</tr> 
+										</thead>
+									</c:if> 
 									<tbody>
 										<tr>
 											<td><img src="/resources/img/listing/details/comment.png" alt=""></td>
@@ -122,7 +135,7 @@
         	$(".logoutForm").submit();
         			
         });
-	
+		
 		
 	});
 	

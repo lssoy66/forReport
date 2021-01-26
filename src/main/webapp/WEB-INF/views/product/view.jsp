@@ -319,7 +319,9 @@ $(document).ready(function(){
 	/** 리뷰 처리를 위한 변수들 사전 선언 및 작성한 함수 호출 */
 	
 	/////////////////////////////////////////////////////////////////////
-		
+	
+	// 현재 페이지에 접속한 유저의 아이디
+	var reviewerId = "${user_id }";
 	// 게시글 번호 가져오기(-> 해당 게시글에 맞는 리뷰를 처리할 때 사용)
 	var pronum = '<c:out value="${productVO.pronum}"/>';
 	// 페이징 처리 입력할 하단부
@@ -532,8 +534,6 @@ $(document).ready(function(){
 			
 			/** 삭제 구현*/
 			$(".listing__details__comment__item__text a").on("click", function(e){
-						
-				//function remove(pageNum, reviewTotal){
 				
 				console.log("remove");
 				
@@ -541,27 +541,60 @@ $(document).ready(function(){
 				
 				e.preventDefault();
 				
+				// 작성자 여부 확인
+				
+				console.log("id:" + reviewerId);
+				console.log("pronum: " + pronum);
+				
 				var reviewNum = $(this).children().attr("data-reviewNum");
 				var reviewPageNum = pageNum;
+				
+				$.ajax({
+					url : '/review/deleteData.fr',
+					beforeSend : function(xhr){
+						xhr.setRequestHeader(header, token);
+					},
+					data : {"id":reviewerId, "pronum":pronum, "reviewnum":reviewNum},
+					type : 'POST',
+					dataType: 'text',
+					success : function(result){
+						
+						console.log("ajax내부 result: " + result);
+						
+						if(result==="fail"){ // 댓글 작성자와 불일치하는 경우
 							
-				console.log(typeof(reviewNum));
-				console.log("reviewNum: " + reviewNum);
+							alert("댓글 작성자만 댓글을 작성할 수 있습니다.");
+							return false;
+													
+						} else { // 댓글 작성자와 일치하는 경우
+														
+							//var reviewNum = $(this).children().attr("data-reviewNum");
+							//var reviewPageNum = pageNum;
+										
+							console.log(typeof(reviewNum));
+							console.log("reviewNum: " + reviewNum);
+							
+							reviewNum = Number(reviewNum);
+							console.log(typeof(reviewNum));
+							console.log("reviewNum: " + reviewNum);
+							
+							reviewService.remove(reviewNum*1, header, token, function(result){
+								alert(result);
+								
+								console.log("remove 호출 후 reviewTotal"+reviewTotal);
+								
+								console.log("showReviewList(pageNum): "+ showReviewList(pageNum));
+								showReviewList(pageNum);
+								
+							}, function(){
+								alert("ajax delete 실패");
+							});
+							
+						} // else 끝
+					} // ajax내부 function 끝
+				}); // ajax
 				
-				reviewNum = Number(reviewNum);
-				console.log(typeof(reviewNum));
-				console.log("reviewNum: " + reviewNum);
-
 				
-				reviewService.remove(reviewNum*1, header, token, function(result){
-					alert(result);
-				}, function(){
-					alert("ajax delete 실패");
-				});			
-				
-				console.log("remove 호출 후 reviewTotal"+reviewTotal);
-				
-				console.log("showReviewList(pageNum): "+ showReviewList(pageNum));
-				showReviewList(pageNum);
 							
 			});  
 			
@@ -641,7 +674,7 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		var reviewerId = "${user_id }";
+		//var reviewerId = "${user_id }";
 		console.log("reviewerId: " + reviewerId);
 		console.log("pronum: " + pronum);
 		
@@ -763,8 +796,7 @@ $(document).ready(function(){
 			
 		},1000)
 		
-	})
-	
+	});
 	
 	
 	

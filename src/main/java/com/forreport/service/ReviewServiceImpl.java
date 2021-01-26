@@ -92,5 +92,11 @@ public class ReviewServiceImpl implements ReviewService {
 	public int getOrderData(String id, int pronum) {
 		return orderMapper.getOrderData(id, pronum);
 	}
+	
+	@Override
+	/* 리뷰 작성자와 삭제 요청자 일치 여부 확인*/
+	public int getDeleteData(String id, int pronum, int reviewnum) {
+		return mapper.getDeleteData(id, pronum, reviewnum);
+	}
 			
 }

@@ -83,8 +83,10 @@ public class AdminController {
 		model.addAttribute("productList", productService.getProductListWithPagingInAdmin(searchingVO));
 
 		// 화면 페이지 처리를 위한 정보 전달
-		model.addAttribute("pageMaker", new PageDTO(searchingVO, productService.getTotal(searchingVO)));
-
+		model.addAttribute("pageMaker", new PageDTO(searchingVO, productService.getTotalInAdmin(searchingVO)));
+		log.info("productService.getTotalInAdmin(searchingVO): " + productService.getTotalInAdmin(searchingVO));
+		log.info("searchingVO: "+searchingVO);
+		
 		// 승인 여부 전달 -> 999는 전체 승인, 0 미승인, 1 승인, 2 승인 거부, 3 삭제 요청
 		model.addAttribute("approval", searchingVO.getApproval());
 				

@@ -146,33 +146,28 @@
 				<div class="pull-right">
 					<ul class="pagination">
 						
-						<c:if test="${pageMaker.prev }">
+						<c:if test="${pageMaker.prev}">
 							<li class="paginate_button previous"><a href="${pageMaker.startPage - 1 }">Previous</a></li>
 						</c:if>
 						
-						<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-							<li class="paginate_button ${pageMaker.criteria.pageNum == num ? "active":"" }" >
-								<a href="${num }">${num }</a></li>
+						<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+							<li class="pagination_button ${pageMaker.searchingVO.pageNum == num ? 'active':''}">
+								<a href="${num}">${num}</a></li>
 						</c:forEach>
+
 						
-						<c:if test="${pageMaker.next }">
+						<c:if test="${pageMaker.next}">
 							<li class="paginate_button next"><a href="${pageMaker.endPage + 1 }">Next</a></li>
 						</c:if>	
 					</ul>
 				</div>
 				<!-- end Pagination -->
 				
-				<form id="actionForm" action="/admin/orderList.fr" method="get">
-					<input type="hidden" name="pageNum" value="${pageMaker.criteria.pageNum }">	
-					<input type="hidden" name="amount" value="${pageMaker.criteria.amount }">
-					
-					<!-- 추가 -->
-					<input type="hidden" name="type" value='<c:out value="${pageMaker.criteria.type }"/>'>
-					<input type="hidden" name="keywordOnum" value='<c:out value="${pageMaker.criteria.keywordOnum }"/>'>
-					<input type="hidden" name="keywordDay" value='<c:out value="${pageMaker.criteria.keywordDay }"/>' >
-					<input type="hidden" name="keywordPname" value='<c:out value="${pageMaker.criteria.keywordPname }"/>' >
-					<input type="hidden" name="keywordOme" value='<c:out value="${pageMaker.criteria.keywordOme }"/>' >
-					
+				
+				<form id="actionForm" action="/admin/productList.fr" method="get">
+					<input type="hidden" name="pageNum" value="${pageMaker.searchingVO.pageNum }">	
+					<input type="hidden" name="amount" value="${pageMaker.searchingVO.amount }">
+					<input type="hidden" name="approval" value="${pageMaker.searchingVO.approval}">
 				</form>
 				
 				
@@ -199,6 +194,34 @@ $(document).ready(function(){
 	
 	console.log("header: " + header);
 	console.log("token: " + token);
+	
+	/////////////////////////////////////////////////////////////////////
+	
+	/** 페이징처리 */
+	
+	/////////////////////////////////////////////////////////////////////
+	
+	var actionForm = $("#actionForm");
+		
+	$(".paginate_button a").on("click", function(e){
+		e.preventDefault();
+		console.log("click");
+		actionForm.find("input[name='pageNum']")
+					.val($(this).attr("href"));
+		actionForm.submit();
+	});
+	
+	$(".pagination_button a").on("click", function(e){
+		e.preventDefault();
+		console.log("click");
+		actionForm.find("input[name='pageNum']")
+					.val($(this).attr("href"));
+		actionForm.submit();
+	});
+	
+	
+	
+	
 	
 	/////////////////////////////////////////////////////////////////////
 	
@@ -339,39 +362,6 @@ $(document).ready(function(){
 			return false;
 		}
 	});
-		
-		
-// 	}); // 승인 처리		
-		
-		
-	// map or list -> JSON
-// 	function approvalProcess(approvalList, header, token, callback, error){
-		
-// 		console.log(approvalMap);
-		
-// 		$.ajax({
-// 			type: 'post',
-// 			url: '/admin/approvalProcess.fr',
-// 			beforeSend : function(xhr)
-//             {   
-// 				/*데이터를 전송하기 전에 헤더에 csrf값을 설정한다 -> null체크 필수*/
-// 				if(token && header){
-// 					xhr.setRequestHeader(header, token);
-// 				}
-//             },
-// 			data: JSON.stringify(approvalList), // 서버로 데이터를 전송할 때 사용하는 옵션
-// 			contentType: "application/json; charset=utf-8",
-// 			success: function(result, status, xhr){
-// 				if(callback){
-// 					callback(result);
-// 				}
-// 			}, error: function(xhr, stauts, er){
-// 				if(error){
-// 					error(er);
-// 				}
-// 			}
-			
-// 		});
 		
 });
 </script>

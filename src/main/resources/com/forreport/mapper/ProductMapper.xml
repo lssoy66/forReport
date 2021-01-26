@@ -163,10 +163,15 @@
 	</select>	
 	
 	<!-- 관리자 페이지 조건에 맞는 상품 개수를 가져온다. -->
-	<select id="getTotalInAdmin">
+	<select id="getTotalInAdmin" resultType="Integer">
 		select count(*)
 		from tbl_product
-		where approval = #{approval}
+		 
+		<choose>
+			<when test="approval!=999">
+				where approval = #{approval}
+			</when>
+		</choose>	
 	</select>
 	
 	<!-- 관리자 페이지 - 상품 승인 변경 -->

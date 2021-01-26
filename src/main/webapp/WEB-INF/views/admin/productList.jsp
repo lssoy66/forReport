@@ -115,7 +115,7 @@
 									</c:when>
 								</c:choose>
 								<td><c:out value="${product.pronum}" /></td>
-								<td><a href="#"><c:out value="${product.title }" /></a></td>				
+								<td><a href="/product/view.fr?pronum=${product.pronum}"><c:out value="${product.title }" /></a></td>				
 								<td>
 									<a href="download.fr?pronum=${product.pronum}"><c:out value="${product.proname}"/></a>
 								</td>

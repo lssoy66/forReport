@@ -2,10 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-
-<!-- 스프링 시큐리티에서 로그인 사용자 정보 가져오기 -->
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
+<!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.username" var="user_id" />
+</sec:authorize>
 
 <!DOCTYPE html>
 <html>
@@ -13,7 +15,6 @@
 
 <!-- AJAX를 사용하기 위해 review.js 가져오기 -->
 <script type="text/javascript" src="/resources/js/review.js"></script>
-<script type="text/javascript" src="/resources/js/thumbnail.js"></script>
 
 <title>ForReport</title>
 
@@ -40,12 +41,6 @@
 </head>
 
 <%@ include file="../includes/header.jsp"%>
-
-<!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
-<sec:authorize access="isAuthenticated()">
-                    <sec:authentication property="principal.username" var="user_id" />
-</sec:authorize>
-
 
 <!-- 상단표시: Listing Section Begin -->
 <section class="listing-hero set-bg" data-setbg="/resources/img/listing/details/listing-hero.jpg">
@@ -635,11 +630,10 @@ $(document).ready(function(){
 
 	/** AJAX를 이용해서 리뷰 등록하기 */	
 	/*구매 여부 확인 필요:: #reviewForm button 클릭 이벤트*/
+	
 	$("#reviewForm button").on("click", function(e){
 		
 		e.preventDefault();
-		
-		console.log("리뷰 등록 버튼 클릭시 일시 멈춤");
 		
 		// 리뷰를 작성하지 않은 경우 별점 등록 불가
 		if(!$(".review").val()){
@@ -647,46 +641,78 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		var ratingCnt = 0; // 체크된 별의 개수
-		$("i[name=checked]").each(function(i){
-			ratingCnt += 1;
+		var reviewerId = "${user_id }";
+		console.log("reviewerId: " + reviewerId);
+		console.log("pronum: " + pronum);
+		
+		// 비회원은 댓글 작성 불가
+		if(reviewerId == ""){
+			alert("구매한 회원만 댓글을 작성할 수 있습니다.");
+			return false;
+		}
+		
+		// ajax는 비동기식으로 2개를 병렬로 사용할 경우 원하는 값을 못얻는 경우 발생 >> ajax안에 ajax를 넣어서 해결
+		// 로그인 정보 확인 -> 구매 여부 확인
+		$.ajax({
+			url : '/review/orderData.fr',
+			beforeSend : function(xhr){
+				xhr.setRequestHeader(header, token);
+			},
+			data : {"id":reviewerId, "pronum":pronum},
+			type : 'POST',
+			dataType: 'text',
+			success : function(result){
+				
+				if(result==="fail"){ // 구매하지 않은 회원인 경우
+					
+					alert("구매자만 댓글을 작성할 수 있습니다.");
+					console.log("failResult: " + result);
+					booleanChk = false;
+					console.log("failResult__booleanChk: " + booleanChk);
+					
+				} else { // 구매한 회원인 경우
+					
+					console.log("successResult: " + result);
+				
+					// 체크된 별의 개수
+					var ratingCnt = 0; 
+					$("i[name=checked]").each(function(i){
+						ratingCnt += 1;
+					});
+					
+					console.log("ratingCnt: " + ratingCnt);
+					
+					//var id = reviewerId; 
+					var review = $(".review");
+					
+					var addReview = {
+							pronum: ${productVO.pronum},
+							id: reviewerId,
+							review: review.val(),
+							rate: ratingCnt
+					};
+					
+					// 댓글 등록 시큐리티 토큰 헤더 추가
+					reviewService.add(addReview, header, token, function(result){
+						alert(result);
+					});
+										
+					// 댓글 등록 후 리뷰, 별점 리셋
+					review.val("");
+					$("i[name=checked]").css("color", "gray");
+					$("i[name=checked]:nth-child(1)").css("color", "orange");
+					$("i[name=checked]").nextAll("i").attr("name", 'unchecked');
+					$("i[name=checked]:nth-child(1)").nextAll("i").attr("name", 'unchecked');
+										
+					// 세션에 값을 넣어 해당 세션 값이 있는 경우는 마지막 페이지를 볼 수 있도록 처리
+					sessionStorage.setItem("reviewAddReload",true);					
+					
+					// 새로고침하여 결과 확인
+					window.location.reload();
+				}
+			}
 		});
 		
-		var id = 'aa'; // 임시 아이디
-		var review = $(".review");
-		
-		var addReview = {
-				pronum: ${productVO.pronum},
-				id: id, // 임시로 지정
-				review: review.val(),
-				rate: ratingCnt
-		};
-		
-		// 댓글 등록 시큐리티 토큰 헤더 추가
-		reviewService.add(addReview, header, token, function(result){
-			alert(result);
-		});
-		
-		
-		// 댓글 등록 후 리뷰, 별점 리셋
-		review.val("");
-		$("i[name=checked]").css("color", "gray");
-		$("i[name=checked]:nth-child(1)").css("color", "orange");
-		$("i[name=checked]").nextAll("i").attr("name", 'unchecked');
-		$("i[name=checked]:nth-child(1)").nextAll("i").attr("name", 'unchecked');
-		
-		console.log("=================");
-		//console.log("showReviewList(-1): "+ showReviewList(-1));
-		
-		// 세션에 값을 넣어 해당 세션 값이 있는 경우는 마지막 페이지를 볼 수 있도록 처리
-		sessionStorage.setItem("reviewAddReload",true);
-			
-		window.location.reload();
-		
-		
-		//showReviewList(-1);
-		//showReviewList(0);
-		//return false;
 	}); // /* -- END:: 구매 여부 확인 필요:: #reviewForm button 클릭 이벤트*/
 
 
@@ -773,8 +799,7 @@ $(document).ready(function(){
 }); // ready 끝
 
 // 원본 파일 보여주는 함수
-function showImage(fileCallPath){
-	
+function showImage(fileCallPath){	
 	
 	$(".bigPictureWrapper").css("display","flex").show();
 	$(".bigPicture").html('<img src="'+fileCallPath+'">').animate({width: '100%', height:'100%'},1000);

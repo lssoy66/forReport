@@ -33,4 +33,5 @@ public interface ReviewMapper {
 	public int getRateOne(@Param("pronum") int pronum);
 	
 	
+	
 }

@@ -68,7 +68,7 @@
 								<th>승인 체크</th>
 								<th>상품번호</th>
 								<td>상품명</td>
-								<td>상품 다운로드</td>
+								<td>파일명(상품 다운로드)</td>
 								<td>판매자ID</td>
 								<td>업로드 일자</td>
 								<td>승인 여부</td>
@@ -116,7 +116,9 @@
 								</c:choose>
 								<td><c:out value="${product.pronum}" /></td>
 								<td><a href="#"><c:out value="${product.title }" /></a></td>				
-								<td>파일을 클릭하세요.</td>
+								<td>
+									<a href="download.fr?pronum=${product.pronum}"><c:out value="${product.proname}"/></a>
+								</td>
 								<td><c:out value="${product.id }" /></td>	
 								<td><fmt:formatDate value="${product.uploadDate}" pattern="yyyy-MM-dd"/></td>
 								<td>

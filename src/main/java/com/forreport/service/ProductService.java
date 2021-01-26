@@ -27,7 +27,7 @@ public interface ProductService {
 	/* 제품 등록 */
 	public boolean uploadProduct(ProductVO productVO, UploadVO uploadVO);
 	
-	/* 썸네일 정보 가져오기*/
+	/* 썸네일 정보 가져오기 +@ 관리자 페이지 파일 다운로드 구현*/
 	public UploadVO getThumbnail(int pronum);
 	
 	/* UUID, fileName을 이용해서 pronum 가져오기 */

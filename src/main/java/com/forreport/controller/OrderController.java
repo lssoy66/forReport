@@ -1,5 +1,9 @@
 package com.forreport.controller;
 
+import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.forreport.domain.IdPronumVO;
 import com.forreport.domain.OrderVO;
+import com.forreport.domain.PageDTO;
 import com.forreport.domain.ProductVO;
+import com.forreport.domain.ReviewCriteria;
 import com.forreport.service.CartService;
 import com.forreport.service.OrderService;
 
@@ -64,8 +70,15 @@ public class OrderController {
 		int result = service.addOrder(order);
 		log.info(result);
 		
-		// 상품번호만 다를 뿐 나머지 정보는 모두 같으므로, 해당 사용자의 첫번째 주문내역을 전달
-		model.addAttribute("order", service.getOrderList(order.getId()).get(0));
+		// 해당 사용자의 주문내역 중, 오늘 날짜인 것을 전달
+		List<OrderVO> orderList = service.getOrderList(order.getId());
+		SimpleDateFormat dataformat = new SimpleDateFormat("yyyy-MM-dd");
+		for(int i = 0; i < orderList.size(); i++) {
+			if(dataformat.format(orderList.get(i).getOrderdate()).equals(dataformat.format(new Date()))) {
+				log.info(orderList.get(i));
+				model.addAttribute("order", orderList.get(i));
+			}
+		}
 		
 		// 상품리스트를 전달
 		String[] pronumArr = new String[order.getPronumList().size()];
@@ -78,6 +91,14 @@ public class OrderController {
 		model.addAttribute("vbank", service.getVbank(order.getId()));
 		
 		return result > 0 ? "order/orderSuccess" : null;
+	}
+	
+	// 내 정보 - 주문리스트 페이지
+	@GetMapping("myOrderList.fr")
+	public void myOrderList(Model model, Principal principal) {
+		log.info(principal.getName());
+		log.info(service.getOrderList(principal.getName()));
+		model.addAttribute("orderList", service.getOrderList(principal.getName()));
 	}
 	
 	

@@ -101,6 +101,14 @@
 
 	$(document).ready(function(){
 		
+		// cartHeader.jsp의 로그아웃 처리
+		$("#logout").click(function(e){
+        			
+        	e.preventDefault();
+        	$(".logoutForm").submit();
+        			
+        });
+		
 		var cartProductList = '<c:out value="${cartProductList.isEmpty() }" />';
 // 		console.log(typeof(cartProductList));
 

@@ -101,8 +101,10 @@
 									</c:if> 
 									<tbody>
 										<tr>
-											<td rowspan="2"><img src='/product/showThumbnail.fr?pronum=${order.pronum}&index=0' 
-																alt='' style='width:100px; height: 100px; margin: 0px'></td>
+											<td rowspan="2" class="tdImg">
+												<img src='/product/showThumbnail.fr?pronum=${order.pronum}&index=0' 
+													alt='' style='width:100px; height: 100px; margin: 0px'>
+											</td>
 											<td>주문번호</td>
 											<td>상품명</td>
 											<td>결제금액</td>
@@ -112,7 +114,7 @@
 										<tr>
 											
 											<td><p><c:out value="${order.ordernum }" /></p></td>
-											<td><p><c:out value="${order.proname }" /></p></td>
+											<td><p><a href="/product/view.fr?pronum=${order.pronum}"><c:out value="${order.proname }" /></a></p></td>
 											<td><p><c:out value="${order.payprice}" /></p></td>
 											<td><p><c:out value="${order.paymethod }" /></p></td>
 											<c:if test="${order.paymethod == 'vBank' }">
@@ -121,7 +123,7 @@
 												가상계좌</button></td>
 											</c:if>
 											<c:if test="${order.paymethod == 'card' }">
-												<td><button class="site-btn ">다운로드</button></td>
+												<td><button class="site-btn download" data-pronum="${order.pronum}">다운로드</button></td>
 											</c:if>
 										</tr>
 									</tbody>
@@ -202,6 +204,14 @@
 		
 		$("#myModal").find(".btn").click(function(e){
 			$("#myModal").modal("hide");
+		});
+		
+		// 첨부파일 다운로드
+		$(".download").click(function(e){
+			
+			var pronum = $(this).data("pronum");
+			self.location = "/product/download?pronum=" + pronum;
+			
 		});
 		
 		

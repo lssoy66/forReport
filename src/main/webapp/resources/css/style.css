@@ -1934,6 +1934,10 @@ td a {
 	position: relative;
 }
 
+.listing__details__comment__item__text a{
+	color: black;
+}
+
 .listing__details__comment__item__text .listing__details__comment__item__rating {
 	position: absolute;
 	right: 0;

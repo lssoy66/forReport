@@ -233,6 +233,18 @@ div #custom {
 	border-color: #f03250;
 }
 
+#customButtonVbank {
+	font-size: 14px;
+	color: #f03250;
+	font-weight: 700;
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 13px 30px 12px;
+	background: white;
+	border: 1px solid;
+	border-color: #f03250;
+}
+
 /* Preloder */
 
 #preloder {
@@ -1404,7 +1416,10 @@ td a:hover {
 	color: red;
 }
 
-
+.thCustom th {
+	background-color: #f2f2f2;
+	text-align: right;
+}
 
 
 td a {

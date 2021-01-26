@@ -764,7 +764,13 @@ $(document).ready(function(){
 			contentType : 'application/json; charset=utf-8',
 			type : 'POST',
 			success : function(result){
-				alert(result + " :: 장바구니에 상품이 담겼습니다.");
+				if(result == 'notAddCart'){
+					alert("이미 장바구니에 등록된 상품입니다.");
+				}else if(result == 'notAddOrder'){
+					alert("이미 구매한 상품입니다.");
+				}else if(result == 'success'){
+					alert("장바구니에 상품이 담겼습니다.");
+				}
 			}
 		}); // ajax 끝
 		

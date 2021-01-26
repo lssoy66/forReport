@@ -26,6 +26,7 @@ import com.forreport.domain.OrderVO;
 import com.forreport.domain.PageDTO;
 import com.forreport.domain.ProductVO;
 import com.forreport.domain.ReviewCriteria;
+import com.forreport.domain.VbankVO;
 import com.forreport.service.CartService;
 import com.forreport.service.OrderService;
 
@@ -76,7 +77,9 @@ public class OrderController {
 		for(int i = 0; i < orderList.size(); i++) {
 			if(dataformat.format(orderList.get(i).getOrderdate()).equals(dataformat.format(new Date()))) {
 				log.info(orderList.get(i));
-				model.addAttribute("order", orderList.get(i));
+				if(order.getPronum() == orderList.get(i).getPronum()) {
+					model.addAttribute("order", orderList.get(i));
+				}
 			}
 		}
 		
@@ -96,12 +99,12 @@ public class OrderController {
 	// 내 정보 - 주문리스트 페이지
 	@GetMapping("myOrderList.fr")
 	public void myOrderList(Model model, Principal principal) {
-		log.info(principal.getName());
-		log.info(service.getOrderList(principal.getName()));
+//		log.info(principal.getName());
+//		log.info(service.getOrderList(principal.getName()));
 		model.addAttribute("orderList", service.getOrderList(principal.getName()));
+		log.info(service.getVbank(principal.getName()));
+		model.addAttribute("vbank", service.getVbank(principal.getName()));
 	}
-	
-	
 	
 }
 

@@ -29,6 +29,7 @@ import com.forreport.domain.ReviewCriteria;
 import com.forreport.domain.VbankVO;
 import com.forreport.service.CartService;
 import com.forreport.service.OrderService;
+import com.forreport.service.ProductService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -40,6 +41,7 @@ import lombok.extern.log4j.Log4j;
 public class OrderController {
 
 	private OrderService service;
+	private ProductService productService;
 	
 	// 주문 페이지 출력(사용자가 선택한 상품의 정보를 화면에 표시)
 	@PostMapping("order.fr")
@@ -104,6 +106,15 @@ public class OrderController {
 		model.addAttribute("orderList", service.getOrderList(principal.getName()));
 		log.info(service.getVbank(principal.getName()));
 		model.addAttribute("vbank", service.getVbank(principal.getName()));
+	}
+	
+	// 내 정보 - 판매리스트 페이지
+	@GetMapping("mySaleList.fr")
+	public void mySaleList(Model model, Principal principal) {
+		List<ProductVO> list = productService.getProductById(principal.getName());
+		model.addAttribute("saleList", list);
+		// mapper에서 판매리스트를 가져올 때 인덱스/힌트를 사용해 정렬 
+		// + tbl_order 테이블에서 해당 상품의 판매 수(count) 구해 전달
 	}
 	
 }

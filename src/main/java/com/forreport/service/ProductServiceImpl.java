@@ -325,5 +325,11 @@ public class ProductServiceImpl implements ProductService {
 	public Integer getPronum(String UUID, String fileName) {
 		return mapper.getPronum(UUID, fileName);
 	}
+
+	/* 수연 추가 :: 사용자(판매자)가 등록한 상품 전체 가져오기 */
+	@Override
+	public List<ProductVO> getProductById(String id) {
+		return mapper.getProductById(id);
+	}
 		
 }

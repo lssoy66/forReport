@@ -114,6 +114,11 @@
 		select * from tbl_product where pronum = #{pronum}
 	</select>
 	
+	<!-- 수연 추가 :: 사용자(판매자)가 등록한 상품 전체 가져오기 -->
+	<select id="getProductById" resultType="com.forreport.domain.ProductVO">
+		select * from tbl_product where id = #{id}
+	</select>
+	
 	<!-- 등록 상품 내역 tbl_product에 업로드 -->
 	<insert id="uploadTblProduct">
 		insert into tbl_product values(seq_product.nextval, #{id}, #{largeCa}, #{smallCa}, #{title}, #{proname}, #{prodsc}, #{price}, sysdate, 0)

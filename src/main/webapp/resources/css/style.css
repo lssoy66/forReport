@@ -1421,6 +1421,13 @@ td a:hover {
 	text-align: right;
 }
 
+.thCustom2 th {
+	background-color: #f2f2f2;
+	text-align: center;
+	margin: auto;
+}
+
+
 
 td a {
 	color: black;

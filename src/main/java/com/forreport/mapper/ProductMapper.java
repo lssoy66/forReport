@@ -31,5 +31,7 @@ public interface ProductMapper {
 	/* UUID, fileName을 이용해서 pronum 가져오기 */
 	public Integer getPronum(@Param("UUID") String UUID, @Param("fileName") String fileName);
 	
+	/* 수연 추가 :: 사용자(판매자)가 등록한 상품 전체 가져오기 */
+	public List<ProductVO> getProductById(String id);
 	
 }

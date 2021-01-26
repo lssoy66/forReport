@@ -31,10 +31,14 @@
 	</select>
 	
 	<!-- 아이디 찾기 -->
-	<select id="findIdProcess" parameterType="String" resultType="String">
-		select id from member where email = #{email}
+	<select id="findId" resultType="String">
+		select id from tbl_user where email = #{email}
 	</select>
 
+	<!-- 비밀번호 변경 -->
+<!-- 	<update id="findPw">
+		update tbl_user set password = #{password} where id = #{id} and email = #{email}
+	</update> -->
 
 	<!-- p662 ~ 3 : Mybatis를 사용하기 위한 xml -->
 	<resultMap type="com.forreport.domain.UserVO" id="userMap">

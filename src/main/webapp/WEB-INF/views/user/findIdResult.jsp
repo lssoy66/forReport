@@ -26,7 +26,7 @@
 			<h3>아이디 찾기 검색결과</h3>
 		</div>
 		<div>
-			<h5>${ id }</h5>
+			<h5>${ id}</h5>
 			<p class="w3-center">
 				<button type="button" id=loginBtn
 					class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round">Login</button>
@@ -38,11 +38,11 @@
 </div>
 
 <script>
-	$(function(){
-		$("#loginBtn").click(function(){
-			location.href='/';
-		})
-	})
+$(function(){
+	$("#loginBtn").click(function(){
+		location.href='../user/login.fr';
+	});
+});
 </script>
 
 <%@ include file="../includes/footer.jsp"%>

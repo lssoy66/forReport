@@ -1,6 +1,10 @@
 package com.forreport.service;
 
+import java.io.PrintWriter;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,9 +51,30 @@ public class UserServiceImpl implements UserService {
 
 	// 아이디 찾기
 	@Override
-	public String findId(String email) throws Exception {
-
-		return userMapper.findId(email);
+	public String findId(HttpServletResponse response, String email) throws Exception {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		String id = userMapper.findId(email);
+		
+		if (id == null) {
+			out.println("<script>");
+			out.println("alert('가입된 아이디가 없습니다.');");
+			out.println("history.go(-1);");
+			out.println("</script>");
+			out.close();
+			return null;
+		} else {
+			return id;
+		} 
 	}
+
+	/*
+	 * // 비밀번호 찾기
+	 * 
+	 * @Override public String findPw(String id, String email) throws Exception {
+	 * 
+	 * return userMapper.findPw(id, email); }
+	 */
+
 
 }

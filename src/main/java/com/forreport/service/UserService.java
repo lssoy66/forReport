@@ -2,6 +2,8 @@ package com.forreport.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.forreport.domain.UserVO;
 
 public interface UserService {
@@ -19,5 +21,11 @@ public interface UserService {
 	public int idCheck(String id) throws Exception;
 
 	// 아이디 찾기
-	public String findId(String email) throws Exception;
+	public String findId(HttpServletResponse response, String email) throws Exception;
+
+	// 비밀번호 찾기
+	/*
+	 * public String findPw(String id, String email) throws Exception;
+	 */
+
 }

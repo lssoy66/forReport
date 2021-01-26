@@ -4,15 +4,20 @@ package com.forreport.controller;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.forreport.domain.UserVO;
@@ -148,10 +153,64 @@ public class UserController {
 	}
 	
 	// 아이디 찾기
-	@RequestMapping("/findIdProcess.fr")
-	public String findIdProcess(String email) throws Exception{
-		log.info("findIdProcess");
-		
+	@PostMapping("/findIdProcess.fr")
+	public String find_id(HttpServletResponse response, @RequestParam("email") String email, Model md) throws Exception{
+		md.addAttribute("id", userService.findId(response, email));
 		return "/user/findIdResult";
 	}
+	
+	/*
+	 * @ResponseBody
+	 * 
+	 * @PostMapping("/findIdProcess.fr") public String findIdProcess(String email)
+	 * throws Exception{ log.info("findIdProcess");
+	 * 
+	 * String result = userService.findId(email);
+	 * 
+	 * if (result != "") { return result; } else { return null; } }
+	 */
+	
+	// 아이디 찾기 결과 페이지 이동
+	@RequestMapping("/findIdResult.fr")
+	public void findIdResult() throws Exception{
+		log.info("findIdResult");
+	}
+	
+	// 비밀번호 찾기 페이지 이동
+	@RequestMapping("/findPw.fr")
+	public void findPw() throws Exception{
+		log.info("findPw");
+	}
+	
+	// 비밀번호 찾기& 변경
+	/*
+	 * @RequestMapping("/findPwProcess.fr")
+	 * 
+	 * @ResponseBody public String findPwProcess(UserVO vo) throws Exception { //
+	 * 이메일로 받는 임시 비밀번호 부분 (난수) Random r = new Random(); int newPw =
+	 * r.nextInt(888888) + 111111;
+	 * 
+	 * log.info("임시 비번 = " + newPw);
+	 * 
+	 * // 이메일 발송 String setFrom = "forreport0202@gmail.com"; String toMail =
+	 * vo.getEmail(); String title = "[For Report] 임시 비밀번호 안내 이메일 입니다."; String
+	 * content = "임시 비밀번호입니다." + "<br><br>" + vo.getId() + "님의 임시 비밀번호는 " + newPw +
+	 * " 입니다." + "<br><br>" + "비밀번호를 변경 후 사용하세요.";
+	 * 
+	 * try { MimeMessage message = mailSender.createMimeMessage(); MimeMessageHelper
+	 * helper = new MimeMessageHelper(message, true, "UTF-8");
+	 * 
+	 * helper.setFrom(setFrom); // 보내는사람 생략하면 정상작동을 안함 helper.setTo(toMail); // 받는사람
+	 * 이메일 helper.setSubject(title); // 메일제목은 생략 가능 helper.setText(content); // 메일
+	 * 내용
+	 * 
+	 * mailSender.send(message);
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); }
+	 * 
+	 * String num = Integer.toString(newPw);
+	 * 
+	 * return num; }
+	 */
+
 }

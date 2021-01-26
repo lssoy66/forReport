@@ -32,6 +32,14 @@ public interface ProductService {
 	
 	/* UUID, fileName을 이용해서 pronum 가져오기 */
 	public Integer getPronum(String UUID, String fileName);
+	
+	/* 관리자 페이지 - 페이징 처리된 상품 목록 전달*/
+	public List<ProductVO> getProductListWithPagingInAdmin(SearchingVO searchingVO);
 
-
+	/* 관리자 페이지 조건에 맞는 상품 개수를 가져온다.*/
+	public int getTotalInAdmin(SearchingVO searchingVO);
+	
+	/* 관리자 페이지 - 상품 승인 변경*/
+	public int updateApproval(ProductVO productVO);
+	
 }

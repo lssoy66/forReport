@@ -322,8 +322,25 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	/* UUID, fileName을 이용해서 pronum 가져오기 */
+	@Override
 	public Integer getPronum(String UUID, String fileName) {
 		return mapper.getPronum(UUID, fileName);
+	}
+	
+	/* 관리자 페이지 - 페이징 처리된 상품 목록 전달*/
+	@Override
+	public List<ProductVO> getProductListWithPagingInAdmin(SearchingVO searchingVO){
+		return mapper.getProductListWithPagingInAdmin(searchingVO);
+	}
+	
+	/* 관리자 페이지 조건에 맞는 상품 개수를 가져온다.*/
+	public int getTotalInAdmin(SearchingVO searchingVO) {
+		return mapper.getTotalInAdmin(searchingVO);
+	}
+	
+	/* 관리자 페이지 - 상품 승인 변경*/
+	public int updateApproval(ProductVO productVO) {
+		return mapper.updateApproval(productVO);
 	}
 		
 }

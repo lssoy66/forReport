@@ -14,7 +14,7 @@ public class PageDTO {
 	private ReviewCriteria criteria;
 
 	/* 그 외 정보: 페이지 하단에 표시될 페이지 번호의 개수: 10 */
-
+	/* 상품 목록 + 관리자 상품 목록 모두 사용*/
 	public PageDTO(SearchingVO searchingVO, int total) {
 
 		/*

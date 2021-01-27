@@ -127,7 +127,7 @@
 	            	</c:choose>
 	            	<!-- Writer인 경우 삭제 요청 버튼을 누를 수 있다.(writer에게만 보임) -->
 	            	<c:choose>            		
-	            		<c:when test="${user_id==productVO.id}">
+	            		<c:when test="${user_id==productVO.id and productVO.approval!=3}">
 	            			<a href="#" class="primary-btn share-btn deleteRequest"><i class="fa fa-bookmark"></i> 삭제 요청</a>
 	            		</c:when>
 	            	</c:choose>
@@ -578,7 +578,7 @@ $(document).ready(function(){
 						
 						if(result==="fail"){ // 댓글 작성자와 불일치하는 경우
 							
-							alert("댓글 작성자만 댓글을 작성할 수 있습니다.");
+							alert("댓글 작성자만 댓글을 삭제할 수 있습니다.");
 							return false;
 													
 						} else { // 댓글 작성자와 일치하는 경우
@@ -823,13 +823,14 @@ $(document).ready(function(){
 			beforeSend : function(xhr){
 				xhr.setRequestHeader(header, token);
 			},
-			data : {"pronum":pronum},
+			data : {"pronum":pronum, "id":reviewerId},
 			dataType : 'text',
 			type : 'POST',
 			success : function(result){
 				
 				if(result=="success"){
 					alert(result + " :: 삭제 요청되어 정상 처리되어 게시글을 숨김처리합니다.");
+					window.location.reload();
 				} else {
 					alert(result + " :: 삭제 요청이 등록되지 않았습니다.");
 				}

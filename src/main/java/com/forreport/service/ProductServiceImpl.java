@@ -385,7 +385,34 @@ public class ProductServiceImpl implements ProductService {
 	};
 	
 	/* view - 삭제 요청(숨김처리) */
-	public int deleteRequest(int pronum) {
-		return mapper.deleteRequest(pronum);
+	@Transactional
+	public int deleteRequestAndGrade(int pronum, String id) {
+		
+		int resultDeleteApproval = mapper.deleteRequest(pronum);
+		
+		int count = mapper.countApproval(id); // 업로드 게시글 확인
+		System.out.println("id: " + id);
+		System.out.println("해당 게시글 유저 업로드 개수__: "+ count);
+
+		int resultUpdateUser = 0;
+		int grade = 0;
+		if(count >= 15) {
+			grade = 3; // 골드
+			resultUpdateUser = userMapper.updateGrade(id, grade);
+		} else if(count >= 10) {
+			grade = 2; // 실버
+			resultUpdateUser = userMapper.updateGrade(id, grade);
+		} else if(count >= 5) {
+			grade = 1; // 브론즈
+			resultUpdateUser = userMapper.updateGrade(id, grade);
+		} else if(count <5) {
+			grade = 0; // 일반
+			resultUpdateUser = userMapper.updateGrade(id, grade);
+
+		}
+		System.out.println("grade: " + grade);
+		System.out.println("회원 등급 변경__resultUpdateUser: " + resultUpdateUser);
+		
+		return resultDeleteApproval + resultUpdateUser;
 	};
 }

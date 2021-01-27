@@ -246,11 +246,11 @@ public class ProductController {
 	/* 게시글 삭제 요청 > 승인을 삭제 요청으로 변경 >> 관리자가 추후에 승인거부(숨김처리)해준다. */
 	@PostMapping("/deleteRequest.fr")
 	@ResponseBody
-	public String deleteRequest(Integer pronum) {
+	public String deleteRequest(Integer pronum, String id) {
 		
 		log.info("deleteRequest pronum: " + pronum);
 		
-		String result = productService.deleteRequest(pronum)==1 ? "success" : "fail";
+		String result = productService.deleteRequestAndGrade(pronum,id)==2 ? "success" : "fail";
 		
 		return result;
 	}

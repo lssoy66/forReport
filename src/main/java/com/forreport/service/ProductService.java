@@ -46,6 +46,6 @@ public interface ProductService {
 	public int getGrade(String id);
 	
 	/* view - 삭제 요청(숨김처리) */
-	public int deleteRequest(int pronum);
+	public int deleteRequestAndGrade(int pronum, String id);
 	
 }

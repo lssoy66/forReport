@@ -32,5 +32,10 @@ public interface ReviewMapper {
 	public int getRateTwo(@Param("pronum") int pronum);
 	public int getRateOne(@Param("pronum") int pronum);
 	
+	/* 리뷰 작성자와 삭제 요청자 일치 여부 확인*/
+	public int getDeleteData(@Param("id") String id, @Param("pronum") int pronum, @Param("reviewnum") int reviewnum);
+
+	
+	
 	
 }

@@ -102,15 +102,15 @@
                             <a href="#"><i class="fa fa-group fa-fw"></i> 회원관리</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-file-text-o fa-fw"></i> 상품관리<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="flot.html">Flot Charts</a>
-                                </li>
-                                <li>
-                                    <a href="morris.html">Morris.js Charts</a>
-                                </li>
-                            </ul>
+                            <a href="/admin/productList.fr?approval=999"><i class="fa fa-file-text-o fa-fw"></i> 상품관리<span class="fa arrow"></span></a>
+<!--                             <ul class="nav nav-second-level"> -->
+<!--                                 <li> -->
+<!--                                     <a href="flot.html">Flot Charts</a> -->
+<!--                                 </li> -->
+<!--                                 <li> -->
+<!--                                     <a href="morris.html">Morris.js Charts</a> -->
+<!--                                 </li> -->
+<!--                             </ul> -->
                             <!-- /.nav-second-level -->
                         </li>
                         <li>

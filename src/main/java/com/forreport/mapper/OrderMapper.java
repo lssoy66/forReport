@@ -26,4 +26,7 @@ public interface OrderMapper {
 	// 총 주문 수 가져오기
 	public int getTotalCount(ReviewCriteria criteria);
 	
+	// 특정 상품의 총 주문 수 가져오기
+	public int getTotalCountByPronum(long pronum);
+	
 }

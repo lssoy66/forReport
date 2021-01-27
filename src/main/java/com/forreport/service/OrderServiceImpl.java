@@ -111,6 +111,7 @@ public class OrderServiceImpl implements OrderService {
 	public int getTotalCount(ReviewCriteria criteria) {
 		return mapper.getTotalCount(criteria);
 	}
+
 	
 	
 	

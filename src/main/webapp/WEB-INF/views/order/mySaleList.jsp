@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<!-- 차트 그리기 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 <%@ include file="../includes/cartHeader.jsp"%>
 
 <!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
@@ -77,11 +80,40 @@
 					
 					<h5>나의 판매내역</h5>
 					
+					<!-- 총 금액 & 차트 -->
+					<div class="listing__details__comment">
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-5" style="text-align: center">
+									<br><br>
+									<h5>총 수익금</h5>
+									<h1 style="color: #23a16a; font-size: 60px; display: inline">
+									<b><c:out value="${priceAll }" /></b></h1><p style="display: inline; font-size: 25px">원</p>
+									<br><br>
+									<p style="display: inline">내가 등록한 자료</p> : 
+									<p style="display: inline; font-size: 20px; color: #23a16a">${saleCount }개</p>
+									
+								</div>
+								<div class="col-lg-7" style="text-align: center">
+									<h5>판매 수 TOP 5</h5>
+									<canvas id="myChart1"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<br>
+					
+					<!-- 차트 -->
+					<div class="listing__details__comment">
+						<canvas id="myChart1"></canvas>
+					</div>
+					
+					<!-- 판매내역 테이블 -->
 					<div class="listing__details__comment saleList">
+					
 						<table class="table text-center thCustom2">
-								
 							<tr>
-								<th></th>
 								<th>상품번호</th>
 								<th>상품명</th>
 								<th>가격</th>
@@ -89,35 +121,81 @@
 								<th>판매 수</th>
 								<th>승인여부</th>
 							</tr>
-								<c:forEach items="${saleList }" var="sale">
-										<tr>
-											<td class="tdImg">
-												<img src='/product/showThumbnail.fr?pronum=${sale.pronum}&index=0' 
-													alt='' style='width:100px; height: 100px; margin: 0px'>
-											</td>
-											<td><p><c:out value="${sale.pronum }" /></p></td>
-											<td><p><a href="/product/view.fr?pronum=${sale.pronum}"><c:out value="${sale.proname }" /></a></p></td>
-											<td><p><c:out value="${sale.price}" /></p></td>
-											<td><p><fmt:formatDate value="${sale.uploadDate }" pattern="yyyy-MM-dd"/></p></td>
-											<c:choose>
-												<c:when test="${sale.approval == 1 }">
-													<td style="color: blue">승인</td>
-												</c:when>
-												<c:when test="${sale.approval == 2 }">
-													<td style="color: red">승인거부</td>
-												</c:when>
-												<c:when test="${sale.approval == 3 }">
-													<td style="color: red">삭제요청</td>
-												</c:when>
-												<c:otherwise>
-													<td style="color: black">승인대기</td>
-												</c:otherwise>
-											</c:choose>
-										</tr>
-									
-								</c:forEach>
+							<c:forEach items="${saleList }" var="sale">
+							<tbody>
+								<tr data-price="${sale.price }">
+									<td><p><c:out value="${sale.pronum }" /></p></td>
+									<td><p><a href="/product/view.fr?pronum=${sale.pronum}"><c:out value="${sale.proname }" /></a></p></td>
+									<td><p><c:out value="${sale.price}" /></p></td>
+									<td><p><fmt:formatDate value="${sale.uploadDate }" pattern="yyyy-MM-dd"/></p></td>
+									<td><c:out value="${sale.count }" /> </td>
+									<c:choose>
+										<c:when test="${sale.approval == 1 }">
+											<td style="color: blue">승인</td>
+										</c:when>
+										<c:when test="${sale.approval == 2 }">
+											<td style="color: red">승인거부</td>
+										</c:when>
+										<c:when test="${sale.approval == 3 }">
+											<td style="color: red">삭제요청</td>
+										</c:when>
+										<c:otherwise>
+											<td style="color: black">승인대기</td>
+										</c:otherwise>
+									</c:choose>
+								</tr>
+							</tbody>
+							</c:forEach>
 							
 						</table>
+						
+						<div class="saleListDescCountDiv">
+							<c:forEach items="${saleListDescCount }" var="saleListCount">
+								<div data-proname="${saleListCount.proname }"
+									data-count="${saleListCount.count}"></div>
+							</c:forEach>
+						</div>
+						
+						<!-- start Pagination -->
+						<div class="pull-right">
+							<div class="blog__pagination">
+								
+								<c:if test="${pageMaker.prev }">
+									<a href="${pageMaker.startPage - 1 }">
+										<i class="fa fa-long-arrow-left"></i> Previous
+									</a>
+								</c:if>
+								
+								<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+									<c:choose>
+										<c:when test="${pageMaker.criteria.pageNum==num}">
+											<a href="${num }">
+												<strong style="color:red">${num}</strong>
+											</a>
+										</c:when>
+										<c:otherwise>
+											<a href="${num }">
+												${num}
+											</a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+								
+								<c:if test="${pageMaker.next }">
+									<a href="${pageMaker.endPage + 1 }">
+										Next<i class="fa fa-long-arrow-right"></i>
+									</a>
+								</c:if>	
+								
+							</div>
+						</div>
+						<!-- end Pagination -->
+						
+						<form id="actionForm" action="/order/mySaleList.fr" method="get">
+							<input type="hidden" name="pageNum" value="${pageMaker.criteria.pageNum }">	
+							<input type="hidden" name="amount" value="${pageMaker.criteria.amount }">
+						</form>
+					
 					</div>
 					
 				</div>
@@ -152,6 +230,56 @@
 				$(".saleList").html("<h5>판매한 상품이 없습니다.</h5>");
 			}
 		} 
+		
+		// 페이징 처리
+		var actionForm = $("#actionForm");
+		
+		$(".blog__pagination a").on("click", function(e){
+			e.preventDefault();
+			console.log("click");
+			actionForm.find("input[name='pageNum']")
+						.val($(this).attr("href"));
+			actionForm.submit();
+		}); 
+		
+		
+		// 차트를 만들기 위해 판매개수로 정렬된 상품을 다섯 개 가져온다(판매 수(count) + 상품명(proname))
+		var arrCount = [];
+		var arrProname = [];
+		
+		// 즉시실행함수
+		(function(){
+			$(".saleListDescCountDiv div").each(function(i, obj){
+				if(i < 5){
+					arrCount[i] = $(obj).data("count");
+					arrProname[i] = $(obj).data("proname");
+				}
+			});
+		})();
+		
+		// 차트1 - 도넛(판매 수 TOP 5)
+		data = { 
+				datasets: [{ 
+					backgroundColor: ['#48d484','#23a16a','#83c998', '#b7c9c5', '#93faa1'], 
+					data: arrCount
+				}], 
+				// 라벨의 이름이 툴팁처럼 마우스가 근처에 오면 나타남 
+				labels: arrProname
+		}; 
+		
+		var ctx1 = $("#myChart1"); 
+		var donutOptions = { 
+				legend: {position:'bottom', padding:5, 
+				labels: {pointStyle:'circle', usePointStyle:true}} 
+		};
+
+		var myPieChart = new Chart(ctx1, { 
+			type: 'doughnut', 
+			data: data, 
+			options: donutOptions
+		});
+
+		
 		
 	});
 	

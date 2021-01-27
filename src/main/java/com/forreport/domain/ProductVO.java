@@ -17,5 +17,8 @@ public class ProductVO {
 	private long price; /*가격*/
 	private Date uploadDate; /*작성일*/
 	private long approval; /*승인여부*/
+	
+	// 수연 추가 :: 판매 개수
+	private int count;
 
 }

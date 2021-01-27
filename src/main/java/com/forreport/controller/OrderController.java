@@ -3,6 +3,7 @@ package com.forreport.controller;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.forreport.domain.IdPronumVO;
+import com.forreport.domain.MiniComparator;
 import com.forreport.domain.OrderVO;
 import com.forreport.domain.PageDTO;
 import com.forreport.domain.ProductVO;
@@ -110,11 +112,37 @@ public class OrderController {
 	
 	// 내 정보 - 판매리스트 페이지
 	@GetMapping("mySaleList.fr")
-	public void mySaleList(Model model, Principal principal) {
-		List<ProductVO> list = productService.getProductById(principal.getName());
+	public void mySaleList(Model model, Principal principal, ReviewCriteria criteria) {
+		
+		// 한 페이지 당 4개씩 출력
+		criteria.setAmount(4);
+		
+		// 판매자의 등록 상품 + 각 상품의 판매(주문) 수(페이징 처리했으므로, 4개의 ProductVO)
+		List<ProductVO> list = productService.getProductById(principal.getName(), criteria);
 		model.addAttribute("saleList", list);
-		// mapper에서 판매리스트를 가져올 때 인덱스/힌트를 사용해 정렬 
-		// + tbl_order 테이블에서 해당 상품의 판매 수(count) 구해 전달
+		
+		// criteria + 판매자가 등록한 상품의 총 개수 사용하여 화면 페이징 처리를 위한 PageDTO 객체 생성
+		model.addAttribute("pageMaker", 
+				new PageDTO(criteria, productService.getTotalCountById(principal.getName())));
+	
+		// 총 수익금(판매자의 모든 등록 상품 리스트를 가져온 후, 각각의 가격과 주문 개수(count)를 사용해 총 수익금 전달)
+		List<ProductVO> listAll = productService.getProductByIdNotPaging(principal.getName());
+		int sum = 0;	// 총 수익금
+		for(ProductVO product : listAll) {
+			if(product.getCount() > 0) {
+				sum += product.getPrice() * product.getCount();
+			}
+		}
+		
+		model.addAttribute("priceAll", sum);
+		model.addAttribute("saleCount", listAll.size());	// 판매자의 등록 자료 개수
+		
+		// 판매 수 내림차순으로 정렬한 판매자 등록 상품 리스트 전달
+		MiniComparator comp = new MiniComparator();
+		Collections.sort(listAll, comp);
+		model.addAttribute("saleListDescCount", listAll);
+	
+		
 	}
 	
 }

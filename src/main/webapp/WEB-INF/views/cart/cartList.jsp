@@ -138,10 +138,9 @@
         	$(".logoutForm").submit();
         			
         });
-		
-		var cartProductList = '<c:out value="${cartProductList.isEmpty() }" />';
-// 		console.log(typeof(cartProductList));
 
+		var cartProductList = '<c:out value="${cartProductList.isEmpty() }" />';
+		
 		// 스프링 시큐리티 토큰 전달
 		var csrfHeaderName = "${_csrf.headerName}";
 		var csrfTokenValue = "${_csrf.token}";
@@ -151,9 +150,10 @@
 			$("input[type='checkbox']").each(function(){
 				$(this).prop("checked", false);
 			});
+			
+			checkCartList(cartProductList);
+			
 		})();	// end function 
-		
-		checkCartList(cartProductList);
 		
 		function checkCartList(cartProductList){
 			console.log("checkCartList");
@@ -226,7 +226,10 @@
 				contentType : "application/json; charset=utf-8",
 				type : 'POST',
 				success : function(result){
-					alert(result);
+					//alert(result);
+					if($(".cartProduct_item").length == 0){
+						$(".cartList").html("<h5>장바구니에 담긴 상품이 없습니다.</h5>");
+					}
 				}
 			});	 // end ajax
 		
@@ -247,7 +250,7 @@
 					dataType : 'text',
 					type : 'DELETE',
 					success : function(result){
-						alert(result);
+						//alert(result);
 					}
 				});	 // end ajax
 			} else {

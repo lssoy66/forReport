@@ -7,6 +7,7 @@
 <head>
 <!-- header.jsp에 있는 내용으로 여기서는 주석처리: <meta charset="UTF-8"> -->
 <title>ForReport</title>
+
 </head>
 
 <%@ include file="../includes/header.jsp"%>
@@ -79,17 +80,21 @@
     			<tbody>
     				<c:forEach items="${productList}" var="list">
 						<tr class="pronumList">
-							<td><c:out value="${list.pronum}"/></td>
-							<td>썸네일</td>
-							<td>
+							<td style="vertical-align: middle"><c:out value="${list.pronum}"/></td>
+							<td style="vertical-align: middle">
+								<img src="/product/showThumbnail.fr?pronum=${list.pronum}&index=0"
+									 alt="썸네일 없음"
+									 style="height:50px">
+							</td>
+							<td style="vertical-align: middle">
 								<a href="view.fr?pronum=${list.pronum}">
 									<c:out value="${list.title}"/>
 								</a>
 							</td>
-							<td><c:out value="${list.id}"/></td>
-							<td><fmt:formatDate value="${list.uploadDate}" pattern="yyyy-MM-dd"/></td>
-							<td class="avgRate" value='<c:out value="${list.pronum}"/>'>별점</td>
-							<td class="reviewTotal" value='<c:out value="${list.pronum}"/>'>댓글수</td>
+							<td style="vertical-align: middle"><c:out value="${list.id}"/></td>
+							<td style="vertical-align: middle"><fmt:formatDate value="${list.uploadDate}" pattern="yyyy-MM-dd"/></td>
+							<td style="vertical-align: middle" class="avgRate" value='<c:out value="${list.pronum}"/>'>별점</td>
+							<td style="vertical-align: middle" class="reviewTotal" value='<c:out value="${list.pronum}"/>'>댓글수</td>
 						</tr>
 					</c:forEach>	
     				

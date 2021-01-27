@@ -77,8 +77,8 @@ public class AdminController {
 		log.info("criteria.getApproval(): " + searchingVO.getApproval());		
 		
 		log.info("productList: " + productService.getProductListWithPagingInAdmin(searchingVO));
-		log.info(new PageDTO(searchingVO, productService.getTotal(searchingVO)));
-		
+		log.info("new PageDTO(searchingVO, productService.getTotal(searchingVO): " + new PageDTO(searchingVO, productService.getTotal(searchingVO)));
+		log.info("productService.getTotal(searchingVO): " + productService.getTotal(searchingVO));
 		// 페이징 처리된 상품 목록 전달
 		model.addAttribute("productList", productService.getProductListWithPagingInAdmin(searchingVO));
 

@@ -58,6 +58,8 @@ public class ProductController {
 		List<ProductVO> productList = productService.getProductListWithPaging(searchingVO);
 				
 		model.addAttribute("pageDTO", pageDTO);
+		
+		log.info(pageDTO.getEndPage());
 		model.addAttribute("productList", productList);		
 		
 	}

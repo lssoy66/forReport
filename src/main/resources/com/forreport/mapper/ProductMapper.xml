@@ -67,6 +67,7 @@
 		]]>
 		<include refid="getListAboutCategory"/>
 		<include refid="useInputKeyword"/>
+		and approval = 1
 		<![CDATA[
 				)
 			where
@@ -106,7 +107,8 @@
 					]]> 
 					<include refid="useInputKeyword"/>
 				</when>
-		</choose>		
+		</choose>
+		and approval = 1	
 	</select>
 	
 	<!-- 상품번호에 맞는 상품정보 전체 가져오기 -->

@@ -10,7 +10,7 @@ import com.forreport.domain.UploadVO;
 
 public interface ProductMapper {
 	
-	/*전체 리스트 가져오기*/
+	/*전체 리스트 가져오기 (approval=1로 고정)*/
 	public List<ProductVO> getProductListWithPaging(SearchingVO searchingVO);
 	
 	/*전체 게시글 개수 가져오기*/

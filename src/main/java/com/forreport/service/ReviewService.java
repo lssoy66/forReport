@@ -28,5 +28,11 @@ public interface ReviewService {
 	/*특정 리뷰 번호 리뷰 삭제하기*/
 	public int removeReview(int reviewNum);
 	
+	/* 리뷰작성자가 해당 제품 구매했는지 여부 확인 */
+	public int getOrderData(String id, int pronum);
+	
+	/* 리뷰 작성자와 삭제 요청자 일치 여부 확인*/
+	public int getDeleteData(String id, int pronum, int reviewnum);
+	
 	
 }

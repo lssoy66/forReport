@@ -91,9 +91,17 @@
    		<include refid="criteria_proname"></include>	
    </select>
    
+
    <!-- 특정 상품의 총 주문 개수 구하기 -->
    <select id="getTotalCountByPronum" resultType="int">
    		select count(*) from tbl_order where pronum = #{pronum}
+ 
+   
+   
+   <!-- 은지: 리뷰 작성자가 해당 제품 구매했는지 여부 확인 -->
+   <select id="getOrderData" resultType="int">
+   	 	select count(*) from tbl_order where id = #{id} and pronum=#{pronum}
+
    </select>
   
 </mapper>

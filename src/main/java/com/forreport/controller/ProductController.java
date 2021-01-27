@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -64,6 +63,8 @@ public class ProductController {
 		List<ProductVO> productList = productService.getProductListWithPaging(searchingVO);
 				
 		model.addAttribute("pageDTO", pageDTO);
+		
+		log.info(pageDTO.getEndPage());
 		model.addAttribute("productList", productList);		
 		
 	}
@@ -75,7 +76,25 @@ public class ProductController {
 		ProductVO productVO = productService.getProduct(pronum);
 		
 		System.out.println(productVO);
-						
+		
+		int writerGradeInt = productService.getGrade(productVO.getId());
+		System.out.println("writerGrade: " + writerGradeInt);
+		
+		String writerGrade = "";
+		
+		if(writerGradeInt==0) {
+			writerGrade = "일반";
+		} else if(writerGradeInt==1) {
+			writerGrade = "브론즈";
+		} else if(writerGradeInt==2) {
+			writerGrade = "실버";
+		} else if(writerGradeInt==3) {
+			writerGrade = "골드";
+
+		}
+		
+		
+		model.addAttribute("writerGrade", writerGrade);
 		model.addAttribute("productVO", productVO);
 	}
 	
@@ -228,6 +247,7 @@ public class ProductController {
 		return result;
 	}
 	
+
 	// 첨부파일 다운로드
 	// 상품번호를 전달받아 tbl_upload 테이블에 존재하는 상품 가져오도록
 	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -274,6 +294,18 @@ public class ProductController {
 		}
 		
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+
+	/* 게시글 삭제 요청 > 승인을 삭제 요청으로 변경 >> 관리자가 추후에 승인거부(숨김처리)해준다. */
+	@PostMapping("/deleteRequest.fr")
+	@ResponseBody
+	public String deleteRequest(Integer pronum, String id) {
+		
+		log.info("deleteRequest pronum: " + pronum);
+		
+		String result = productService.deleteRequestAndGrade(pronum,id)==2 ? "success" : "fail";
+		
+		return result;
+
 	}
 	
 }	

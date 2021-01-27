@@ -42,5 +42,8 @@ public interface ProductMapper {
 	
 	/* 회원 등급 조정용 - 해당 유저의 아이디로 업로드된 게시물 중 승인된(approval=1) 게시글 개수 세기*/
 	public int countApproval(String id);
+	
+	/* view - 삭제 요청(숨김처리) */
+	public int deleteRequest(int pronum);
 		
 }

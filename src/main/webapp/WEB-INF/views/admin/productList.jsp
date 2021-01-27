@@ -113,7 +113,7 @@
 											<form:hidden path="productVOList[${i.index}].pronum" value="${product.pronum}"/>
 											<form:hidden class="productVOListProdsc" name="productVOList[${i.index}]" path="productVOList[${i.index}].prodsc" value="NoChange"/>
 											<form:hidden path="productVOList[${i.index}].id" value="${product.id}"/>
-											<form:radiobutton path="productVOList[${i.index}].approval" data-value="delete" value="2"/>승인거부 <!-- 2 -->
+											<form:radiobutton path="productVOList[${i.index}].approval" data-value="delete" value="2"/>삭제승인(승인거부로 처리) <!-- 2 -->
 <%-- 											<input id="approvalChk${product.pronum}" name="deleteRadio${product.pronum}" type="radio" data-num="${product.pronum}" data-value="delete" value=2>삭제승인 --%>
 										</td>
 									</c:when>

@@ -192,4 +192,14 @@
 		from tbl_product
 		where id = #{id} and approval = 1
 	</select>
+	
+	<!-- view: 삭제 요청으로 approval 변경 -->
+	<update id="deleteRequest">
+		update
+			tbl_product
+		set
+			approval = 3
+		where
+			pronum = #{pronum}
+	</update>
 </mapper>

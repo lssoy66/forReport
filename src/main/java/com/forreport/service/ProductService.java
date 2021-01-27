@@ -45,4 +45,7 @@ public interface ProductService {
 	/* view - 작성자 등급 보여주기*/
 	public int getGrade(String id);
 	
+	/* view - 삭제 요청(숨김처리) */
+	public int deleteRequest(int pronum);
+	
 }

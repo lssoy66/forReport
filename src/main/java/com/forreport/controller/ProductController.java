@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.forreport.domain.PageDTO;
@@ -238,6 +239,18 @@ public class ProductController {
 			//e.printStackTrace();
 			
 		}
+		
+		return result;
+	}
+	
+	/* 게시글 삭제 요청 > 승인을 삭제 요청으로 변경 >> 관리자가 추후에 승인거부(숨김처리)해준다. */
+	@PostMapping("/deleteRequest.fr")
+	@ResponseBody
+	public String deleteRequest(Integer pronum) {
+		
+		log.info("deleteRequest pronum: " + pronum);
+		
+		String result = productService.deleteRequest(pronum)==1 ? "success" : "fail";
 		
 		return result;
 	}

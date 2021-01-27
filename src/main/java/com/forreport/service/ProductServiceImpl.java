@@ -383,5 +383,9 @@ public class ProductServiceImpl implements ProductService {
 	public int getGrade(String id) {
 		return userMapper.getGrade(id);
 	};
-		
+	
+	/* view - 삭제 요청(숨김처리) */
+	public int deleteRequest(int pronum) {
+		return mapper.deleteRequest(pronum);
+	};
 }

@@ -117,15 +117,24 @@
                 </div>
             </div>
             <div class="col-lg-4">
-            	<!-- 승인된 제품만 장바구니 버튼 보여준다. -->
-            	<c:choose>            		
-            		<c:when test="${productVO.approval==1}">
-            			<div class="listing__hero__btns">
-		                	<a href="${productVO.proname}" class="primary-btn cartAdd"><i class="fa fa-bookmark"></i> 장바구니</a>
-		                </div>
-            		</c:when>
-            	</c:choose>
+            	
+            	<div class="listing__hero__btns">
+	            	<!-- 승인된 제품만 장바구니 버튼 보여준다. -->
+	            	<c:choose>            		
+	            		<c:when test="${productVO.approval==1}">
+	            			<a href="${productVO.proname}" class="primary-btn cartAdd"><i class="fa fa-bookmark"></i> 장바구니</a>
+			              </c:when>
+	            	</c:choose>
+	            	<!-- Writer인 경우 삭제 요청 버튼을 누를 수 있다.(writer에게만 보임) -->
+	            	<c:choose>            		
+	            		<c:when test="${user_id==productVO.id}">
+	            			<a href="#" class="primary-btn share-btn deleteRequest"><i class="fa fa-bookmark"></i> 삭제 요청</a>
+	            		</c:when>
+	            	</c:choose>
+            	 </div>
+            	
             </div>
+            
         </div>
     </div>
 </section>
@@ -791,7 +800,7 @@ $(document).ready(function(){
 	
 	$(".thumbnailShow").html(imgStr);
 	
-	// 보여준 원본 파일 닫기
+	// 보여준 원본 파일 닫기 -> 원본 파일 보여주는 함수는 ready 외부에 있다.
 	$(".bigPictureWrapper").on("click", function(e){
 	
 		$(".bigPicture").animate({width: '0%', height:'0%'},1000);
@@ -801,6 +810,31 @@ $(document).ready(function(){
 			$(this).hide();
 			
 		},1000)
+		
+	});
+			
+	// 상품 삭제 요청 시 삭제 요청으로 approval 변경/*
+	$(".deleteRequest").click(function(e){
+		e.preventDefault();
+		console.log("deleteRequest pronum: " + pronum);
+		
+		$.ajax({
+			url : '/product/deleteRequest.fr',
+			beforeSend : function(xhr){
+				xhr.setRequestHeader(header, token);
+			},
+			data : {"pronum":pronum},
+			dataType : 'text',
+			type : 'POST',
+			success : function(result){
+				
+				if(result=="success"){
+					alert(result + " :: 삭제 요청되어 정상 처리되어 게시글을 숨김처리합니다.");
+				} else {
+					alert(result + " :: 삭제 요청이 등록되지 않았습니다.");
+				}
+			}
+		}); // ajax 끝
 		
 	});
 	

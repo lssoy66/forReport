@@ -17,7 +17,8 @@
                 <div class="col-lg-12">
                     <div class="hero__text">
                         <div class="section-title">
-                            <h2>ForReport</h2>
+<!--                             <h2>ForReport</h2> -->
+							<img alt="" src="/resources/img/logo_for.png"><br><br>
                             <p>검증형 시스템으로 당신에게 딱 맞는 정보를 찾아보세요.</p>
                         </div>
                         <div class="hero__search__form">

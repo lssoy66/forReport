@@ -64,15 +64,19 @@
                                 <li class="active"><a href="#">마이페이지/로그인</a>
                                 	<ul class="dropdown">
                                         <li><a href="/cart/cartList.fr">장바구니</a></li>
-                                        <li><a href="#">주문내역</a></li>
+                                        <li><a href="/order/myOrderList.fr">주문내역</a></li>
                                         <li><a href="#">내 정보 수정</a></li>
                                     </ul>
                                 </li>
                             </ul>
                         </nav>
                         <div class="header__menu__right">
+                            <form class="logoutForm" action="/login/customLogout.fr" method="post">
+	                    		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	                   		</form>
                             <c:if test="${user_id != null}">
-                            		<p>${user_id }님</p>
+                            	<p>${user_id }님</p>
+                            	<a href="/" id="logout" class="primary-btn"> 로그아웃</a>
                             	<sec:authorize access="hasRole('ROLE_ADMIN')">
                             		&nbsp;<a href="/admin/orderList.fr" class="primary-btn">관리자</a>
                             	</sec:authorize>
@@ -89,6 +93,7 @@
         </div>
     </header>
     <!-- Header Section End -->
+    
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     

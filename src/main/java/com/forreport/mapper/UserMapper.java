@@ -22,7 +22,16 @@ public interface UserMapper {
 	
 	public UserVO read(String id);
 	
+
 	
+
+
+	// 아이디 찾기
+	public String findId(String email) throws Exception;
+	
+	// 비밀번호 찾기
+//	public String findPw(String id, String email) throws Exception;
+  
 	// 은지 - 등급 업데이트
 	public int updateGrade(@Param("id") String id, @Param("grade")int grade);
 

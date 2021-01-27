@@ -104,10 +104,10 @@
 					
 					<br>
 					
-					<!-- 차트 -->
-					<div class="listing__details__comment">
-						<canvas id="myChart1"></canvas>
-					</div>
+<!-- 					차트 -->
+<!-- 					<div class="listing__details__comment"> -->
+<%-- 						<canvas id="myChart1"></canvas> --%>
+<!-- 					</div> -->
 					
 					<!-- 판매내역 테이블 -->
 					<div class="listing__details__comment saleList">

@@ -68,6 +68,7 @@
                             <p></p>
                             <div>
 	                            <div> 작성자: <c:out value="${productVO.id}"/> &nbsp;</div>
+	                            <div> 작성자 등급: <c:out value="${writerGrade}"/> </div><br>
 	                            <div> 가격: <c:out value="${productVO.price}"/> &nbsp;</div>
 	                            <div> 게시일 <fmt:formatDate value="${productVO.uploadDate}" pattern="yyyy-MM-dd"/></div>                      
                             </div> 
@@ -116,9 +117,14 @@
                 </div>
             </div>
             <div class="col-lg-4">
-            	<div class="listing__hero__btns">
-                	<a href="${productVO.proname}" class="primary-btn cartAdd"><i class="fa fa-bookmark"></i> 장바구니</a>
-                </div>
+            	<!-- 승인된 제품만 장바구니 버튼 보여준다. -->
+            	<c:choose>            		
+            		<c:when test="${productVO.approval==1}">
+            			<div class="listing__hero__btns">
+		                	<a href="${productVO.proname}" class="primary-btn cartAdd"><i class="fa fa-bookmark"></i> 장바구니</a>
+		                </div>
+            		</c:when>
+            	</c:choose>
             </div>
         </div>
     </div>

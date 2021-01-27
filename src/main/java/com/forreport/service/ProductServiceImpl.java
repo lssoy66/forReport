@@ -343,6 +343,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	/* 관리자 페이지 - 상품 승인 변경 + 회원 등급 변경*/
 	// 상품 승인 변경 -> 해당 아이디로 업로드된 게시글 확인 -> 만약 기준 통과했으면 회원 등급 변경
+	@Override
 	@Transactional
 	public int updateApprovalAndGrade(ProductVO productVO) {
 		
@@ -377,5 +378,10 @@ public class ProductServiceImpl implements ProductService {
 		// 승인 변경 + 권한 변경 = 2
 		// 승인변경 = 1
 	}
+	
+	/* view - 작성자 등급 보여주기*/
+	public int getGrade(String id) {
+		return userMapper.getGrade(id);
+	};
 		
 }

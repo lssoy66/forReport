@@ -42,4 +42,7 @@ public interface ProductService {
 	/* 관리자 페이지 - 상품 승인 변경 + 회원 등급 변경*/
 	public int updateApprovalAndGrade(ProductVO productVO);
 	
+	/* view - 작성자 등급 보여주기*/
+	public int getGrade(String id);
+	
 }

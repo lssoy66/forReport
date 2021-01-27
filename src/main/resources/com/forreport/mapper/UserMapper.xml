@@ -70,5 +70,10 @@
   		where
   			id = #{id}
   	</update>
+  	
+  	<!-- 은지 - view페이지 - 회원 등급 보여주기 -->
+  	<select id="getGrade" resultType="int">
+  		select grade from tbl_user where id= #{id}
+  	</select>
   
 </mapper>

@@ -26,4 +26,6 @@ public interface UserMapper {
 	// 은지 - 등급 업데이트
 	public int updateGrade(@Param("id") String id, @Param("grade")int grade);
 
+	/* 은지  - view - 작성자 등급 보여주기*/
+	public int getGrade(String id);
 }

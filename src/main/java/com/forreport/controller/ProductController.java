@@ -71,7 +71,25 @@ public class ProductController {
 		ProductVO productVO = productService.getProduct(pronum);
 		
 		System.out.println(productVO);
-						
+		
+		int writerGradeInt = productService.getGrade(productVO.getId());
+		System.out.println("writerGrade: " + writerGradeInt);
+		
+		String writerGrade = "";
+		
+		if(writerGradeInt==0) {
+			writerGrade = "일반";
+		} else if(writerGradeInt==1) {
+			writerGrade = "브론즈";
+		} else if(writerGradeInt==2) {
+			writerGrade = "실버";
+		} else if(writerGradeInt==3) {
+			writerGrade = "골드";
+
+		}
+		
+		
+		model.addAttribute("writerGrade", writerGrade);
 		model.addAttribute("productVO", productVO);
 	}
 	

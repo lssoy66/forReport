@@ -185,4 +185,11 @@
 		where
 			pronum = #{pronum}
 	</update>
+	
+	<!-- 관리자 페이지 - 상품 승인된 콘텐츠 개수 세기 -->
+	<select id="countApproval" resultType="Integer">
+		select count(*)
+		from tbl_product
+		where id = #{id} and approval = 1
+	</select>
 </mapper>

@@ -39,5 +39,8 @@ public interface ProductMapper {
 	
 	/* 관리자 페이지 - 상품 승인 변경*/
 	public int updateApproval(ProductVO productVO);
+	
+	/* 회원 등급 조정용 - 해당 유저의 아이디로 업로드된 게시물 중 승인된(approval=1) 게시글 개수 세기*/
+	public int countApproval(String id);
 		
 }

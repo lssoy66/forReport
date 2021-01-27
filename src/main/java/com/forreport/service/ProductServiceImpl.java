@@ -40,6 +40,7 @@ import com.forreport.domain.ProductVO;
 import com.forreport.domain.SearchingVO;
 import com.forreport.domain.UploadVO;
 import com.forreport.mapper.ProductMapper;
+import com.forreport.mapper.UserMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -50,6 +51,8 @@ import lombok.extern.log4j.Log4j;
 public class ProductServiceImpl implements ProductService {
 
 	private ProductMapper mapper;
+	
+	private UserMapper userMapper;
 	
 	/*검색조건을 넣어 ProductList를 가져온다.*/
 	@Override
@@ -338,9 +341,41 @@ public class ProductServiceImpl implements ProductService {
 		return mapper.getTotalInAdmin(searchingVO);
 	}
 	
-	/* 관리자 페이지 - 상품 승인 변경*/
-	public int updateApproval(ProductVO productVO) {
-		return mapper.updateApproval(productVO);
+	/* 관리자 페이지 - 상품 승인 변경 + 회원 등급 변경*/
+	// 상품 승인 변경 -> 해당 아이디로 업로드된 게시글 확인 -> 만약 기준 통과했으면 회원 등급 변경
+	@Transactional
+	public int updateApprovalAndGrade(ProductVO productVO) {
+		
+		// 상품 승인 변경
+		int resultUpdateApproval = mapper.updateApproval(productVO);
+		System.out.println("싱픔 승인 변경__resultUpdateApproval:"+ resultUpdateApproval);
+		
+		int count = mapper.countApproval(productVO.getId()); // 업로드 게시글 확인
+		System.out.println("productVO.getId(): " + productVO.getId());
+		System.out.println("해당 게시글 유저 업로드 개수__: "+ count);
+
+		int resultUpdateUser = 0;
+		int grade = 0;
+		if(count >= 15) {
+			grade = 3; // 골드
+			resultUpdateUser = userMapper.updateGrade(productVO.getId(), grade);
+		} else if(count >= 10) {
+			grade = 2; // 실버
+			resultUpdateUser = userMapper.updateGrade(productVO.getId(), grade);
+		} else if(count >= 5) {
+			grade = 1; // 브론즈
+			resultUpdateUser = userMapper.updateGrade(productVO.getId(), grade);
+		} else if(count <5) {
+			grade = 0; // 일반
+			resultUpdateUser = userMapper.updateGrade(productVO.getId(), grade);
+
+		}
+		System.out.println("grade: " + grade);
+		System.out.println("회원 등급 변경__resultUpdateUser: " + resultUpdateUser);
+		
+		return resultUpdateApproval + resultUpdateUser;
+		// 승인 변경 + 권한 변경 = 2
+		// 승인변경 = 1
 	}
 		
 }

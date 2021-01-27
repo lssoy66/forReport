@@ -94,7 +94,7 @@ public class AdminController {
 		model.addAttribute("productVO", new ProductVO());
 	}
 	
-	/* 넘어온 list들 중 id가 change인 경우 approval 수정 */
+	/* 넘어온 list들 중 id가 change인 경우 approval 수정 + 회원 등급 수정 */
 	@PostMapping(value="approvalProcess.fr")
 	@Transactional
 	public String approvalProcess(ProductVO productVO, int approval){
@@ -104,8 +104,10 @@ public class AdminController {
 		log.info("길이: " + productVO.getProductVOList().size());
 		 
 		for(int i = 0; i<productVO.getProductVOList().size(); i++) {
-			if(productVO.getProductVOList().get(i).getId().equals("change")) {
-				productService.updateApproval(productVO.getProductVOList().get(i));
+			if(productVO.getProductVOList().get(i).getProdsc().equals("change")) {
+				// approval 수정 + 등급 조정
+				productService.updateApprovalAndGrade(productVO.getProductVOList().get(i));
+				log.info("productVO.getProductVOList().get(i): " + productVO.getProductVOList().get(i));
 			}
 		}
 		
@@ -200,5 +202,7 @@ public class AdminController {
 		
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK); // resource 경로로 저장!
 	}
+	
+	
 	
 }

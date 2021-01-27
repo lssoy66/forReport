@@ -2,6 +2,8 @@ package com.forreport.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.forreport.domain.UserVO;
 
 public interface UserMapper {
@@ -19,5 +21,9 @@ public interface UserMapper {
 	public int idCheck(String id);
 	
 	public UserVO read(String id);
+	
+	
+	// 은지 - 등급 업데이트
+	public int updateGrade(@Param("id") String id, @Param("grade")int grade);
 
 }

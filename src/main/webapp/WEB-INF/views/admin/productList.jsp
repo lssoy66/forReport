@@ -8,7 +8,7 @@
 <%@ include file="../includes_admin/header.jsp"%>
 
 <!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
-<sec:authorize access="isAuthenticated()">
+<sec:authorize access="hasRole('admin')">
 	<sec:authentication property="principal.username" var="user_id" />
 </sec:authorize>
 
@@ -81,7 +81,8 @@
 									<c:when test="${product.approval==0}">
 										<td>
 											<form:hidden name="productVOList[${i.index}]" path="productVOList[${i.index}].pronum" value="${product.pronum}"/>
-											<form:hidden class="productVOListId" name="productVOList[${i.index}]" path="productVOList[${i.index}].id" value="NoChange"/>
+											<form:hidden class="productVOListProdsc" name="productVOList[${i.index}]" path="productVOList[${i.index}].prodsc" value="NoChange"/>
+											<form:hidden path="productVOList[${i.index}].id" value="${product.id}"/>
 											<form:radiobutton name="productVOList[${i.index}]" path="productVOList[${i.index}].approval" data-value="approval" value="1"/>승인 <!-- 1 -->
 											<form:radiobutton name="productVOList[${i.index}]" path="productVOList[${i.index}].approval" data-value="refuse" value="2"/>승인거부<!-- 2 -->
 										
@@ -92,7 +93,8 @@
 									<c:when test="${product.approval==1}">
 										<td>
 											<form:hidden path="productVOList[${i.index}].pronum" value="${product.pronum}"/>
-											<form:hidden class="productVOListId"  name="productVOList[${i.index}]" path="productVOList[${i.index}].id" value="NoChange"/>
+											<form:hidden class="productVOListProdsc" name="productVOList[${i.index}]" path="productVOList[${i.index}].prodsc" value="NoChange"/>
+											<form:hidden path="productVOList[${i.index}].id" value="${product.id}"/>
 											<form:radiobutton path="productVOList[${i.index}].approval" data-value="afterRefuse" value="2"/>승인거부<!-- 2 -->
 <%-- 											<input id="approvalChk${product.pronum}" name="refuseRadio${product.pronum}" type="radio" data-num="${product.pronum}" data-value="afterRefuse" value=2>승인거부 --%>
 										</td>
@@ -100,7 +102,8 @@
 									<c:when test="${product.approval==2}">
 										<td>
 											<form:hidden path="productVOList[${i.index}].pronum" value="${product.pronum}"/>
-											<form:hidden class="productVOListId"  name="productVOList[${i.index}]" path="productVOList[${i.index}].id" value="NoChange"/>
+											<form:hidden class="productVOListProdsc" name="productVOList[${i.index}]" path="productVOList[${i.index}].prodsc" value="NoChange"/>
+											<form:hidden path="productVOList[${i.index}].id" value="${product.id}"/>
 											<form:radiobutton  path="productVOList[${i.index}].approval" data-value="reApproval" value="1"/>재승인 <!-- 1 -->
 <%-- 											<input id="approvalChk${product.pronum}" name="reApprovalRadio${product.pronum}" type="radio" data-num="${product.pronum}" data-value="reApproval" value=1>재승인 --%>
 										</td>
@@ -108,7 +111,8 @@
 									<c:when test="${product.approval==3}">
 										<td>
 											<form:hidden path="productVOList[${i.index}].pronum" value="${product.pronum}"/>
-											<form:hidden class="productVOListId"  name="productVOList[${i.index}]" path="productVOList[${i.index}].id" value="NoChange"/>
+											<form:hidden class="productVOListProdsc" name="productVOList[${i.index}]" path="productVOList[${i.index}].prodsc" value="NoChange"/>
+											<form:hidden path="productVOList[${i.index}].id" value="${product.id}"/>
 											<form:radiobutton path="productVOList[${i.index}].approval" data-value="delete" value="2"/>승인거부 <!-- 2 -->
 <%-- 											<input id="approvalChk${product.pronum}" name="deleteRadio${product.pronum}" type="radio" data-num="${product.pronum}" data-value="delete" value=2>삭제승인 --%>
 										</td>
@@ -246,7 +250,7 @@ $(document).ready(function(){
 		var approvalCnt = approval.length;
 		console.log("미승인 -> 승인 개수: " + approvalCnt);
 		approval.each(function(){
-			$(this).parent().children(".productVOListId").val("change");
+			$(this).parent().children(".productVOListProdsc").val("change");
 		});
 // 		approval.each(function(){
 // 			var data = new Object();
@@ -262,7 +266,7 @@ $(document).ready(function(){
 		var refuseCnt = refuse.length;
 		console.log("미승인 -> 승인 거부: " + refuseCnt);
 		refuse.each(function(){
-			$(this).parent().children(".productVOListId").val("change");
+			$(this).parent().children(".productVOListProdsc").val("change");
 		});
 // 		refuse.each(function(){
 // 			var data = new Object();
@@ -278,7 +282,7 @@ $(document).ready(function(){
 		var afterRefuseCnt = afterRefuse.length;
 		console.log("승인 -> 승인거부 " + afterRefuseCnt);
 		afterRefuse.each(function(){
-			$(this).parent().children(".productVOListId").val("change");
+			$(this).parent().children(".productVOListProdsc").val("change");
 		});
 // 		afterRefuse.each(function(){
 // 			var data = new Object();
@@ -294,7 +298,7 @@ $(document).ready(function(){
 		var reApprovalCnt = reApproval.length;
 		console.log("승인거부 -> 재승인 " + reApprovalCnt);
 		reApproval.each(function(){
-			$(this).parent().children(".productVOListId").val("change");
+			$(this).parent().children(".productVOListProdsc").val("change");
 		});
 // 		reApproval.each(function(){
 // 			var data = new Object();
@@ -310,7 +314,7 @@ $(document).ready(function(){
 		var deleteToApprovalCnt = deleteToApproval.length;
 		console.log("삭제요청 -> 승인(미승인->승인거부와 동일 처리: 즉 숨김처리) " + deleteToApprovalCnt);
 		deleteToApproval.each(function(){
-			$(this).parent().children(".productVOListId").val("change");
+			$(this).parent().children(".productVOListProdsc").val("change");
 		});
 // 		deleteToApproval.each(function(){
 // 			var data = new Object();

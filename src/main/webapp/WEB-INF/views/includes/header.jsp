@@ -74,7 +74,7 @@
                                 	<ul class="dropdown">
                                         <li><a href="/cart/cartList.fr">장바구니</a></li>
                                         <li><a href="/order/myOrderList.fr">주문내역</a></li>
-                                        <li><a href="#">내 정보 수정</a></li>
+                                        <li><a href="/user/mypage.fr">내 정보 수정</a></li>
                                     </ul>
                                 </li>
                                 <!-- blog__sidebar__search의 검색창 사용을 위해 클래스명 지정 -->
@@ -102,7 +102,7 @@
                         	</c:if>
                         	<c:if test="${user_id == null}">
                         		<a href="/login/customLogin.fr" class="primary-btn"> 로그인</a>
-                        		<a href="#" class="primary-btn"><i class="fa fa-plus"></i> 회원가입</a>
+                        		<a href="/user/provision.fr" class="primary-btn"><i class="fa fa-plus"></i> 회원가입</a>
                         	</c:if>
 
                         </div>

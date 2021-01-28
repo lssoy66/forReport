@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,25 +12,26 @@
 <%@ include file="../includes/header.jsp"%>
 
 <!-- 상단표시: Listing Section Begin -->
-<section class="listing-hero set-bg" data-setbg="/resources/img/listing/details/listing-hero.jpg">
+<section class="listing-hero set-bg"
+	data-setbg="/resources/img/listing/details/listing-hero.jpg">
 	<div class="container">
-    	<div class="row">
-        	<div class="col-lg-8">
-            	<div class="listing__hero__option">
-                	
-                    <div class="listing__hero__text">
-                    	<h2><c:out value="${NoticeVO.noticetitle}"/></h2>
-                    	
-                       
-                       
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-            	
-            </div>
-        </div>
-    </div>
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="listing__hero__option">
+
+					<div class="listing__hero__text">
+						<h2>
+							<c:out value="${NoticeVO.noticetitle}" />
+						</h2>
+
+
+
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4"></div>
+		</div>
+	</div>
 </section>
 <!-- 상단표시: Listing Section End -->
 
@@ -41,30 +42,29 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<table class="table text-center">
-    			<thead>
-    				<tr>
-    					<th>번호</th>    					
-    					<th>제목</th>
-    					<th>등록일</th>
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>제목</th>
+							<th>등록일</th>
 
-    				</tr>
-    			</thead>
-    			<tbody>
-    				<c:forEach items="${list}" var="list">
-						<tr >
-							<td><c:out value="${list.noticenum}"/></td>
-							
-							<td>
-								<a href="view.fr?noticenum=${list.noticenum}">
-									<c:out value="${list.noticetitle}"/>
-								</a>
-							</td>
-							<td><fmt:formatDate value="${list.writedate}" pattern="yyyy-MM-dd"/></td>						
 						</tr>
-					</c:forEach>	
-    				
-    			</tbody>
-    		</table>
+					</thead>
+					<tbody>
+						<c:forEach items="${list}" var="list">
+							<tr>
+								<td><c:out value="${list.noticenum}" /></td>
+
+								<td><a href="view.fr?noticenum=${list.noticenum}"> <c:out
+											value="${list.noticetitle}" />
+								</a></td>
+								<td><fmt:formatDate value="${list.writedate}"
+										pattern="yyyy-MM-dd" /></td>
+							</tr>
+						</c:forEach>
+
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -76,46 +76,50 @@
 		<div class="row">
 			<div class="col-lg-8">
 				<div class="blog__pagination">
-				
-					<c:if test="${pageDTO.prev}">
-						<a href="?largeCategory=${pageDTO.searchingVO.largeCategory}
-								&smallCategory=${pageDTO.searchingVO.smallCategory}
-								&pageNum=${pageDTO.startPage-1}
-								&inputKeyword=${pageDTO.searchingVO.inputKeyword}">
-							<i class="fa fa-long-arrow-left"></i> Pre
-						</a>
-					</c:if>
-					
-					<c:forEach var="num" begin="${pageDTO.startPage}" end="${pageDTO.endPage}">
-						<c:choose>
-							<c:when test="${pageDTO.searchingVO.pageNum==num}">
-								<a href="?largeCategory=${pageDTO.searchingVO.largeCategory}
-										&smallCategory=${pageDTO.searchingVO.smallCategory}
-										&pageNum=${num}
-										&inputKeyword=${pageDTO.searchingVO.inputKeyword}">
+					<ul class="pagination">
+
+						<c:if test="${pageMaker.prev }">
+							<li class="paginate_button previous"><a
+								href="${pageMaker.startPage - 1 }">Previous</a></li>
+						</c:if>
+
+						<c:forEach var="num" begin="${pageMaker.startPage }"
+							end="${pageMaker.endPage }">
+							
+							<c:choose>
+							<c:when test="${pageMaker.criteria.pageNum==num}">
+							<li class="paginate_button">
+								<a href="${num }">
 									<strong style="color:red">${num}</strong>
 								</a>
+								</li>
 							</c:when>
 							<c:otherwise>
-								<a href="?largeCategory=${pageDTO.searchingVO.largeCategory}
-										&smallCategory=${pageDTO.searchingVO.smallCategory}
-										&pageNum=${num}
-										&inputKeyword=${pageDTO.searchingVO.inputKeyword}">
+							<li class="paginate_button">
+								<a href="${num }">
 									${num}
 								</a>
+								</li>
 							</c:otherwise>
 						</c:choose>
-					</c:forEach>
-				
-					<c:if test="${pageDTO.next}">
-						<a href="?largeCategory=${pageDTO.searchingVO.largeCategory}
-								&smallCategory=${pageDTO.searchingVO.smallCategory}
-								&pageNum=${pageDTO.endPage+1}
-								&inputKeyword=${pageDTO.searchingVO.inputKeyword}">
-							Next<i class="fa fa-long-arrow-right"></i></a>
-					</c:if>
-				
+						</c:forEach>
+
+						<c:if test="${pageMaker.next }">
+							<li class="paginate_button next"><a
+								href="${pageMaker.endPage + 1 }">Next</a></li>
+						</c:if>
+					</ul>
 				</div>
+				<!-- end Pagination -->
+
+				<form id="actionForm" action="/notice/list.fr" method="get">
+					<input type="hidden" name="pageNum"
+						value="${pageMaker.criteria.pageNum }"> <input
+						type="hidden" name="amount" value="${pageMaker.criteria.amount }">
+
+					
+
+				</form>
 			</div>
 		</div>
 	</div>
@@ -126,11 +130,20 @@
 <script type="text/javascript" src="/resources/js/review.js"></script>
 
 <script>
-	$(document).ready(function(){
-				
-	
-	
+	$(document).ready(function() {
 		
+		// 페이징 처리
+		var actionForm = $("#actionForm");
+		
+		$(".paginate_button a").on("click", function(e){
+			e.preventDefault();
+			console.log("click");
+			actionForm.find("input[name='pageNum']")
+						.val($(this).attr("href"));
+			actionForm.submit();
+		}); 
+
+	});
 </script>
 
 

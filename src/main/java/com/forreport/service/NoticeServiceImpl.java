@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.forreport.domain.NoticeVO;
+import com.forreport.domain.OrderVO;
+import com.forreport.domain.ReviewCriteria;
 import com.forreport.mapper.NoticeMapper;
 
 import lombok.AllArgsConstructor;
@@ -46,5 +48,20 @@ public class NoticeServiceImpl implements NoticeService{
 		log.info("getList.....");
 		return mapper1.getList1();
 	}
+	
 
+	// 페이징 처리 한 총 주문리스트 가져오기
+	@Override
+	public List<NoticeVO> getNoticeListAllWithPaging(ReviewCriteria criteria) {
+		log.info("service ~ criteria :: " + criteria);
+		return mapper1.getNoticeListAllWithPaging(criteria);
+	}
+
+	// 총 주문 개수 구하기
+	@Override
+	public int getTotalCount(ReviewCriteria criteria) {
+		return mapper1.getTotalCount(criteria);
+	}
+	
+	
 }

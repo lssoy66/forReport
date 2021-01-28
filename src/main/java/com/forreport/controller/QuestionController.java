@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.forreport.domain.NoticeVO;
+import com.forreport.domain.PageDTO;
 import com.forreport.domain.QuestionVO;
+import com.forreport.domain.ReviewCriteria;
 import com.forreport.service.QuestionService;
 
 import lombok.AllArgsConstructor;
@@ -24,9 +25,13 @@ public class QuestionController {
 	private QuestionService service2;
 	
 	@GetMapping("/list.fr")
-	public void list(Model model) {
+	public void list(ReviewCriteria criteria, Model model) {
 		log.info("list");
-		model.addAttribute("list", service2.getList2());
+		model.addAttribute("list", service2.getNoticeListAllWithPaging(criteria));
+		
+		//화면 페이지 처리를 위한 정보 전달
+		model.addAttribute("pageMaker", new PageDTO(criteria, service2.getTotalCount(criteria)));
+		log.info(new PageDTO(criteria, service2.getTotalCount(criteria)));		
 	}
 	
 	@GetMapping("/view.fr")
@@ -34,6 +39,7 @@ public class QuestionController {
 		
 		log.info("view");
 		model.addAttribute("QuestionVO", service2.get2(questionnum));
+		
 	}
 	
 	@PostMapping

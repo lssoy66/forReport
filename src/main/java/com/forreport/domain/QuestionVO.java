@@ -1,7 +1,5 @@
 package com.forreport.domain;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data

@@ -294,6 +294,7 @@ public class ProductController {
 		}
 		
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+	}	
 
 	/* 게시글 삭제 요청 > 승인을 삭제 요청으로 변경 >> 관리자가 추후에 승인거부(숨김처리)해준다. */
 	@PostMapping("/deleteRequest.fr")

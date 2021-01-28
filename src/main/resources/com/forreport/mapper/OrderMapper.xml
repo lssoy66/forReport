@@ -91,14 +91,6 @@
    		(ordernum > 0) and (torder.pronum = tpro.pronum)
    		<include refid="criteria_proname"></include>	
    </select>
-   
-   
-   
-   
-   <!-- 은지: 리뷰 작성자가 해당 제품 구매했는지 여부 확인 -->
-   <select id="getOrderData" resultType="int">
-   	 	select count(*) from tbl_order where id = #{id} and pronum=#{pronum}
-   </select>
   
 </mapper>
 

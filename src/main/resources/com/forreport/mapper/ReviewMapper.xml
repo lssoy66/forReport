@@ -60,10 +60,5 @@
 	<select id="getRateOne" resultType="int">
 		select count(*) count from tbl_review where pronum = ${pronum} and rate = 1
 	</select>
-	
-	<!-- 리뷰 작성자와 삭제 요청자 일치 여부 확인 -->
-   <select id="getDeleteData" resultType="int">
-   	 	select count(*) from tbl_review where id = #{id} and pronum=#{pronum} and reviewnum=#{reviewnum}
-   </select>
 
 </mapper>

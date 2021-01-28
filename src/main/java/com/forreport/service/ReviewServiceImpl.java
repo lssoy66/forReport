@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.forreport.domain.ReviewCriteria;
 import com.forreport.domain.ReviewPageDTO;
 import com.forreport.domain.ReviewVO;
-import com.forreport.mapper.OrderMapper;
 import com.forreport.mapper.ReviewMapper;
 
 import lombok.AllArgsConstructor;
@@ -22,8 +21,6 @@ import lombok.extern.log4j.Log4j;
 public class ReviewServiceImpl implements ReviewService {
 
 	private ReviewMapper mapper;
-	
-	private OrderMapper orderMapper;
 	
 	/*특정 리뷰 번호 리뷰 삭제하기*/
 	@Override
@@ -86,17 +83,5 @@ public class ReviewServiceImpl implements ReviewService {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
-	
-	@Override
-	/* 리뷰작성자가 해당 제품 구매했는지 여부 확인 */
-	public int getOrderData(String id, int pronum) {
-		return orderMapper.getOrderData(id, pronum);
-	}
-	
-	@Override
-	/* 리뷰 작성자와 삭제 요청자 일치 여부 확인*/
-	public int getDeleteData(String id, int pronum, int reviewnum) {
-		return mapper.getDeleteData(id, pronum, reviewnum);
-	}
 			
 }

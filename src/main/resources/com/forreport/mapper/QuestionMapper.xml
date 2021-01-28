@@ -39,5 +39,28 @@
   where questionnum = #{questionnum}
   </update>
    
+  <!-- 페이징 처리(주문리스트) -->
+   <select id="getNoticeListAllWithPaging" resultType="com.forreport.domain.QuestionVO">
+   <![CDATA[	
+   		select questionnum, questiontitle, question
+   		from (select /*+INDEX_DESC(tbl_question pk_tbl_question)*/
+   			  	rownum rn, questionnum, questiontitle, question
+   			  from
+   			  	tbl_question
+   			  where
+   			  	rownum <= #{pageNum} * #{amount}
+   			  )
+   		where
+   			(rn > (#{pageNum} - 1) * #{amount})
+   ]]>	
+   </select>
+   
+   <!-- 총 주문 개수 구하기 -->
+   <select id="getTotalCount" resultType="int">
+   		select
+   			count(*)
+   		from tbl_question
+   </select>
+   
   </mapper>
   

@@ -21,7 +21,7 @@
 
 					<div class="listing__hero__text">
 						<h2>
-							<c:out value="${NoticeVO.noticetitle}" />
+							<c:out value="${QuestionVO.questiontitle}" />
 						</h2>
 
 
@@ -46,20 +46,18 @@
 						<tr>
 							<th>번호</th>
 							<th>제목</th>
-							<th>등록일</th>
 
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${list}" var="list">
 							<tr>
-								<td><c:out value="${list.noticenum}" /></td>
+								<td><c:out value="${list.questionnum}" /></td>
 
-								<td><a href="view.fr?noticenum=${list.noticenum}"> <c:out
-											value="${list.noticetitle}" />
+								<td><a href="view.fr?noticenum=${list.questionnum}"> <c:out
+											value="${list.questiontitle}" />
 								</a></td>
-								<td><fmt:formatDate value="${list.writedate}"
-										pattern="yyyy-MM-dd" /></td>
+								
 							</tr>
 						</c:forEach>
 
@@ -112,7 +110,7 @@
 				</div>
 				<!-- end Pagination -->
 
-				<form id="actionForm" action="/notice/list.fr" method="get">
+				<form id="actionForm" action="/question/list.fr" method="get">
 					<input type="hidden" name="pageNum"
 						value="${pageMaker.criteria.pageNum }"> <input
 						type="hidden" name="amount" value="${pageMaker.criteria.amount }">
@@ -147,4 +145,4 @@
 </script>
 
 
-<%@ include file="../includes/footer.jsp"%>
+<%@ include file="../includes/footer.jsp"%><%@ include file="../includes/footer.jsp"%>

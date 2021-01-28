@@ -67,7 +67,6 @@
 		]]>
 		<include refid="getListAboutCategory"/>
 		<include refid="useInputKeyword"/>
-		and approval = 1
 		<![CDATA[
 				)
 			where
@@ -107,8 +106,7 @@
 					]]> 
 					<include refid="useInputKeyword"/>
 				</when>
-		</choose>
-		and approval = 1	
+		</choose>		
 	</select>
 	
 	<!-- 상품번호에 맞는 상품정보 전체 가져오기 -->
@@ -136,70 +134,4 @@
 		select * from tbl_upload where pronum = #{pronum}
 	</select>
 	
-	<!-- 관리자 페이지 - 페이징 처리된 상품 목록 전달 -->
-	<select id="getProductListWithPagingInAdmin" resultType="com.forreport.domain.ProductVO">
-	<![CDATA[	
-			select
-				pronum, id, largeCa, smallCa, title, proname, prodsc, price, uploadDate, approval
-			from (
-					select /*+ INDEX_DESC(tbl_product PK_TBL_PRODUCT)*/
-						rownum rn, pronum, id, largeCa, smallCa, title, proname, prodsc, price, uploadDate, approval
-					from
-						tbl_product
-					where
-						rownum <= #{pageNum} * #{amount}		
-		]]>
-						<choose>
-							<when test="approval!=999">
-								and approval = #{approval}
-							</when>
-						</choose>
-		
-		<![CDATA[					
-						
-				)
-			where
-				rn > (#{pageNum}-1) * #{amount}
-		
-	]]> 
-	</select>	
-	
-	<!-- 관리자 페이지 조건에 맞는 상품 개수를 가져온다. -->
-	<select id="getTotalInAdmin" resultType="Integer">
-		select count(*)
-		from tbl_product
-		 
-		<choose>
-			<when test="approval!=999">
-				where approval = #{approval}
-			</when>
-		</choose>	
-	</select>
-	
-	<!-- 관리자 페이지 - 상품 승인 변경 -->
-	<update id="updateApproval">
-		update
-			tbl_product
-		set
-			approval = #{approval}
-		where
-			pronum = #{pronum}
-	</update>
-	
-	<!-- 관리자 페이지 - 상품 승인된 콘텐츠 개수 세기 -->
-	<select id="countApproval" resultType="Integer">
-		select count(*)
-		from tbl_product
-		where id = #{id} and approval = 1
-	</select>
-	
-	<!-- view: 삭제 요청으로 approval 변경 -->
-	<update id="deleteRequest">
-		update
-			tbl_product
-		set
-			approval = 3
-		where
-			pronum = #{pronum}
-	</update>
 </mapper>

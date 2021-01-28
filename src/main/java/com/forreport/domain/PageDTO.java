@@ -14,7 +14,7 @@ public class PageDTO {
 	private ReviewCriteria criteria;
 
 	/* 그 외 정보: 페이지 하단에 표시될 페이지 번호의 개수: 10 */
-	/* 상품 목록 + 관리자 상품 목록 모두 사용*/
+
 	public PageDTO(SearchingVO searchingVO, int total) {
 
 		/*
@@ -43,9 +43,6 @@ public class PageDTO {
 
 		this.prev = this.startPage > 1; // 현 페이지의 시작 페이지 번호가 1보다 큰 경우 prev 버튼 추가 예정
 		this.next = this.endPage < realEnd; // 현 페이지의 마지막 번호가 realEnd보다 작은 경우 next 버튼 추가 예정
-		
-		System.out.println(endPage);
-		System.out.println(realEnd);
 
 	}
 

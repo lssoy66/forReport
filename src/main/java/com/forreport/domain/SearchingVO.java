@@ -34,8 +34,4 @@ public class SearchingVO {
 		this.amount = amount;
 	}
 	
-
-	// 관리자 상품 리스트 > 승인 여부 추가:: 미승인(0), 승인(1), 승인거부(2), 삭제요청(3)
-	private int approval;
-	
 }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.forreport.domain.NoticeVO;
+import com.forreport.domain.PageDTO;
+import com.forreport.domain.ReviewCriteria;
 import com.forreport.service.NoticeService;
 
 import lombok.AllArgsConstructor;
@@ -22,10 +24,22 @@ public class NoticeController {
 	
 	private NoticeService service1;
 	
-	@GetMapping("/list")
-	public void list(Model model) {
+	@GetMapping("list.fr")
+	public void list(ReviewCriteria criteria, Model model) {
 		log.info("list");
-		model.addAttribute("list", service1.getList1());
+		model.addAttribute("list", service1.getNoticeListAllWithPaging(criteria));
+		
+		// 화면 페이지 처리를 위한 정보 전달
+		model.addAttribute("pageMaker", new PageDTO(criteria, service1.getTotalCount(criteria)));
+		log.info(new PageDTO(criteria, service1.getTotalCount(criteria)));
+	}
+	
+	@GetMapping("/view.fr")
+	public void view(Model model, int noticenum) {
+
+		log.info("view");
+		model.addAttribute("NoticeVO", service1.get1(noticenum));
+		
 	}
 	
 	@PostMapping("/register")

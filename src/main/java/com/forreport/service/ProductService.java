@@ -27,25 +27,11 @@ public interface ProductService {
 	/* 제품 등록 */
 	public boolean uploadProduct(ProductVO productVO, UploadVO uploadVO);
 	
-	/* 썸네일 정보 가져오기 +@ 관리자 페이지 파일 다운로드 구현*/
+	/* 썸네일 정보 가져오기*/
 	public UploadVO getThumbnail(int pronum);
 	
 	/* UUID, fileName을 이용해서 pronum 가져오기 */
 	public Integer getPronum(String UUID, String fileName);
-	
-	/* 관리자 페이지 - 페이징 처리된 상품 목록 전달*/
-	public List<ProductVO> getProductListWithPagingInAdmin(SearchingVO searchingVO);
 
-	/* 관리자 페이지 조건에 맞는 상품 개수를 가져온다.*/
-	public int getTotalInAdmin(SearchingVO searchingVO);
-	
-	/* 관리자 페이지 - 상품 승인 변경 + 회원 등급 변경*/
-	public int updateApprovalAndGrade(ProductVO productVO);
-	
-	/* view - 작성자 등급 보여주기*/
-	public int getGrade(String id);
-	
-	/* view - 삭제 요청(숨김처리) */
-	public int deleteRequestAndGrade(int pronum, String id);
-	
+
 }

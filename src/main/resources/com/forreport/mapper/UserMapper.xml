@@ -66,23 +66,5 @@
   			tbl_user mem LEFT OUTER JOIN tbl_auth auth on mem.id = auth.id
   		WHERE mem.id = #{id}
   	</select>
-  	
-  	
-  	
-  	
-  	<!-- 은지: 관리자 페이지 - 회원 등급 변경 -->
-  	<update id="updateGrade">
-  		update
-  			tbl_user
-  		set
-  			grade = #{grade}
-  		where
-  			id = #{id}
-  	</update>
-  	
-  	<!-- 은지 - view페이지 - 회원 등급 보여주기 -->
-  	<select id="getGrade" resultType="int">
-  		select grade from tbl_user where id= #{id}
-  	</select>
   
 </mapper>

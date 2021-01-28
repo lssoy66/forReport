@@ -79,6 +79,7 @@
 					
 					<div class="listing__details__comment">
 						<table class="table text-center thCustom">
+							<c:if test="${orderList.isEmpty() == 'false'}">
 								<thead>
 									<tr>
 										<th colspan="6">
@@ -127,7 +128,7 @@
 										</tr>
 									</tbody>
 								</c:forEach>
-							
+							</c:if>
 						</table>
 					</div>
 					
@@ -194,6 +195,18 @@
         	$(".logoutForm").submit();
         			
         });
+			
+		(function(){
+			var orderList = '<c:out value="${orderList.isEmpty() }" />';
+			checkOrderList(orderList);
+		})();
+		
+		function checkOrderList(orderList){
+			console.log("checkOrderList");
+			if(orderList == "true"){
+				$(".thCustom").html("<h5>구매한 상품이 없습니다.</h5>");
+			}
+		} 
 		
 		var strapp = "";
 		// modal 창 띄우기

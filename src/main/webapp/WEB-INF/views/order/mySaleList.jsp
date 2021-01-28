@@ -81,7 +81,7 @@
 					<h5>나의 판매내역</h5>
 					
 					<!-- 총 금액 & 차트 -->
-					<div class="listing__details__comment">
+					<div class="listing__details__comment chart">
 						<div class="container">
 							<div class="row">
 								<div class="col-lg-5" style="text-align: center">
@@ -100,9 +100,10 @@
 								</div>
 							</div>
 						</div>
+						<br>
 					</div>
 					
-					<br>
+					
 					
 <!-- 					차트 -->
 <!-- 					<div class="listing__details__comment"> -->
@@ -221,13 +222,16 @@
         			
         });
 		 
-		var saleList = '<c:out value="${saleList.isEmpty() }" />';
-		checkSaleList(saleList);
+		(function(){
+			var saleList = '<c:out value="${saleList.isEmpty() }" />';
+			checkSaleList(saleList);
+		})();
 		
 		function checkSaleList(saleList){
 			console.log("checkSaleList");
 			if(saleList == "true"){
-				$(".saleList").html("<h5>판매한 상품이 없습니다.</h5>");
+				$(".chart").remove();
+				$(".thCustom2").html("<h5>판매한 상품이 없습니다.</h5>");
 			}
 		} 
 		

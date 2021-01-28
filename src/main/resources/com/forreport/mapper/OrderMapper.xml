@@ -11,11 +11,10 @@
    </insert>
    
    <select id="getOrderList" resultType="com.forreport.domain.OrderVO">
-   		select ordernum, tpro.proname, torder.id, paymethod, payprice, orderdate
-   		from (select /*+INDEX_DESC(tbl_order pk_tbl_order)*/
-   			  rownum rn, ordernum, tbl_order.pronum, tbl_order.id, paymethod, payprice, orderdate
-   			  from tbl_order) torder, tbl_product tpro
+   		select ordernum, tpro.pronum, tpro.proname, torder.id, paymethod, payprice, orderdate
+   		from tbl_order torder, tbl_product tpro
    		where (torder.id = #{id}) and (torder.pronum = tpro.pronum)
+        order by ordernum desc
    </select>
    
    <insert id="addVbank">
@@ -92,12 +91,17 @@
    		<include refid="criteria_proname"></include>	
    </select>
    
-   
+
+   <!-- 특정 상품의 총 주문 개수 구하기 -->
+   <select id="getTotalCountByPronum" resultType="int">
+   		select count(*) from tbl_order where pronum = #{pronum}
+ 
    
    
    <!-- 은지: 리뷰 작성자가 해당 제품 구매했는지 여부 확인 -->
    <select id="getOrderData" resultType="int">
    	 	select count(*) from tbl_order where id = #{id} and pronum=#{pronum}
+
    </select>
   
 </mapper>

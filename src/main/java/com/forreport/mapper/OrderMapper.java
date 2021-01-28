@@ -27,12 +27,13 @@ public interface OrderMapper {
 	
 	// 총 주문 수 가져오기
 	public int getTotalCount(ReviewCriteria criteria);
-	
-	
-	
+
+	// 특정 상품의 총 주문 수 가져오기
+	public int getTotalCountByPronum(long pronum);	
 	
 	// 은지
 	/* 리뷰작성자가 해당 제품 구매했는지 여부 확인 */
 	public int getOrderData(@Param("id") String id, @Param("pronum") int pronum);
+
 	
 }

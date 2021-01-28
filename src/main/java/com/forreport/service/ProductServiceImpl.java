@@ -37,8 +37,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.forreport.domain.ProductVO;
+import com.forreport.domain.ReviewCriteria;
 import com.forreport.domain.SearchingVO;
 import com.forreport.domain.UploadVO;
+import com.forreport.mapper.OrderMapper;
 import com.forreport.mapper.ProductMapper;
 import com.forreport.mapper.UserMapper;
 
@@ -51,6 +53,7 @@ import lombok.extern.log4j.Log4j;
 public class ProductServiceImpl implements ProductService {
 
 	private ProductMapper mapper;
+	private OrderMapper orderMapper;
 	
 	private UserMapper userMapper;
 	
@@ -329,7 +332,44 @@ public class ProductServiceImpl implements ProductService {
 	public Integer getPronum(String UUID, String fileName) {
 		return mapper.getPronum(UUID, fileName);
 	}
+
 	
+	/* 수연 추가 :: 사용자(판매자)가 등록한 상품 전체 가져오기(페이징X) */
+	@Override
+	public List<ProductVO> getProductByIdNotPaging(String id) {
+		
+		// 해당 사용자가 등록한 상품을 모두 가져온 후
+		List<ProductVO> list = mapper.getProductByIdNotPaging(id);
+		
+		// 각각의 상품 객체(ProductVO)에 포함된 판매 수(count)를 추가
+		for(ProductVO product : list) {
+			product.setCount(orderMapper.getTotalCountByPronum(product.getPronum()));
+		}
+		
+		return list;
+	}
+
+	/* 수연 추가 :: 사용자(판매자)가 등록한 상품 전체 가져오기(페이징) */
+	@Override
+	public List<ProductVO> getProductById(String id, ReviewCriteria criteria) {
+		
+		List<ProductVO> list = mapper.getProductById(id, criteria);
+		
+		for(ProductVO product : list) {
+			product.setCount(orderMapper.getTotalCountByPronum(product.getPronum()));
+		}
+		
+		return list;
+	}
+	
+	/* 수연 추가 :: 사용자(판매자)가 등록한 상품 총 개수 */
+	@Override
+	public int getTotalCountById(String id) {
+		return mapper.getTotalCountById(id);
+	}
+
+	
+
 	/* 관리자 페이지 - 페이징 처리된 상품 목록 전달*/
 	@Override
 	public List<ProductVO> getProductListWithPagingInAdmin(SearchingVO searchingVO){
@@ -412,6 +452,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 		System.out.println("grade: " + grade);
 		System.out.println("회원 등급 변경__resultUpdateUser: " + resultUpdateUser);
+
 		
 		return resultDeleteApproval + resultUpdateUser;
 	};

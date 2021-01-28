@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.forreport.domain.ProductVO;
+import com.forreport.domain.ReviewCriteria;
 import com.forreport.domain.SearchingVO;
 import com.forreport.domain.UploadVO;
 
@@ -33,6 +34,17 @@ public interface ProductService {
 	/* UUID, fileName을 이용해서 pronum 가져오기 */
 	public Integer getPronum(String UUID, String fileName);
 	
+
+	
+	/* 수연 추가 :: 사용자(판매자)가 등록한 상품 전체 가져오기(페이징X) */
+	public List<ProductVO> getProductByIdNotPaging(String id);
+
+	/* 수연 추가 :: 사용자(판매자)가 등록한 상품 전체 가져오기(페이징) */
+	public List<ProductVO> getProductById(String id, ReviewCriteria criteria);
+
+	/* 수연 추가 :: 사용자(판매자)가 등록한 상품 총 개수 */
+	public int getTotalCountById(String id);
+
 	/* 관리자 페이지 - 페이징 처리된 상품 목록 전달*/
 	public List<ProductVO> getProductListWithPagingInAdmin(SearchingVO searchingVO);
 
@@ -47,5 +59,6 @@ public interface ProductService {
 	
 	/* view - 삭제 요청(숨김처리) */
 	public int deleteRequestAndGrade(int pronum, String id);
+
 	
 }

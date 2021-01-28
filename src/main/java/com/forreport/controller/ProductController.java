@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.UUID;
 
 import javax.websocket.server.PathParam;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +27,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -243,6 +247,55 @@ public class ProductController {
 		return result;
 	}
 	
+
+	// 첨부파일 다운로드
+	// 상품번호를 전달받아 tbl_upload 테이블에 존재하는 상품 가져오도록
+	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, @RequestParam("pronum") int pronum){
+		
+		// pronum을 이용해 UploadVO 객체 얻기
+		UploadVO uploadVO = productService.getThumbnail(pronum);
+		
+		String fileName = uploadVO.getFileDirectory() + "\\" + uploadVO.getUUID() + "_" + uploadVO.getFileName();
+		
+		Resource resource = new FileSystemResource(fileName);		
+
+		if(resource.exists() == false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		String resourceName = resource.getFilename();
+		
+		// 다운로드 시 UUID 없는 파일 이름으로 저장할 수 있도록 UUID 제거
+		String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
+		
+		// 헤더를 사용해 브라우저 별로 다르게 처리(+한글 인코딩)
+		HttpHeaders headers = new HttpHeaders();
+		try {
+			String downloadName = null;
+			if(userAgent.contains("Trident")) {
+				log.info("IE browser");
+				downloadName = URLEncoder.encode(resourceOriginalName, "UTF-8").replaceAll("\\+", " ");
+			}else if(userAgent.contains("Edge")){
+				log.info("Edge browser");
+				downloadName = URLEncoder.encode(resourceOriginalName, "UTF-8");
+			}else {
+				log.info("Chrome browser");
+				downloadName = new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
+			}
+			
+			log.info("*** downloadName : " + downloadName);
+			
+			headers.add("Content-Disposition", 
+					"attachment; filename=" + downloadName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+	}	
+
 	/* 게시글 삭제 요청 > 승인을 삭제 요청으로 변경 >> 관리자가 추후에 승인거부(숨김처리)해준다. */
 	@PostMapping("/deleteRequest.fr")
 	@ResponseBody
@@ -253,6 +306,7 @@ public class ProductController {
 		String result = productService.deleteRequestAndGrade(pronum,id)==2 ? "success" : "fail";
 		
 		return result;
+
 	}
 	
 }	

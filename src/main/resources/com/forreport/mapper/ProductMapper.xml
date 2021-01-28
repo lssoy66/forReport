@@ -136,6 +136,37 @@
 		select * from tbl_upload where pronum = #{pronum}
 	</select>
 	
+
+		
+	<!-- 수연 추가 :: 사용자(판매자)가 등록한 상품 전체 가져오기(페이징X) -->
+	<select id="getProductByIdNotPaging" resultType="com.forreport.domain.ProductVO">
+	<![CDATA[
+		select * 
+		from (select /*+ INDEX_DESC(tbl_product PK_TBL_PRODUCT)*/
+					 rownum rn, pronum, id, largeCa, smallCa, title, proname, prodsc, price, uploadDate, approval
+			  from tbl_product
+			  where id = #{id})
+	]]>
+	</select>	
+		
+	<!-- 수연 추가 :: 사용자(판매자)가 등록한 상품 전체 가져오기(페이징) -->
+	<select id="getProductById" resultType="com.forreport.domain.ProductVO">
+	<![CDATA[
+		select * 
+		from (select /*+ INDEX_DESC(tbl_product PK_TBL_PRODUCT)*/
+					 rownum rn, pronum, id, largeCa, smallCa, title, proname, prodsc, price, uploadDate, approval
+			  from tbl_product
+			  where (id = #{id}) and (rownum <= #{criteria.pageNum} * #{criteria.amount}) )
+		where (rn > (#{criteria.pageNum} - 1) * #{criteria.amount})
+	]]>
+	</select>
+	
+	<!-- 수연 추가 :: 사용자(판매자)가 등록한 상품 총 개수 -->
+	<select id="getTotalCountById" resultType="int">
+		select count(*) from tbl_product where id = #{id}
+	</select>
+	
+
 	<!-- 관리자 페이지 - 페이징 처리된 상품 목록 전달 -->
 	<select id="getProductListWithPagingInAdmin" resultType="com.forreport.domain.ProductVO">
 	<![CDATA[	
@@ -202,4 +233,5 @@
 		where
 			pronum = #{pronum}
 	</update>
+
 </mapper>

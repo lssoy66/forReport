@@ -10,6 +10,33 @@
 	<sec:authentication property="principal.username" var="user_id" />
 </sec:authorize>
 
+<style>
+.bigPictureWrapper{
+	position: absolute;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: gray;
+	z-index: 100;
+	background: rgba(255, 255, 255, 0.5);
+}
+
+.bigPicture{
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bigPicture img{
+	width: 600px;
+}
+
+</style>
+
 <!-- Blog Hero Begin -->
 <div class="blog-details-hero set-bg"
 	data-setbg="/resources/img/blog/details/blog-hero.jpg">
@@ -40,7 +67,10 @@
 					</div>
 					
 					<div class="listing__details__comment cartList">
-						
+						<div class="bigPictureWrapper">
+							<div class="bigPicture">
+							</div>
+						</div>
 						<form action="/order/order.fr" id="checkForm" method="post">
 							<!-- 아이디는 세션에서 가져온다 -->
 							<input type="hidden" name="id" id="id" value="${user_id }">
@@ -57,16 +87,16 @@
 			                                    	data-price="<c:out value="${cartProduct.price}" />">
 			                                </div>
 			                            	<!-- 썸네일 -->
-			                                <div class="listing__details__comment__item__pic">
-			                                    <img src="/resources/img/listing/details/comment.png" alt="">
+			                                <div class="listing__details__comment__item__pic thumbnail" data-pronum="${cartProduct.pronum}">
+			                                    <img src='/product/showThumbnail.fr?pronum=${cartProduct.pronum}&index=0' alt='' style='width:100px; height: 100px; margin: 0px'>
 			                                </div>
-			                                <div class="listing__details__comment__item__text productData">
+			                                <div class="listing__details__comment__item__text">
 			                                 	<!-- 삭제버튼 -->
 			                                    <div class="listing__details__comment__item__exit exitButton">
 			                                       	<a href="${cartProduct.pronum}"><i class="fa fa-times"></i></a>
 			                                    </div>
 			                                    <!-- 상품정보 -->
-			                                   	<b>상품명 : <c:out value="${cartProduct.title}" /></b>
+			                                   	<b><a href="/product/view.fr?pronum=${cartProduct.pronum}"><c:out value="${cartProduct.title}" /></a></b>
 			                                   	<p>판매자 : <c:out value="${cartProduct.id}" /></p>
 			                                    <p>상품설명 : <c:out value="${cartProduct.prodsc}" /></p>
 			                                 	가격 : <c:out value="${cartProduct.price}" />원
@@ -108,10 +138,9 @@
         	$(".logoutForm").submit();
         			
         });
-		
-		var cartProductList = '<c:out value="${cartProductList.isEmpty() }" />';
-// 		console.log(typeof(cartProductList));
 
+		var cartProductList = '<c:out value="${cartProductList.isEmpty() }" />';
+		
 		// 스프링 시큐리티 토큰 전달
 		var csrfHeaderName = "${_csrf.headerName}";
 		var csrfTokenValue = "${_csrf.token}";
@@ -121,9 +150,10 @@
 			$("input[type='checkbox']").each(function(){
 				$(this).prop("checked", false);
 			});
+			
+			checkCartList(cartProductList);
+			
 		})();	// end function 
-		
-		checkCartList(cartProductList);
 		
 		function checkCartList(cartProductList){
 			console.log("checkCartList");
@@ -196,7 +226,10 @@
 				contentType : "application/json; charset=utf-8",
 				type : 'POST',
 				success : function(result){
-					alert(result);
+					//alert(result);
+					if($(".cartProduct_item").length == 0){
+						$(".cartList").html("<h5>장바구니에 담긴 상품이 없습니다.</h5>");
+					}
 				}
 			});	 // end ajax
 		
@@ -217,13 +250,30 @@
 					dataType : 'text',
 					type : 'DELETE',
 					success : function(result){
-						alert(result);
+						//alert(result);
 					}
 				});	 // end ajax
 			} else {
 				return;
 			}
 		});	
+		
+		// 썸네일 클릭
+		$(".thumbnail").click(function(){
+			console.log($(this).data("pronum"));
+			var pronum = $(this).data("pronum");
+			var fileCallPath = '/product/showThumbnail.fr?pronum='+pronum+'&index=0';
+			$(".bigPictureWrapper").css("display","flex").show();
+			$(".bigPicture").html('<img src="'+fileCallPath+'">').animate({width: '100%', height:'100%'},500);
+		});
+		
+		// 보여준 원본 파일 닫기
+		$(".bigPictureWrapper").on("click", function(e){
+			$(".bigPicture").animate({width : '0%', height : '0%'}, 500);
+			setTimeout(function(){
+				$('.bigPictureWrapper').hide();
+			}, 500);
+		});
 		
 	});
 	

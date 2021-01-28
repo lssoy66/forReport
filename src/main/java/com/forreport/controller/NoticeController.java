@@ -22,10 +22,17 @@ public class NoticeController {
 	
 	private NoticeService service1;
 	
-	@GetMapping("/list")
+	@GetMapping("/list.fr")
 	public void list(Model model) {
 		log.info("list");
 		model.addAttribute("list", service1.getList1());
+	}
+	
+	@GetMapping("/view.fr")
+	public void view(Model model, int noticenum) {
+
+		log.info("view");
+		model.addAttribute("NoticeVO", service1.get1(noticenum));
 	}
 	
 	@PostMapping("/register")

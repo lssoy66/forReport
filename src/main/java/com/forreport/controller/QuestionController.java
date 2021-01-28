@@ -23,10 +23,17 @@ public class QuestionController {
 	
 	private QuestionService service2;
 	
-	@GetMapping("/list")
+	@GetMapping("/list.fr")
 	public void list(Model model) {
 		log.info("list");
 		model.addAttribute("list", service2.getList2());
+	}
+	
+	@GetMapping("/view.fr")
+	public void view(Model model, int questionnum) {
+		
+		log.info("view");
+		model.addAttribute("QuestionVO", service2.get2(questionnum));
 	}
 	
 	@PostMapping

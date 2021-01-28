@@ -19,7 +19,7 @@
             	<div class="listing__hero__option">
                 	
                     <div class="listing__hero__text">
-                    	<h2><c:out value="${NoticeVO.noticetitle}"/></h2>
+                    	<h2><c:out value="${QuestionVO.questiontitle}"/></h2>
                     	
                        
                        
@@ -44,22 +44,20 @@
     			<thead>
     				<tr>
     					<th>번호</th>    					
-    					<th>제목</th>
-    					<th>등록일</th>
+    					<th>제목</th>   					
 
     				</tr>
     			</thead>
     			<tbody>
     				<c:forEach items="${list}" var="list">
 						<tr >
-							<td><c:out value="${list.noticenum}"/></td>
+							<td><c:out value="${list.questionnum}"/></td>
 							
 							<td>
-								<a href="view.fr?noticenum=${list.noticenum}">
-									<c:out value="${list.noticetitle}"/>
+								<a href="view.fr?questionnum=${list.questionnum}">
+									<c:out value="${list.questiontitle}"/>
 								</a>
-							</td>
-							<td><fmt:formatDate value="${list.writedate}" pattern="yyyy-MM-dd"/></td>						
+							</td>		
 						</tr>
 					</c:forEach>	
     				

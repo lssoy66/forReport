@@ -167,7 +167,8 @@
 									data-vbnum="${vbank.vbnum }"
 									data-vbname="${vbank.vbname }"
 									data-vbholder="${vbank.vbholder }"
-									data-vbdate="${vbank.vbdate }">
+									data-vbdate='<fmt:formatDate value="${vbank.vbdate }" pattern="yyyy-MM-dd"/>'>
+									
 								</tr>
 							</c:forEach>
 						</tbody>

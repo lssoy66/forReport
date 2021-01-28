@@ -112,14 +112,13 @@
 											<td>-</td>
 										</tr>
 										<tr>
-											
 											<td><p><c:out value="${order.ordernum }" /></p></td>
 											<td><p><a href="/product/view.fr?pronum=${order.pronum}"><c:out value="${order.proname }" /></a></p></td>
 											<td><p><c:out value="${order.payprice}" /></p></td>
 											<td><p><c:out value="${order.paymethod }" /></p></td>
 											<c:if test="${order.paymethod == 'vBank' }">
 												<td><button class="site-btn modalVbank" 
-													id="customButtonVbank">
+													id="customButtonVbank" data-ordernum="${order.ordernum }">
 												가상계좌</button></td>
 											</c:if>
 											<c:if test="${order.paymethod == 'card' }">
@@ -162,12 +161,14 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><c:out value="${vbank.vbnum }" /></td>
-								<td><c:out value="${vbank.vbname }" /> </td>
-								<td><c:out value="${vbank.vbholder }" /></td>
-								<td><fmt:formatDate pattern="yyyy-MM-dd" value="${vbank.vbdate }"/></td>
-							</tr>
+							<c:forEach items="${vbankList }" var="vbank">
+								<tr data-vordernum="${vbank.ordernum }"
+									data-vbnum="${vbank.vbnum }"
+									data-vbname="${vbank.vbname }"
+									data-vbholder="${vbank.vbholder }"
+									data-vbdate="${vbank.vbdate }">
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>
@@ -194,16 +195,37 @@
         			
         });
 		
+		var strapp = "";
 		// modal 창 띄우기
 		$(".modalVbank").click(function(e){
 			e.preventDefault();
+			
 			// $("#myModal").find(".modal-body").html("");
+			
+			// 상품의 주문번호 전달
+			var ordernum = $(this).data("ordernum");
+			
+			$("#myModal tbody tr").each(function(i, obj){
+				var vordernum = $(obj).data("vordernum");
+				console.log(ordernum);
+				if(ordernum == vordernum){
+					strapp = "";
+					strapp += "<tr><td>" + $(obj).data("vbnum") + "</td>";
+					strapp += "<td>" + $(obj).data("vbname") + "</td>";
+					strapp += "<td>" + $(obj).data("vbholder") + "</td>";
+					strapp += "<td>" + $(obj).data("vbdate") + "</td></tr>";
+				}
+			});
+			console.log(strapp);
+			$("#myModal tbody").append(strapp);
+			// 모달 창 띄우기
 			$("#myModal").modal("show");
-        			
         });
 		
 		$("#myModal").find(".btn").click(function(e){
 			$("#myModal").modal("hide");
+			strapp = "";
+			$("#myModal tbody tr").html("");
 		});
 		
 		// 첨부파일 다운로드

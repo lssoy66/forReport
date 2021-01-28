@@ -83,6 +83,9 @@ public class OrderController {
 				log.info(orderList.get(i));
 				if(order.getPronum() == orderList.get(i).getPronum()) {
 					model.addAttribute("order", orderList.get(i));
+					// 가상계좌정보를 전달(아이디와 주문번호를 전달) - 화면에 한번 표시할 용도이므로 한 개만 전달O
+					model.addAttribute("vbank", 
+							service.getVbank(orderList.get(i).getId(), orderList.get(i).getOrdernum()));
 				}
 			}
 		}
@@ -94,8 +97,7 @@ public class OrderController {
 		}	
 		model.addAttribute("productList", service.getCartProduct(order.getId(), pronumArr));
 		
-		// 가상계좌정보를 전달
-		model.addAttribute("vbank", service.getVbank(order.getId()));
+		
 		
 		return result > 0 ? "order/orderSuccess" : null;
 	}
@@ -103,11 +105,17 @@ public class OrderController {
 	// 내 정보 - 주문리스트 페이지
 	@GetMapping("myOrderList.fr")
 	public void myOrderList(Model model, Principal principal) {
-//		log.info(principal.getName());
-//		log.info(service.getOrderList(principal.getName()));
-		model.addAttribute("orderList", service.getOrderList(principal.getName()));
-		log.info(service.getVbank(principal.getName()));
-		model.addAttribute("vbank", service.getVbank(principal.getName()));
+		
+		// 사용자의 모든 주문 리스트를 전달
+		List<OrderVO> orderList = service.getOrderList(principal.getName());
+		model.addAttribute("orderList", orderList);
+		
+		// 사용자가 발급받은 모든 계좌번호 리스트를 전달
+		List<VbankVO> vbankList = new ArrayList<>();
+		for(OrderVO order : orderList) {
+			vbankList.add(service.getVbank(principal.getName(), order.getOrdernum()));
+		}
+		model.addAttribute("vbankList", vbankList);
 	}
 	
 	// 내 정보 - 판매리스트 페이지

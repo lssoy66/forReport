@@ -10,6 +10,10 @@
    		values(seq_order.nextval, #{pronum}, #{id}, #{paymethod}, #{payprice}, sysdate)
    </insert>
    
+   <select id="getOrder" resultType="long">
+   		select ordernum from tbl_order where pronum = #{pronum} and id = #{id}
+   </select>
+   
    <select id="getOrderList" resultType="com.forreport.domain.OrderVO">
    		select ordernum, tpro.pronum, tpro.proname, torder.id, paymethod, payprice, orderdate
    		from tbl_order torder, tbl_product tpro
@@ -18,12 +22,12 @@
    </select>
    
    <insert id="addVbank">
-   		insert into tbl_vbank(id, vbnum, vbname, vbholder, vbdate) 
-   		values(#{id}, #{vbnum}, #{vbname}, #{vbholder}, #{vbdate})
+   		insert into tbl_vbank(id, ordernum, vbnum, vbname, vbholder, vbdate) 
+   		values(#{id}, #{ordernum}, #{vbnum}, #{vbname}, #{vbholder}, #{vbdate})
    </insert>
    
    <select id="getVbank" resultType="com.forreport.domain.VbankVO">
-   		select * from tbl_vbank where id = #{id}
+   		select * from tbl_vbank where id = #{id} and ordernum = #{ordernum}
    </select>
    
    <!-- 검색 -->

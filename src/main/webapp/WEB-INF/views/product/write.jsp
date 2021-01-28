@@ -105,7 +105,9 @@
 	    				<tr>
 	    					<th>상세정보</th>
 	    					<td>
-	    						<textarea name="prodsc" rows="10" cols="130" placeholder="자료에 대한 소개, 목차, 본문 내용 등을 상세하게 적어주세요." required></textarea>
+	    						<textarea onKeyUp="javascript:fnChkByte(this,'2500')" name="prodsc" rows="10" cols="130" placeholder="자료에 대한 소개, 목차, 본문 내용 등을 상세하게 적어주세요." required></textarea>
+	    						<br>
+	    						<span id="byteInfo">0</span> / 2500Byte
 	    					</td>
 	    				</tr>
 	    			</table>	    			
@@ -119,7 +121,51 @@
 </section>
 
 <script type="text/javascript">
+
+/////////////////////////////////////////////////////////////////////
+
+/** 상세정보 바이트 제한*/
+//http://blog.naver.com/PostView.nhn?blogId=weekamp&logNo=221521396796&parentCategoryNo=&categoryNo=33&viewDate=&isShowPopularPosts=false&from=postView
+
+/////////////////////////////////////////////////////////////////////
+
+
+function fnChkByte(obj, maxByte){
+    var str = obj.value;
+    var str_len = str.length;
+
+    var rbyte = 0;
+    var rlen = 0;
+    var one_char = "";
+    var str2 = "";
+
+    for(var i=0; i<str_len; i++){
+        one_char = str.charAt(i);
+        if(escape(one_char).length > 4){
+            rbyte += 3;    //한글3Byte
+        }else{
+            rbyte++;    //영문 등 나머지 1Byte
+        }
+
+        if(rbyte <= maxByte){
+            rlen = i+1;    //return할 문자열 갯수
+        }
+    }
+
+    if(rbyte > maxByte){
+        alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+        str2 = str.substr(0,rlen);    //문자열 자르기
+        obj.value = str2;
+        fnChkByte(obj, maxByte);
+    }else{
+        $("#byteInfo").html(rbyte);
+    }
+}
+
 $(document).ready(function(){
+	
+	
+
 	
 	/////////////////////////////////////////////////////////////////////
 	

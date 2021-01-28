@@ -1,12 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
     
 <!DOCTYPE html>
 <html>
 <head>
 <!-- header.jsp에 있는 내용으로 여기서는 주석처리: <meta charset="UTF-8"> -->
 <title>ForReport</title>
+<!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.username" var="user_id" />
+</sec:authorize>
 </head>
+
+
 
 <%@ include file="includes/header.jsp" %>
 
@@ -32,7 +41,11 @@
                         <ul class="hero__categories__tags">
                            	<li><a href="product/list.fr?largeCategory=0&smallCategory=999"><img src="/resources/img/hero/cat-2.png" alt=""> 레포트</a></li>
                             <li><a href="product/list.fr?largeCategory=1&smallCategory=999"><img src="/resources/img/hero/cat-1.png" alt=""> 논문</a></li>
-                            <li><a href="product/agree.fr"><img src="/resources/img/hero/cat-3.png" alt=""> 내 레포트/논문 올리기</a></li>
+                        	<c:choose>
+                        		<c:when test="${not empty user_id}">
+                        			<li><a href="product/agree.fr"><img src="/resources/img/hero/cat-3.png" alt=""> 내 레포트/논문 올리기</a></li>
+                        		</c:when>
+                        	</c:choose>
                         </ul>
                     </div>
                 </div>

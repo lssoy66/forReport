@@ -19,7 +19,7 @@ public interface OrderService {
 	public List<OrderVO> getOrderList(String id);
 	
 	// 가상계좌정보 가져오기
-	public VbankVO getVbank(String id);
+	public VbankVO getVbank(String id, long ordernum);
 	
 	// 페이징 처리 된 주문리스트 가져오기
 	public List<OrderVO> getOrderListAllWithPaging(ReviewCriteria criteria);

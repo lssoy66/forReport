@@ -120,9 +120,12 @@
             	
             	<div class="listing__hero__btns">
 	            	<!-- 승인된 제품만 장바구니 버튼 보여준다. -->
+	            	<!-- 로그인 한 사용자에게만 장바구니 버튼 노출  -->
 	            	<c:choose>            		
 	            		<c:when test="${productVO.approval==1}">
-	            			<a href="${productVO.proname}" class="primary-btn cartAdd"><i class="fa fa-bookmark"></i> 장바구니</a>
+	            			<c:if test="${user_id != null }">
+	            				<a href="${productVO.proname}" class="primary-btn cartAdd"><i class="fa fa-bookmark"></i> 장바구니</a>
+			              	</c:if>
 			              </c:when>
 	            	</c:choose>
 	            	<!-- Writer인 경우 삭제 요청 버튼을 누를 수 있다.(writer에게만 보임) -->

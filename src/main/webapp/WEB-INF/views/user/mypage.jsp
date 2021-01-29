@@ -24,7 +24,7 @@
 <div class="w3-content w3-container w3-margin-top">
 	<div class="w3-container w3-card-4">
 		<div class="w3-center w3-large w3-margin-top">
-			<h3>My Page</h3>
+			<h3>내 정보 변경</h3>
 		</div>
 		<div>
 			<form id="myForm" action="/user/updateInfo.fr" method="post">
@@ -38,10 +38,12 @@
 				<p>
 					<label>연락처</label> <input class="w3-input" type="text" id="phone"
 						name="phone">
+					<div class="check_font" id="phoneCheck"></div>	
 				</p>
 				<p>
 					<label>Email</label> <input class="w3-input" type="text" id="email"
 						name="email">
+					<div class="check_font" id="emailCheck"></div>	
 				</p>
 				<p class="w3-center">
 					<button type="submit"
@@ -75,10 +77,10 @@
 				<!-- spring security csrf token 설정1 -->
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}"> <input type="hidden" name="id"
-					value="${user_id}" id="userpw">
+					value="${user_id}" id="id">
 				<p>
-					<label>Password</label> <input class="w3-input" name="pw"
-						type="password" required>
+					<label>현재 비밀번호</label> <input class="w3-input" name="password"
+						type="password" id="password" required>
 				</p>
 				<p class="w3-center">
 					<button type="submit" id="withdrawalBtn"
@@ -90,6 +92,50 @@
 </div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
+//연락처 유효성 검사
+$('#phone').keyup(function(){
+	var phone = $('#phone').val();
+	var phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/; //연락처 정규식
+
+	if(!phoneJ.test(phone)){
+		
+		$('#phoneCheck').text('연락처를 다시 입력해주세요 :: 10~11자리(숫자)');
+		$('#phoneCheck').css('color', 'red');
+		
+	} else if (phone == "") {
+
+		$('#phoneCheck').text('연락처를 입력해주세요 :: 10~11자리(숫자)');
+		$('#phoneCheck').css('color', 'red');
+		
+	} else {
+		$('#phoneCheck').css('display', 'none');
+		phoneChk = true;
+	}
+});
+
+//이메일 유효성 검사
+$("#email").keyup(function() {
+	var email = $("#email").val();	// 이메일 주소
+	var mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+	 if (email == "") {
+
+		$('#emailCheck').text('이메일을 입력해주세요');
+		$('#emailCheck').css('color', 'red');
+		
+	} else if (!mailJ.test(email)) {
+
+		$('#emailCheck').text('이메일을 다시 입력해주세요 예)forreport0202@gmail.com');
+		$('#emailCheck').css('color', 'red');
+
+	} else {
+
+		$('#emailCheck').text('사용 가능한 이메일입니다');
+		$('#emailCheck').css('color', 'green');
+	}
+
+});
+
 
 // 새 비밀번호 유효성 검사
 $('#password').keyup(function(){

@@ -44,6 +44,11 @@
 	<update id="updateInfo">
 		update tbl_user set email = #{email}, phone = #{phone} where id = #{id}
 	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="withdrawal">
+		delete from tbl_user where id = #{id} and password = #{password}
+	</delete>
 
 	<!-- p662 ~ 3 : Mybatis를 사용하기 위한 xml -->
 	<resultMap type="com.forreport.domain.UserVO" id="userMap">

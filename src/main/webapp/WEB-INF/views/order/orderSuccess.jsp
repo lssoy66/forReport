@@ -45,7 +45,7 @@
 						<img src="/resources/img/work/work-2.png" alt="">
 						<h5>For Report를 이용해주셔서 감사합니다.</h5>
 						<p>
-							구매한 상품은 <a href="#">구매내역</a>에서 확인 가능합니다.
+							구매한 상품은 <a href="/order/myOrderList.fr">구매내역</a>에서 확인 가능합니다.
 						</p>
 						<br>
 						
@@ -93,7 +93,6 @@
 								<table class="table text-center">
 									<thead>
 										<tr>
-											<th>(썸네일)</th>
 											<th>상품명</th>
 											<th>판매자</th>
 											<th>가격</th>
@@ -102,8 +101,6 @@
 									<tbody>
 										<c:forEach items="${productList }" var="product">
 											<tr data-price="${product.price }">
-												<td><img src="/resources/img/listing/details/comment.png"
-													alt=""></td>
 												<td><c:out value="${product.title }" /> </td>
 												<td><c:out value="${product.id }" /></td>
 												<td><c:out value="${product.price }" /></td>
@@ -114,37 +111,39 @@
 							</div>
 							
 							<c:if test="${!empty vbank }">
-								<div class="about__text">
-									<br>
-									<div class="section-title">
-										<p>아래 계좌로 입금해주셔야 결제가 완료됩니다.</p>
+								<c:if test="${order.paymethod == 'vBank'}">
+									<div class="about__text">
+										<br>
+										<div class="section-title">
+											<p>아래 계좌로 입금해주셔야 결제가 완료됩니다.</p>
+										</div>
+										<table class="table text-center">
+											<thead>
+												<tr>
+													<th>입금계좌명</th>
+													<th>은행명</th>
+													<th>예금주</th>
+													<th>입금기한</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td><c:out value="${vbank.vbnum }" /></td>
+													<td><c:out value="${vbank.vbname }" /> </td>
+													<td><c:out value="${vbank.vbholder }" /></td>
+													<td><fmt:formatDate pattern="yyyy-MM-dd" value="${vbank.vbdate }"/></td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
-									<table class="table text-center">
-										<thead>
-											<tr>
-												<th>입금계좌명</th>
-												<th>은행명</th>
-												<th>예금주</th>
-												<th>입금기한</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td><c:out value="${vbank.vbnum }" /></td>
-												<td><c:out value="${vbank.vbname }" /> </td>
-												<td><c:out value="${vbank.vbholder }" /></td>
-												<td><fmt:formatDate pattern="yyyy-MM-dd" value="${vbank.vbdate }"/></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+								</c:if>
 							</c:if>
 							
 							
 							<br><br>
 							<div class="section-title">
 								<a href="/" class="site-btn" id="orderButton2">홈으로</a>&nbsp;
-								<a href="#" class="site-btn" id="orderButton">구매내역</a>
+								<a href="/order/myOrderList.fr" class="site-btn" id="orderButton">구매내역</a>
 							</div>
 							
 							
@@ -167,7 +166,7 @@
 	$(document).ready(function(){
 		
 		// cartHeader.jsp의 로그아웃 처리
-		$("#logout").click(function(e){
+		$(".logout").click(function(e){
         			
         	e.preventDefault();
         	$(".logoutForm").submit();

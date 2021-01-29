@@ -2,11 +2,19 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
+<!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.username" var="user_id" />
+</sec:authorize>
+
 <!DOCTYPE html>
 <html>
 <head>
 <!-- header.jsp에 있는 내용으로 여기서는 주석처리: <meta charset="UTF-8"> -->
 <title>ForReport</title>
+
 </head>
 
 <%@ include file="../includes/header.jsp"%>
@@ -89,7 +97,7 @@
 					<!-- ..END: containerPopup -->
 					<br>
 					<div class="col-lg-7 col-md-7" style="margin:auto">
-						<form action="write.fr" method="post">
+						<form id="uploadForm" action="write.fr" method="post">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
 							<input type="submit" id="uploadBtn" class="primary-btn" style="float:right" value="자료 등록">
 						</form>
@@ -104,25 +112,38 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	$("#uploadBtn").on("submit", function(e){
+	var userid = '<c:out value="${user_id}"/>'
+	console.log(userid);
+	console.log(typeof(userid));
+	
+	$("#uploadForm").on("submit", function(e){
+		
+		console.log("uploadBtn 내부");
 		
 		e.preventDefault();
+		
+		if(userid==""){
+			alert("로그인한 사용자만 자료를 등록할 수 있습니다.");
+			return false;
+		}
+		
 		
 		if(($("#precautions").is(":checked")==false)&&($("#regulation").is(":checked")==false)){
 			alert("주의사항과 규정을 확인 후 표시해주시기 바랍니다.");
 			$("#precautions").focus();
-			return;
+			return false;
 		} else if($("#precautions").is(":checked")==false) {
 			alert("주의사항을 확인해주시기 바랍니다.");
 			$("#precautions").focus();
-			return;
+			return false;
 		} else if($("#regulation").is(":checked")==false) {
 			alert("규정을 확인해주시기 바랍니다.");
 			$("#regulation").focus();
-			return;
+			return false;
 		}
 		
-		e.submit();	
+		this.submit();	
+		
 		
 	});
 	

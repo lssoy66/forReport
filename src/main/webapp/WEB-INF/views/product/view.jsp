@@ -1,3 +1,6 @@
+<%@page import="org.springframework.security.core.userdetails.UserDetails"%>
+<%@page import="org.springframework.security.core.context.SecurityContextHolder"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -12,6 +15,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<%
+
+Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+%>
 
 <!-- AJAX를 사용하기 위해 review.js 가져오기 -->
 <script type="text/javascript" src="/resources/js/review.js"></script>
@@ -120,9 +129,13 @@
             	
             	<div class="listing__hero__btns">
 	            	<!-- 승인된 제품만 장바구니 버튼 보여준다. -->
+	            	<!-- 로그인 한 사용자에게만 장바구니 버튼 노출  -->
 	            	<c:choose>            		
 	            		<c:when test="${productVO.approval==1}">
-	            			<a href="${productVO.proname}" class="primary-btn cartAdd"><i class="fa fa-bookmark"></i> 장바구니</a>
+	            			<c:if test="${user_id != null }">
+	            				<a href="${productVO.proname}" class="primary-btn cartAdd" style="background-color:#038f88">
+	            					<i class="fa fa-bookmark"></i> 장바구니</a>
+			              	</c:if>
 			              </c:when>
 	            	</c:choose>
 	            	<!-- Writer인 경우 삭제 요청 버튼을 누를 수 있다.(writer에게만 보임) -->
@@ -244,7 +257,7 @@
 	                            <i class="fa fa-star" name="unchecked"></i>
 	                        </div>
                             <textarea placeholder="Review" name="review" class="review"></textarea>
-                            <button type="submit" class="site-btn">리뷰 등록</button>
+                            <button type="submit" class="site-btn" style="background-color:#038f88">리뷰 등록</button>
                         </form>
                     </div>
                 </div>
@@ -863,7 +876,13 @@ $(document).ready(function(){
 			contentType : 'application/json; charset=utf-8',
 			type : 'POST',
 			success : function(result){
-				alert(result + " :: 장바구니에 상품이 담겼습니다.");
+				if(result == 'notAddCart'){
+					alert("이미 장바구니에 등록된 상품입니다.");
+				}else if(result == 'notAddOrder'){
+					alert("이미 구매한 상품입니다.");
+				}else if(result == 'success'){
+					alert("장바구니에 상품이 담겼습니다.");
+				}
 			}
 		}); // ajax 끝
 		
@@ -877,6 +896,7 @@ function showImage(fileCallPath){
 	$(".bigPictureWrapper").css("display","flex").show();
 	$(".bigPicture").html('<img src="'+fileCallPath+'">').animate({width: '100%', height:'100%'},1000);
 }
+
 
 
 </script>

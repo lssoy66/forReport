@@ -46,7 +46,6 @@
 					<table class="table text-center">
 						<thead>
 							<tr>
-								<th>(썸네일)</th>
 								<th>상품명</th>
 								<th>판매자</th>
 								<th>가격</th>
@@ -55,8 +54,6 @@
 						<tbody>
 							<c:forEach items="${orderProductList }" var="orderProduct">
 								<tr data-pronum="${orderProduct.pronum } " data-protitle="${orderProduct.title }">
-									<td><img src="/resources/img/listing/details/comment.png"
-										alt=""></td>
 									<td><c:out value="${orderProduct.title }" /></td>
 									<td><c:out value="${orderProduct.id }" /></td>
 									<td><c:out value="${orderProduct.price }" />원</td>
@@ -133,7 +130,7 @@
 	$(document).ready(function(){
 		
 		// cartHeader.jsp의 로그아웃 처리
-		$("#logout").click(function(e){
+		$(".logout").click(function(e){
         			
         	e.preventDefault();
         	$(".logoutForm").submit();

@@ -39,6 +39,12 @@
 	<script src="/resources/js/jquery-3.3.1.min.js"></script>
 	
 	
+	<style>
+	.mobile-menu.logo{
+		text-align: left;
+		margin: auto;
+	}
+	</style>
 	
     
 	
@@ -56,7 +62,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="#" alt=""></a>
+                        <a href="/"><img src="/resources/img/logo_for3.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-9">
@@ -77,9 +83,10 @@
                                         <li><a href="/user/mypage.fr">내 정보 수정</a></li>
                                     </ul>
                                 </li>
+
                                 <!-- blog__sidebar__search의 검색창 사용을 위해 클래스명 지정 -->
                                 <li class=blog__sidebar__search>
-                                	 <form action="list?largeCategory=999&smallCategory=999" method="get" id="headerInputKeywordForm">
+                                	 <form action="list.fr?largeCategory=999&smallCategory=999" method="get" id="headerInputKeywordForm">
 		                                <input type="text" placeholder="Searching..." name="inputKeyword" id="inputKeyword">
 		                                <input type="hidden" name="largeCategory" value=999>                                
                                			<input type="hidden" name="smallCategory" value=999>                                
@@ -88,14 +95,14 @@
                                 </li>
                             </ul>
                         </nav>
-                        <div class="header__menu__right">
+                        <div class="header__menu__right" id="buttonMainColor">
 
 	                        <form class="logoutForm" action="/login/customLogout.fr" method="post">
 	                    		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	                   		</form>
                             <c:if test="${user_id != null}">
                             	<p>${user_id }님</p>
-                            	<a href="/" id="logout" class="primary-btn"> 로그아웃</a>
+                            	<a href="/" class="primary-btn logout" id="whiteB" style="background-color: white"> 로그아웃</a>
                             	<sec:authorize access="hasRole('ROLE_ADMIN')">
                             		&nbsp;<a href="/admin/orderList.fr" class="primary-btn">관리자</a>
                             	</sec:authorize>
@@ -103,6 +110,7 @@
                         	<c:if test="${user_id == null}">
                         		<a href="/login/customLogin.fr" class="primary-btn"> 로그인</a>
                         		<a href="/user/provision.fr" class="primary-btn"><i class="fa fa-plus"></i> 회원가입</a>
+
                         	</c:if>
 
                         </div>
@@ -124,7 +132,7 @@
     		}
     		
     		// header.jsp의 로그아웃 처리
-    		$("#logout").click(function(e){
+    		$(".logout").click(function(e){
             			
             	e.preventDefault();
             	$(".logoutForm").submit();

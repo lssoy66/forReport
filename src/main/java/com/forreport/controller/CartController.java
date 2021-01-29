@@ -1,6 +1,8 @@
 package com.forreport.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.forreport.domain.IdPronumVO;
+import com.forreport.domain.OrderVO;
+import com.forreport.domain.ProductVO;
 import com.forreport.service.CartService;
+import com.forreport.service.OrderService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -30,6 +35,7 @@ import lombok.extern.log4j.Log4j;
 public class CartController {
 
 	private CartService service;
+	private OrderService orderService;
 
 	// 장바구니 리스트
 	@GetMapping("cartList.fr")
@@ -44,6 +50,21 @@ public class CartController {
 	@ResponseBody
 	public ResponseEntity<String> writeCart(@RequestBody IdPronumVO cart) {
 		log.info("writeCartController");
+		
+		List<ProductVO> list = service.getCartList(cart.getId());
+		for(ProductVO product : list) {
+			if (cart.getPronum() == product.getPronum()) {
+				return new ResponseEntity<>("notAddCart", HttpStatus.OK);
+			}
+		}
+		
+		List<OrderVO> listOrder = orderService.getOrderList(cart.getId());
+		for(OrderVO order : listOrder) {
+			if (cart.getPronum() == order.getPronum()) {
+				return new ResponseEntity<>("notAddOrder", HttpStatus.OK);
+			}
+		}
+		
 		int result = service.addCart(cart);
 
 		if (result == 1) {

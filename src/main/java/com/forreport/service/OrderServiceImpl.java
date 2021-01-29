@@ -51,36 +51,46 @@ public class OrderServiceImpl implements OrderService {
 	public int addOrder(OrderVO order) {
 		int success = 1;
 		IdPronumVO idpro = new IdPronumVO();
+		
+		// 상품 한개 당 하나의 주문 테이블 데이터가 추가되어야 한다
+		// (즉, pronum과 ordernum만 다르고 나머지 값은 모두 동일한 데이터를 주문 테이블에 저장)
 		for(int i = 0; i < order.getPronumList().size(); i++) {
+			
 			// 주문테이블에 추가
+			// orderVO의 pronumList(상품번호리스트)를 가져와 각각 처리
 			order.setPronum(order.getPronumList().get(i));
 			order.setPayprice(cartMapper.getProduct(order.getPronum()).getPrice());
 			success *= mapper.addOrder(order);
+			
+			// 방금 저장한 주문테이블 데이터의 주문번호를 가져옴(아이디 + 상품번호를 통해 가져온다)
+			long ordernum = mapper.getOrder(order.getId(), order.getPronumList().get(i));
+			
+			// 만약 가상계좌 정보가 있다면 가상계좌 테이블에 추가
+			if(order.getVbnum() != null) {
+				VbankVO vbank = new VbankVO();
+				vbank.setId(order.getId());
+				vbank.setOrdernum(ordernum); 	// ordernum 추가
+				vbank.setVbnum(order.getVbnum());
+				vbank.setVbname(order.getVbname());
+				vbank.setVbholder(order.getVbholder());
+				
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				Date date = null;
+				try {
+					date = format.parse(order.getVbdate());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				vbank.setVbdate(date);
+				
+				success *= mapper.addVbank(vbank);
+			}
 			
 			// 장바구니 테이블에서 삭제
 			idpro.setId(order.getId());
 			idpro.setPronum(order.getPronumList().get(i));
 			success *= cartMapper.deleteCartProduct(idpro);
-		}
-		
-		// 만약 가상계좌 정보가 있다면 가상계좌 테이블에 추가
-		if(order.getVbnum() != null) {
-			VbankVO vbank = new VbankVO();
-			vbank.setId(order.getId());
-			vbank.setVbnum(order.getVbnum());
-			vbank.setVbname(order.getVbname());
-			vbank.setVbholder(order.getVbholder());
 			
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = null;
-			try {
-				date = format.parse(order.getVbdate());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			vbank.setVbdate(date);
-			
-			mapper.addVbank(vbank);
 		}
 		
 		log.info("success Number :: " + success);
@@ -95,8 +105,8 @@ public class OrderServiceImpl implements OrderService {
 
 	// 사용자가 발급받은 가상계좌 정보 가져오기
 	@Override
-	public VbankVO getVbank(String id) {
-		return mapper.getVbank(id);
+	public VbankVO getVbank(String id, long ordernum) {
+		return mapper.getVbank(id, ordernum);
 	}
 
 	// 페이징 처리 한 총 주문리스트 가져오기
@@ -111,6 +121,7 @@ public class OrderServiceImpl implements OrderService {
 	public int getTotalCount(ReviewCriteria criteria) {
 		return mapper.getTotalCount(criteria);
 	}
+
 	
 	
 	

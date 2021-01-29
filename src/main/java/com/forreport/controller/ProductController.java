@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.UUID;
 
 import javax.websocket.server.PathParam;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,7 +27,9 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,29 +71,35 @@ public class ProductController {
 	}
 	
 	/* 댓글을 제외한 전체 상품 상세 뷰 살펴보기 -> 댓글은 ReviewController + Ajax를 이용해 확인 가능*/
+	/* 탈퇴회원의 경우 작성자: 탈퇴회원, 작성자 등급: 등긊없음으로 표시*/
 	@GetMapping("view.fr")
 	public void productView(int pronum, Model model) {
 		
 		ProductVO productVO = productService.getProduct(pronum);
 		
-		System.out.println(productVO);
-		
-		int writerGradeInt = productService.getGrade(productVO.getId());
-		System.out.println("writerGrade: " + writerGradeInt);
+		log.info(productVO);
+		log.info(productVO.getId());
 		
 		String writerGrade = "";
+		System.out.println("writerGrade: " + writerGrade);		
 		
-		if(writerGradeInt==0) {
-			writerGrade = "일반";
-		} else if(writerGradeInt==1) {
-			writerGrade = "브론즈";
-		} else if(writerGradeInt==2) {
-			writerGrade = "실버";
-		} else if(writerGradeInt==3) {
-			writerGrade = "골드";
+		if(productVO.getId().equals("탈퇴회원")) {
+			writerGrade = "등급없음";
+		} else {
+			
+			int writerGradeInt = productService.getGrade(productVO.getId());
+			
+			if(writerGradeInt==0) {
+				writerGrade = "일반";
+			} else if(writerGradeInt==1) {
+				writerGrade = "브론즈";
+			} else if(writerGradeInt==2) {
+				writerGrade = "실버";
+			} else if(writerGradeInt==3) {
+				writerGrade = "골드";
 
+			}
 		}
-		
 		
 		model.addAttribute("writerGrade", writerGrade);
 		model.addAttribute("productVO", productVO);
@@ -243,6 +254,55 @@ public class ProductController {
 		return result;
 	}
 	
+
+	// 첨부파일 다운로드
+	// 상품번호를 전달받아 tbl_upload 테이블에 존재하는 상품 가져오도록
+	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, @RequestParam("pronum") int pronum){
+		
+		// pronum을 이용해 UploadVO 객체 얻기
+		UploadVO uploadVO = productService.getThumbnail(pronum);
+		
+		String fileName = uploadVO.getFileDirectory() + "\\" + uploadVO.getUUID() + "_" + uploadVO.getFileName();
+		
+		Resource resource = new FileSystemResource(fileName);		
+
+		if(resource.exists() == false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		String resourceName = resource.getFilename();
+		
+		// 다운로드 시 UUID 없는 파일 이름으로 저장할 수 있도록 UUID 제거
+		String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
+		
+		// 헤더를 사용해 브라우저 별로 다르게 처리(+한글 인코딩)
+		HttpHeaders headers = new HttpHeaders();
+		try {
+			String downloadName = null;
+			if(userAgent.contains("Trident")) {
+				log.info("IE browser");
+				downloadName = URLEncoder.encode(resourceOriginalName, "UTF-8").replaceAll("\\+", " ");
+			}else if(userAgent.contains("Edge")){
+				log.info("Edge browser");
+				downloadName = URLEncoder.encode(resourceOriginalName, "UTF-8");
+			}else {
+				log.info("Chrome browser");
+				downloadName = new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
+			}
+			
+			log.info("*** downloadName : " + downloadName);
+			
+			headers.add("Content-Disposition", 
+					"attachment; filename=" + downloadName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+	}	
+
 	/* 게시글 삭제 요청 > 승인을 삭제 요청으로 변경 >> 관리자가 추후에 승인거부(숨김처리)해준다. */
 	@PostMapping("/deleteRequest.fr")
 	@ResponseBody
@@ -253,6 +313,7 @@ public class ProductController {
 		String result = productService.deleteRequestAndGrade(pronum,id)==2 ? "success" : "fail";
 		
 		return result;
+
 	}
 	
 }	

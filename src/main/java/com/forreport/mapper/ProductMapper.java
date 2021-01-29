@@ -3,8 +3,10 @@ package com.forreport.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.forreport.domain.ProductVO;
+import com.forreport.domain.ReviewCriteria;
 import com.forreport.domain.SearchingVO;
 import com.forreport.domain.UploadVO;
 
@@ -33,7 +35,17 @@ public interface ProductMapper {
 	
 	/* 관리자 페이지 - 페이징 처리된 상품 목록 전달*/
 	public List<ProductVO> getProductListWithPagingInAdmin(SearchingVO searchingVO);
+
 	
+	/* 수연 추가 :: 사용자(판매자)가 등록한 상품 전체 가져오기(페이징X) */
+	public List<ProductVO> getProductByIdNotPaging(String id);
+	
+	/* 수연 추가 :: 사용자(판매자)가 등록한 상품 전체 가져오기(페이징) */
+	public List<ProductVO> getProductById(@Param("id") String id, @Param("criteria") ReviewCriteria criteria);
+	
+	/* 수연 추가 :: 사용자(판매자)가 등록한 상품 총 개수 */
+	public int getTotalCountById(String id);
+
 	/* 관리자 페이지 조건에 맞는 상품 개수를 가져온다.*/
 	public int getTotalInAdmin(SearchingVO searchingVO);
 	
@@ -46,4 +58,5 @@ public interface ProductMapper {
 	/* view - 삭제 요청(숨김처리) */
 	public int deleteRequest(int pronum);
 		
+
 }

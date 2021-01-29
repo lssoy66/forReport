@@ -3,6 +3,7 @@ package com.forreport.controller;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -22,12 +23,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.forreport.domain.IdPronumVO;
+import com.forreport.domain.MiniComparator;
 import com.forreport.domain.OrderVO;
 import com.forreport.domain.PageDTO;
 import com.forreport.domain.ProductVO;
 import com.forreport.domain.ReviewCriteria;
+import com.forreport.domain.VbankVO;
 import com.forreport.service.CartService;
 import com.forreport.service.OrderService;
+import com.forreport.service.ProductService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -39,6 +43,7 @@ import lombok.extern.log4j.Log4j;
 public class OrderController {
 
 	private OrderService service;
+	private ProductService productService;
 	
 	// 주문 페이지 출력(사용자가 선택한 상품의 정보를 화면에 표시)
 	@PostMapping("order.fr")
@@ -76,7 +81,12 @@ public class OrderController {
 		for(int i = 0; i < orderList.size(); i++) {
 			if(dataformat.format(orderList.get(i).getOrderdate()).equals(dataformat.format(new Date()))) {
 				log.info(orderList.get(i));
-				model.addAttribute("order", orderList.get(i));
+				if(order.getPronum() == orderList.get(i).getPronum()) {
+					model.addAttribute("order", orderList.get(i));
+					// 가상계좌정보를 전달(아이디와 주문번호를 전달) - 화면에 한번 표시할 용도이므로 한 개만 전달O
+					model.addAttribute("vbank", 
+							service.getVbank(orderList.get(i).getId(), orderList.get(i).getOrdernum()));
+				}
 			}
 		}
 		
@@ -87,8 +97,7 @@ public class OrderController {
 		}	
 		model.addAttribute("productList", service.getCartProduct(order.getId(), pronumArr));
 		
-		// 가상계좌정보를 전달
-		model.addAttribute("vbank", service.getVbank(order.getId()));
+		
 		
 		return result > 0 ? "order/orderSuccess" : null;
 	}
@@ -96,12 +105,53 @@ public class OrderController {
 	// 내 정보 - 주문리스트 페이지
 	@GetMapping("myOrderList.fr")
 	public void myOrderList(Model model, Principal principal) {
-		log.info(principal.getName());
-		log.info(service.getOrderList(principal.getName()));
-		model.addAttribute("orderList", service.getOrderList(principal.getName()));
+		
+		// 사용자의 모든 주문 리스트를 전달
+		List<OrderVO> orderList = service.getOrderList(principal.getName());
+		model.addAttribute("orderList", orderList);
+		
+		// 사용자가 발급받은 모든 계좌번호 리스트를 전달
+		List<VbankVO> vbankList = new ArrayList<>();
+		for(OrderVO order : orderList) {
+			vbankList.add(service.getVbank(principal.getName(), order.getOrdernum()));
+		}
+		model.addAttribute("vbankList", vbankList);
 	}
 	
+	// 내 정보 - 판매리스트 페이지
+	@GetMapping("mySaleList.fr")
+	public void mySaleList(Model model, Principal principal, ReviewCriteria criteria) {
+		
+		// 한 페이지 당 4개씩 출력
+		criteria.setAmount(4);
+		
+		// 판매자의 등록 상품 + 각 상품의 판매(주문) 수(페이징 처리했으므로, 4개의 ProductVO)
+		List<ProductVO> list = productService.getProductById(principal.getName(), criteria);
+		model.addAttribute("saleList", list);
+		
+		// criteria + 판매자가 등록한 상품의 총 개수 사용하여 화면 페이징 처리를 위한 PageDTO 객체 생성
+		model.addAttribute("pageMaker", 
+				new PageDTO(criteria, productService.getTotalCountById(principal.getName())));
 	
+		// 총 수익금(판매자의 모든 등록 상품 리스트를 가져온 후, 각각의 가격과 주문 개수(count)를 사용해 총 수익금 전달)
+		List<ProductVO> listAll = productService.getProductByIdNotPaging(principal.getName());
+		int sum = 0;	// 총 수익금
+		for(ProductVO product : listAll) {
+			if(product.getCount() > 0) {
+				sum += product.getPrice() * product.getCount();
+			}
+		}
+		
+		model.addAttribute("priceAll", sum);
+		model.addAttribute("saleCount", listAll.size());	// 판매자의 등록 자료 개수
+		
+		// 판매 수 내림차순으로 정렬한 판매자 등록 상품 리스트 전달
+		MiniComparator comp = new MiniComparator();
+		Collections.sort(listAll, comp);
+		model.addAttribute("saleListDescCount", listAll);
+	
+		
+	}
 	
 }
 

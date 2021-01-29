@@ -39,6 +39,12 @@
 	<script src="/resources/js/jquery-3.3.1.min.js"></script>
 	
 	
+	<style>
+	.mobile-menu.logo{
+		text-align: left;
+		margin: auto;
+	}
+	</style>
 	
     
 	
@@ -56,7 +62,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="#" alt=""></a>
+                        <a href="/"><img src="/resources/img/logo_for3.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-9">

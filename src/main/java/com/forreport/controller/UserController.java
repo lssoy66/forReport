@@ -182,35 +182,57 @@ public class UserController {
 		log.info("findPw");
 	}
 	
-	// 비밀번호 찾기& 변경
-	/*
-	 * @RequestMapping("/findPwProcess.fr")
-	 * 
-	 * @ResponseBody public String findPwProcess(UserVO vo) throws Exception { //
-	 * 이메일로 받는 임시 비밀번호 부분 (난수) Random r = new Random(); int newPw =
-	 * r.nextInt(888888) + 111111;
-	 * 
-	 * log.info("임시 비번 = " + newPw);
-	 * 
-	 * // 이메일 발송 String setFrom = "forreport0202@gmail.com"; String toMail =
-	 * vo.getEmail(); String title = "[For Report] 임시 비밀번호 안내 이메일 입니다."; String
-	 * content = "임시 비밀번호입니다." + "<br><br>" + vo.getId() + "님의 임시 비밀번호는 " + newPw +
-	 * " 입니다." + "<br><br>" + "비밀번호를 변경 후 사용하세요.";
-	 * 
-	 * try { MimeMessage message = mailSender.createMimeMessage(); MimeMessageHelper
-	 * helper = new MimeMessageHelper(message, true, "UTF-8");
-	 * 
-	 * helper.setFrom(setFrom); // 보내는사람 생략하면 정상작동을 안함 helper.setTo(toMail); // 받는사람
-	 * 이메일 helper.setSubject(title); // 메일제목은 생략 가능 helper.setText(content); // 메일
-	 * 내용
-	 * 
-	 * mailSender.send(message);
-	 * 
-	 * } catch (Exception e) { e.printStackTrace(); }
-	 * 
-	 * String num = Integer.toString(newPw);
-	 * 
-	 * return num; }
-	 */
+		
+	// 비밀번호 변경
+	@RequestMapping("/updatePw.fr")
+	public String updatePw(HttpSession session, UserVO vo) throws Exception{
+		log.info("updatePw");
+		
+		// 비밀번호 암호화
+		String inputPw = vo.getPassword();
+		String pw = pwEncoder.encode(inputPw);
+		vo.setPassword(pw);
+		
+		userService.updatePw(vo);
+		
+		session.invalidate();
+		
+		return "redirect:/login/customLogin.fr";
+		
+	}
+	
+	// 회원정보 변경
+	@RequestMapping("/updateInfo.fr")
+	public String updateInfo(HttpSession session, UserVO vo) throws Exception{
+		log.info("updateInfo");
+		
+		userService.updateInfo(vo);
+		
+		return "redirect:/user/mypage.fr";
+	}
+	
+	// 회원탈퇴
+	@RequestMapping("/withdrawal.fr")
+	public String withdrawal(@RequestParam(value="password") String pw, HttpSession session, UserVO vo) throws Exception{
+		log.info("withdrawal");
+		
+		
+		String newPw = vo.getPassword();
+		
+		log.info("pw" + pw);
+		log.info("newpw" + newPw);
+		
+		boolean pwCheck = pwEncoder.matches(pw, newPw);
+		
+		if(!pw.equals(newPw)) {
+			
+			return "redirect:/user/mypage.fr";
+		}
+		
+		userService.withdrawal(vo);
+		session.invalidate();
+		
+		return "redirect:/";
+	}
 
 }

@@ -68,13 +68,23 @@ public class UserServiceImpl implements UserService {
 		} 
 	}
 
-	/*
-	 * // 비밀번호 찾기
-	 * 
-	 * @Override public String findPw(String id, String email) throws Exception {
-	 * 
-	 * return userMapper.findPw(id, email); }
-	 */
+	// 비밀번호 변경
+	@Override
+	public void updatePw(UserVO vo) throws Exception {
+		userMapper.updatePw(vo);		
+	}
+
+	// 회원 정보 변경
+	@Override
+	public void updateInfo(UserVO vo) throws Exception {
+		userMapper.updateInfo(vo);
+	}
+
+	// 회원탈퇴
+	@Override
+	public void withdrawal(UserVO vo) throws Exception {
+		userMapper.withdrawal(vo);		
+	}
 
 
 }

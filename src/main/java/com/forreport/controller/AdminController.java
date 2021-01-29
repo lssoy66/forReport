@@ -36,6 +36,7 @@ import com.forreport.domain.SearchingVO;
 import com.forreport.domain.UploadVO;
 import com.forreport.service.OrderService;
 import com.forreport.service.ProductService;
+import com.forreport.service.UserService;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -53,6 +54,9 @@ public class AdminController {
 	@Setter(onMethod_ = @Autowired)
 	ProductService productService;
 	
+	@Setter(onMethod_ = @Autowired)
+	UserService userService;
+	
 	// 관리자 주문리스트 관리
 	@GetMapping("orderList.fr")
 	public void adminTestPage(ReviewCriteria criteria, Model model) {
@@ -65,6 +69,18 @@ public class AdminController {
 		
 		// 화면 페이지 처리를 위한 정보 전달
 		model.addAttribute("pageMaker", new PageDTO(criteria, orderService.getTotalCount(criteria)));
+	}
+	
+	// 관리자 회원리스트 관리
+	@GetMapping("userList.fr")
+	public void adminUser(Model model, SearchingVO searchingVO) {
+		log.info("userList controller");
+		
+		// 페이징 처리 된 회원 목록 전달
+		model.addAttribute("userList", userService.getUserListWithPaging(searchingVO));
+		
+		// 화면 페이지 처리를 위한 정보 전달
+//		model.addAttribute("pageMaker", new PageDTO(userService.getTotalCount()));
 	}
 	
 	// 관리자 상품리스트 관리

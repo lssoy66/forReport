@@ -36,9 +36,19 @@
 	</select>
 
 	<!-- 비밀번호 변경 -->
-<!-- 	<update id="findPw">
-		update tbl_user set password = #{password} where id = #{id} and email = #{email}
-	</update> -->
+	<update id="updatePw">
+		update tbl_user set password = #{password} where id = #{id}
+	</update>
+	
+	<!-- 회원 정보 변경 -->
+	<update id="updateInfo">
+		update tbl_user set email = #{email}, phone = #{phone} where id = #{id}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="withdrawal">
+		delete from tbl_user where id = #{id} and password = #{password}
+	</delete>
 
 	<!-- p662 ~ 3 : Mybatis를 사용하기 위한 xml -->
 	<resultMap type="com.forreport.domain.UserVO" id="userMap">

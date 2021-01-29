@@ -58,7 +58,7 @@
 							<div class="form-group">
 								<label for="user_email">이메일</label> <input type="text"
 									 class="form-control" name="email" id="email"
-									 value="${param.email }"
+									 value="${param.email }" readonly
 									 required>
 							</div>
 							<!-- 휴대전화 -->

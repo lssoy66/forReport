@@ -40,8 +40,10 @@
 		
 			<div class="col-lg-3">
 				<div class="blog__sidebar">
-					<div class="blog__sidebar__recent">
-						<h5>${user_id }</h5>
+					<div class="blog__sidebar__recent" style="text-align:center">
+						
+						<h5 style="color: #038f88; font-size:30px">${user_id }</h5>
+
 						${user_name }님<br><br>
 						등급 : 
 						<c:choose>
@@ -87,11 +89,11 @@
 								<div class="col-lg-5" style="text-align: center">
 									<br><br>
 									<h5>총 수익금</h5>
-									<h1 style="color: #23a16a; font-size: 60px; display: inline">
+									<h1 style="color: #038f88; font-size: 60px; display: inline">
 									<b><c:out value="${priceAll }" /></b></h1><p style="display: inline; font-size: 25px">원</p>
 									<br><br>
 									<p style="display: inline">내가 등록한 자료</p> : 
-									<p style="display: inline; font-size: 20px; color: #23a16a">${saleCount }개</p>
+									<p style="display: inline; font-size: 20px; color: #038f88">${saleCount }개</p>
 									
 								</div>
 								<div class="col-lg-7" style="text-align: center">
@@ -171,7 +173,7 @@
 									<c:choose>
 										<c:when test="${pageMaker.criteria.pageNum==num}">
 											<a href="${num }">
-												<strong style="color:red">${num}</strong>
+												<strong style="color:#038f88">${num}</strong>
 											</a>
 										</c:when>
 										<c:otherwise>
@@ -215,7 +217,7 @@
 	$(document).ready(function(){
 		
 		// cartHeader.jsp의 로그아웃 처리
-		$("#logout").click(function(e){
+		$(".logout").click(function(e){
         			
         	e.preventDefault();
         	$(".logoutForm").submit();
@@ -264,7 +266,7 @@
 		// 차트1 - 도넛(판매 수 TOP 5)
 		data = { 
 				datasets: [{ 
-					backgroundColor: ['#48d484','#23a16a','#83c998', '#b7c9c5', '#93faa1'], 
+					backgroundColor: ['#48d4a3','#038f88','#83c9a9', '#b7c9c5', '#8be8d3'], 
 					data: arrCount
 				}], 
 				// 라벨의 이름이 툴팁처럼 마우스가 근처에 오면 나타남 

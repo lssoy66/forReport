@@ -37,8 +37,10 @@
 		
 			<div class="col-lg-3">
 				<div class="blog__sidebar">
-					<div class="blog__sidebar__recent">
-						<h5>${user_id }</h5>
+					<div class="blog__sidebar__recent" style="text-align:center">
+						
+						<h5 style="color: #038f88; font-size:30px">${user_id }</h5>
+						
 						${user_name }님<br><br>
 						등급 : 
 						<c:choose>
@@ -123,7 +125,7 @@
 												가상계좌</button></td>
 											</c:if>
 											<c:if test="${order.paymethod == 'card' }">
-												<td><button class="site-btn download" data-pronum="${order.pronum}">다운로드</button></td>
+												<td><button class="site-btn download" id="btnColorCustom" data-pronum="${order.pronum}">다운로드</button></td>
 											</c:if>
 										</tr>
 									</tbody>
@@ -190,7 +192,7 @@
 	$(document).ready(function(){
 		
 		// cartHeader.jsp의 로그아웃 처리
-		$("#logout").click(function(e){
+		$(".logout").click(function(e){
         			
         	e.preventDefault();
         	$(".logoutForm").submit();

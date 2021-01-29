@@ -124,7 +124,8 @@
 	            	<c:choose>            		
 	            		<c:when test="${productVO.approval==1}">
 	            			<c:if test="${user_id != null }">
-	            				<a href="${productVO.proname}" class="primary-btn cartAdd"><i class="fa fa-bookmark"></i> 장바구니</a>
+	            				<a href="${productVO.proname}" class="primary-btn cartAdd" style="background-color:#038f88">
+	            					<i class="fa fa-bookmark"></i> 장바구니</a>
 			              	</c:if>
 			              </c:when>
 	            	</c:choose>
@@ -247,7 +248,7 @@
 	                            <i class="fa fa-star" name="unchecked"></i>
 	                        </div>
                             <textarea placeholder="Review" name="review" class="review"></textarea>
-                            <button type="submit" class="site-btn">리뷰 등록</button>
+                            <button type="submit" class="site-btn" style="background-color:#038f88">리뷰 등록</button>
                         </form>
                     </div>
                 </div>

@@ -128,7 +128,7 @@
 										&smallCategory=${pageDTO.searchingVO.smallCategory}
 										&pageNum=${num}
 										&inputKeyword=${pageDTO.searchingVO.inputKeyword}">
-									<strong style="color:red">${num}</strong>
+									<strong style="color:#038f88">${num}</strong>
 								</a>
 							</c:when>
 							<c:otherwise>

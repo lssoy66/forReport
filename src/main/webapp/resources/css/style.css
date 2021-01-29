@@ -138,6 +138,15 @@ div #custom {
 	color: #0084ff;
 }
 
+/* 버튼 컬러 우선적용 추가 */
+#buttonMainColor a{
+	background-color: #038f88;
+}
+
+#whiteB{
+	color: #038f88;
+}
+
 .set-bg {
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -192,6 +201,11 @@ div #custom {
 }
 
 /* 버튼 스타일 추가 */
+#btnColorCustom{
+	background: #038f88;
+}
+
+/* 버튼 스타일 추가 */
 .site-btn.orderButton {
 	font-size: 20px;
 	color: #ffffff;
@@ -235,14 +249,14 @@ div #custom {
 
 #customButtonVbank {
 	font-size: 14px;
-	color: #f03250;
+	color: #038f88;
 	font-weight: 700;
 	text-transform: uppercase;
 	display: inline-block;
 	padding: 13px 30px 12px;
 	background: white;
 	border: 1px solid;
-	border-color: #f03250;
+	border-color: #038f88;
 }
 
 /* Preloder */
@@ -374,12 +388,15 @@ div #custom {
 .header__menu ul li:hover>a:after {
 	opacity: 1;
 	width: 100%;
+	background-color: #038f88;
 }
 
 .header__menu ul li.active a:after {
 	opacity: 1;
 	width: 100%;
+	background-color: #038f88;
 }
+
 
 .header__menu ul li .dropdown {
 	position: absolute;
@@ -595,7 +612,7 @@ div #custom {
 	border: none;
 	font-size: 14px;
 	font-weight: 700;
-	background: #f03250;
+	background: #038f88;
 	color: #ffffff;
 	text-transform: uppercase;
 }
@@ -1413,7 +1430,8 @@ div #custom {
 td a:hover {
 	text-decoration: none;
 	outline: none;
-	color: red;
+	/*color: red;*/
+	color: #7bdbca;
 }
 
 .thCustom th {
@@ -2250,7 +2268,8 @@ td a {
 }
 
 .breadcrumb__option a i {
-	color: #f03250;
+	/*color: #f03250;*/
+	color: #038f88;
 }
 
 .breadcrumb__option a:after {
@@ -2278,7 +2297,8 @@ td a {
 /*list.jsp의 소분류 버튼을 위해 추가*/
 .breadcrumb__text .category a{
 	font-size: 15px;
-	color: pink;
+	/*color: pink;*/
+	color: #7bdbca;
 	padding: 5px;
 }
 /*list.jsp의 소분류 버튼을 위해 추가*/
@@ -2487,7 +2507,8 @@ td a {
 
 .blog__pagination a {
 	font-size: 15px;
-	color: #707070;
+	/*color: #707070;*/
+	color: #038f88;
 	display: inline-block;
 	padding: 12px 20px 10px;
 	border: 1px solid #e4e4e4;
@@ -2498,9 +2519,11 @@ td a {
 }
 
 .blog__pagination a:hover {
-	background: #f03250;
+	/* background: #f03250; */
+	background: #038f88;
 	color: #ffffff;
-	border-color: #f03250;
+	/*border-color: #f03250;*/
+	border-color: #038f88;
 }
 
 /*---------------------

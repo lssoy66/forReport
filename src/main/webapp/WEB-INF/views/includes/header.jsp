@@ -76,13 +76,17 @@
                                         <li><a href="#">자주 묻는 질문(FAQ)</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="/login/customLogin.fr">마이페이지/로그인</a>
-                                	<ul class="dropdown">
-                                        <li><a href="/cart/cartList.fr">장바구니</a></li>
-                                        <li><a href="/order/myOrderList.fr">주문내역</a></li>
-                                        <li><a href="/user/mypage.fr">내 정보 수정</a></li>
-                                    </ul>
-                                </li>
+				<c:choose>
+                                	<c:when test="${not empty user_id}">
+						<li><a href="/login/customLogin.fr">마이페이지/로그인</a>
+						     <ul class="dropdown">
+							<li><a href="/cart/cartList.fr">장바구니</a></li>
+							<li><a href="/order/myOrderList.fr">주문내역</a></li>
+							<li><a href="/user/mypage.fr">내 정보 수정</a></li>
+						    </ul>
+						</li>
+					</c:when>
+                                </c:choose>
 
                                 <!-- blog__sidebar__search의 검색창 사용을 위해 클래스명 지정 -->
                                 <li class=blog__sidebar__search>

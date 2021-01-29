@@ -71,29 +71,35 @@ public class ProductController {
 	}
 	
 	/* 댓글을 제외한 전체 상품 상세 뷰 살펴보기 -> 댓글은 ReviewController + Ajax를 이용해 확인 가능*/
+	/* 탈퇴회원의 경우 작성자: 탈퇴회원, 작성자 등급: 등긊없음으로 표시*/
 	@GetMapping("view.fr")
 	public void productView(int pronum, Model model) {
 		
 		ProductVO productVO = productService.getProduct(pronum);
 		
-		System.out.println(productVO);
-		
-		int writerGradeInt = productService.getGrade(productVO.getId());
-		System.out.println("writerGrade: " + writerGradeInt);
+		log.info(productVO);
+		log.info(productVO.getId());
 		
 		String writerGrade = "";
+		System.out.println("writerGrade: " + writerGrade);		
 		
-		if(writerGradeInt==0) {
-			writerGrade = "일반";
-		} else if(writerGradeInt==1) {
-			writerGrade = "브론즈";
-		} else if(writerGradeInt==2) {
-			writerGrade = "실버";
-		} else if(writerGradeInt==3) {
-			writerGrade = "골드";
+		if(productVO.getId().equals("탈퇴회원")) {
+			writerGrade = "등급없음";
+		} else {
+			
+			int writerGradeInt = productService.getGrade(productVO.getId());
+			
+			if(writerGradeInt==0) {
+				writerGrade = "일반";
+			} else if(writerGradeInt==1) {
+				writerGrade = "브론즈";
+			} else if(writerGradeInt==2) {
+				writerGrade = "실버";
+			} else if(writerGradeInt==3) {
+				writerGrade = "골드";
 
+			}
 		}
-		
 		
 		model.addAttribute("writerGrade", writerGrade);
 		model.addAttribute("productVO", productVO);

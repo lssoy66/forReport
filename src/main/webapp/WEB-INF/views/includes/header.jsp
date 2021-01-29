@@ -86,7 +86,7 @@
                                 
                                 <!-- blog__sidebar__search의 검색창 사용을 위해 클래스명 지정 -->
                                 <li class=blog__sidebar__search>
-                                	 <form action="list?largeCategory=999&smallCategory=999" method="get" id="headerInputKeywordForm">
+                                	 <form action="list.fr?largeCategory=999&smallCategory=999" method="get" id="headerInputKeywordForm">
 		                                <input type="text" placeholder="Searching..." name="inputKeyword" id="inputKeyword">
 		                                <input type="hidden" name="largeCategory" value=999>                                
                                			<input type="hidden" name="smallCategory" value=999>                                

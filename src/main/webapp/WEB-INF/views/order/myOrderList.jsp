@@ -37,8 +37,10 @@
 		
 			<div class="col-lg-3">
 				<div class="blog__sidebar">
-					<div class="blog__sidebar__recent">
-						<h5>${user_id }</h5>
+					<div class="blog__sidebar__recent" style="text-align:center">
+						
+						<h5 style="color: #038f88; font-size:30px">${user_id }</h5>
+						
 						${user_name }님<br><br>
 						등급 : 
 						<c:choose>
@@ -79,6 +81,7 @@
 					
 					<div class="listing__details__comment">
 						<table class="table text-center thCustom">
+							<c:if test="${orderList.isEmpty() == 'false'}">
 								<thead>
 									<tr>
 										<th colspan="6">
@@ -122,12 +125,12 @@
 												가상계좌</button></td>
 											</c:if>
 											<c:if test="${order.paymethod == 'card' }">
-												<td><button class="site-btn download" data-pronum="${order.pronum}">다운로드</button></td>
+												<td><button class="site-btn download" id="btnColorCustom" data-pronum="${order.pronum}">다운로드</button></td>
 											</c:if>
 										</tr>
 									</tbody>
 								</c:forEach>
-							
+							</c:if>
 						</table>
 					</div>
 					
@@ -166,7 +169,8 @@
 									data-vbnum="${vbank.vbnum }"
 									data-vbname="${vbank.vbname }"
 									data-vbholder="${vbank.vbholder }"
-									data-vbdate="${vbank.vbdate }">
+									data-vbdate='<fmt:formatDate value="${vbank.vbdate }" pattern="yyyy-MM-dd"/>'>
+									
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -188,12 +192,24 @@
 	$(document).ready(function(){
 		
 		// cartHeader.jsp의 로그아웃 처리
-		$("#logout").click(function(e){
+		$(".logout").click(function(e){
         			
         	e.preventDefault();
         	$(".logoutForm").submit();
         			
         });
+			
+		(function(){
+			var orderList = '<c:out value="${orderList.isEmpty() }" />';
+			checkOrderList(orderList);
+		})();
+		
+		function checkOrderList(orderList){
+			console.log("checkOrderList");
+			if(orderList == "true"){
+				$(".thCustom").html("<h5>구매한 상품이 없습니다.</h5>");
+			}
+		} 
 		
 		var strapp = "";
 		// modal 창 띄우기

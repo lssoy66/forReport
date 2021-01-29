@@ -130,7 +130,7 @@
 	$(document).ready(function(){
 		
 		// cartHeader.jsp의 로그아웃 처리
-		$("#logout").click(function(e){
+		$(".logout").click(function(e){
         			
         	e.preventDefault();
         	$(".logoutForm").submit();

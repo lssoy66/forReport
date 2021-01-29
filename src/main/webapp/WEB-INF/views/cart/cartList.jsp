@@ -116,7 +116,8 @@
 					<div class="blog__sidebar__recent orderPrice">
 						<h5>선택상품</h5>
 						결제예정금액 : <b>0</b>원 <br><br>
-						<button class="site-btn buttonTest">결제하기</button>
+						<button class="site-btn buttonTest" id="btnColorCustom"
+							style="padding: 20px 110px; font-size:20px">결제하기</button>
 					</div>
 					
 				</div>
@@ -132,7 +133,7 @@
 	$(document).ready(function(){
 		
 		// cartHeader.jsp의 로그아웃 처리
-		$("#logout").click(function(e){
+		$(".logout").click(function(e){
         			
         	e.preventDefault();
         	$(".logoutForm").submit();

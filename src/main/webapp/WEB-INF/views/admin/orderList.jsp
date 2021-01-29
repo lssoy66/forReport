@@ -97,9 +97,8 @@
 					</thead>
 					<c:forEach items="${orderList }" var="order">
 						<tr>
-						
 							<td><c:out value="${order.ordernum }" /></td>
-							<td><c:out value="${order.proname }" /></td>
+							<td><a href="/product/view.fr?pronum=${order.pronum}"><c:out value="${order.proname }" /></a></td>
 							<td><c:out value="${order.id }" /></td>	
 							<td><c:out value="${order.paymethod }" /></td>	
 							<td><c:out value="${order.payprice }" /></td>

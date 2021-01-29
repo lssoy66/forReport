@@ -63,7 +63,7 @@
 		<if test="type != null &amp;&amp; !type.equals('')">
 		   <trim prefix="AND (" suffix=")">
 		    	<if test="type.contains('P'.toString())">
-		    		tpro.proname like '%'||#{keywordPname}||'%'
+		    		tbl_product.proname like '%'||#{keywordPname}||'%'
 		    	</if>
 		   </trim>
 		</if>
@@ -72,27 +72,31 @@
    <!-- 페이징 처리(주문리스트) -->
    <select id="getOrderListAllWithPaging" resultType="com.forreport.domain.OrderVO">
    <![CDATA[	
-   		select ordernum, tpro.proname, torder.id, paymethod, payprice, orderdate
+   		select ordernum, torder.pronum, tpro.proname, torder.id, paymethod, payprice, orderdate
    		from (select /*+INDEX_DESC(tbl_order pk_tbl_order)*/
    			  rownum rn, ordernum, tbl_order.pronum, tbl_order.id, paymethod, payprice, orderdate
-   			  from tbl_order
+   			  from tbl_order, tbl_product
    			  where 
    ]]>
    			  <include refid="criteria"></include>		
    <![CDATA[			  
-   			  (rownum <= #{pageNum} * #{amount})) torder, tbl_product tpro
+   			  (rownum <= #{pageNum} * #{amount}) 
+   ]]>
+   			  <include refid="criteria_proname"></include>
+   <![CDATA[
+   			  and (tbl_order.pronum = tbl_product.pronum)) torder, tbl_product tpro
    		where (rn > (#{pageNum} - 1) * #{amount}) and (torder.pronum = tpro.pronum)
    ]]>
-   		<include refid="criteria_proname"></include>	
    </select>
    
    <!-- 총 주문 개수 구하기 -->
    <select id="getTotalCount" resultType="int">
-   		select count(*) from tbl_order torder, tbl_product tpro
+   		select count(*) from tbl_order, tbl_product
    		where 
    		<include refid="criteria"></include>
-   		(ordernum > 0) and (torder.pronum = tpro.pronum)
-   		<include refid="criteria_proname"></include>	
+   		(ordernum > 0) 
+   		<include refid="criteria_proname"></include>
+   		and (tbl_order.pronum = tbl_product.pronum)	
    </select>
    
 

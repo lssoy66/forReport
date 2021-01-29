@@ -173,7 +173,7 @@
 			          name: protitle + "외 " + procount + "건",
 			          amount: price,
 			          buyer_email: userEmail,
-			          buyer_name: userName,
+			          buyer_name: userID,
 			          buyer_tel: userPhone
 			      }, function (rsp) { // callback
 			          if (rsp.success) {
@@ -237,7 +237,7 @@
 			          name: protitle + "외 " + procount + "건",
 			          amount: price,
 			          buyer_email: userEmail,
-			          buyer_name: userName,
+			          buyer_name: userID,
 			          buyer_tel: userPhone
 			    }, function (rsp) { // callback
 			          if (rsp.success) {

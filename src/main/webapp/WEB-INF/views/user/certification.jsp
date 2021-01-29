@@ -19,9 +19,9 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-lg-4" style="margin: auto">
 			<div class="hero__text">
-				<article id="content" class="cols-d">
+				<article id="content" class="cols-d" style="padding-top: 20px">
 					<div>
 
 						<!-- 이메일 발송 -->
@@ -31,10 +31,10 @@
 							<input type="hidden" name="${_csrf.headerName}" value="${_csrf.token}">
 								<label for="email">이메일</label> <input type="text"
 									class="form-control" name="email" id="email"
-									placeholder="이메일 주소를 입력하세요" required style="width: 250px">
+									placeholder="이메일 주소를 입력하세요" required style="width: 300px">
 								<div class="check_font" id="emailCheck"></div>
 								<br>
-								<button type="button" id="sendBtn"
+								<button type="button" id="sendBtn" style="width: 300px"
 									class="btn btn-outline-danger btn-sm px-3" disabled="disabled">
 									<i class="fa fa-envelope"></i>&nbsp;이메일 인증받기 (이메일 보내기)
 								</button>
@@ -44,9 +44,10 @@
 						<!-- 인증번호입력 -->
 							<div class="form-group">
 								<div>
-									<input type="number" class="codeCheck"
+									<input type="number" class="codeCheck" style="width: 300px"
 										name="codeCheck" id="codeCheck" placeholder="인증번호 입력" required>
-									<button type="button" class="btn btn-outline-info btn-sm px-3"
+									<div>&nbsp;&nbsp;</div>
+									<button type="button" class="btn btn-outline-info btn-sm px-3" style="width: 300px"
 										id="codeCheckBtn">
 										<i class="fa fa-envelope"></i>&nbsp;확인
 									</button>

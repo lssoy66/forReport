@@ -1,3 +1,6 @@
+<%@page import="org.springframework.security.core.userdetails.UserDetails"%>
+<%@page import="org.springframework.security.core.context.SecurityContextHolder"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -12,6 +15,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<%
+
+Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+%>
 
 <!-- AJAX를 사용하기 위해 review.js 가져오기 -->
 <script type="text/javascript" src="/resources/js/review.js"></script>
@@ -883,6 +892,7 @@ function showImage(fileCallPath){
 	$(".bigPictureWrapper").css("display","flex").show();
 	$(".bigPicture").html('<img src="'+fileCallPath+'">').animate({width: '100%', height:'100%'},1000);
 }
+
 
 
 </script>

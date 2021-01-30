@@ -10,8 +10,10 @@
 <!-- header.jsp에 있는 내용으로 여기서는 주석처리: <meta charset="UTF-8"> -->
 <title>ForReport</title>
 <!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
+<!-- erase-credentials="false" 적용 이후 비밀번호를 가져오는지 확인해봤습니다 -->
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal.username" var="user_id" />
+	<sec:authentication property="principal.password" var="user_password" />
 </sec:authorize>
 </head>
 
@@ -29,6 +31,7 @@
 <!--                             <h2>ForReport</h2> -->
 							<img alt="" src="/resources/img/logo_for2.png"><br><br>
                             <p>검증형 시스템으로 당신에게 딱 맞는 정보를 찾아보세요.</p>
+<%--                             <p>${user_password }</p> --%>
                         </div>
                         <div class="hero__search__form">
                             <form id="mainInputKeywordForm" action="/product/list.fr" method="get">

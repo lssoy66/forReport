@@ -2,6 +2,7 @@ package com.forreport.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -57,8 +61,11 @@ public class AdminController {
 	@GetMapping("orderList.fr")
 	public void adminTestPage(ReviewCriteria criteria, Model model) {
 		log.info("controller ~ start orderList");
-		log.info(criteria);
-		log.info(criteria.getKeywordDay());
+
+		// Controller에서 비밀번호를 가져오는지 확인해봤습니다
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		log.info(userDetails.getPassword());
 		
 		// 페이징 처리 된 주문 목록 전달
 		model.addAttribute("orderList", orderService.getOrderListAllWithPaging(criteria));

@@ -112,7 +112,7 @@
                             	</sec:authorize>
                         	</c:if>
                         	<c:if test="${user_id == null}">
-                        		<a href="/login/customLogin.fr" class="primary-btn"> 로그인</a>
+                        		<a href="/login/customLogin.fr" class="primary-btn" id="whiteB" style="background-color: white"> 로그인</a>
                         		<a href="/user/provision.fr" class="primary-btn"><i class="fa fa-plus"></i> 회원가입</a>
 
                         	</c:if>

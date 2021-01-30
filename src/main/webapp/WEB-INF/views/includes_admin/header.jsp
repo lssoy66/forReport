@@ -117,11 +117,11 @@
                             <a href="/admin/orderList.fr"><i class="fa fa-credit-card fa-fw"></i> 주문관리</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bookmark fa-fw"></i> 공지사항</a>
+                            <a href="/admin/list1.fr"><i class="fa fa-bookmark fa-fw"></i> 공지사항</a>
                         </li>
                         
                         <li>
-                            <a href="#"><i class="fa fa-question-circle fa-fw"></i> 자주묻는질문</span></a>
+                            <a href="/admin/list2.fr"><i class="fa fa-question-circle fa-fw"></i> 자주묻는질문</span></a>
                             
                         </li>
                         

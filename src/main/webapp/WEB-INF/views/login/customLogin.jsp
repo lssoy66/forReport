@@ -37,7 +37,7 @@
 			<div class="wrap-login100">
 				<div class="login100-form-title" style="background-image: url(/resources/Login/images/bg-01.jpg);">
 					<span class="login100-form-title-1">
-						For Report
+						<img alt="" src="/resources/img/logo_for2.png" style="width: 80%">
 					</span>
 				</div>
 

@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.forreport.domain.UserVO;
+import com.forreport.mapper.AuthMapper;
 import com.forreport.mapper.UserMapper;
 
 import lombok.AllArgsConstructor;
@@ -20,12 +22,19 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private AuthMapper authMapper;
 	
 	
 	// 회원가입
 	@Override
+	@Transactional // 권한부여, 회원가입 모두 같이 이루어져야 하기 때문에 추가
 	public void joinProcess(UserVO vo) throws Exception {
 		userMapper.joinProcess(vo);
+		
+		// 권한 부여
+		int authResult = authMapper.grantAuth(vo.getId());
+		System.out.println("authMapper: " + authResult);
 	}
 
 	@Override

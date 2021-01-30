@@ -6,7 +6,7 @@ import com.forreport.domain.NoticeVO;
 import com.forreport.domain.QuestionVO;
 import com.forreport.domain.ReviewCriteria;
 
-public interface QuestionService {
+public interface Admin3Service {
 
 	public void register2(QuestionVO question);
 

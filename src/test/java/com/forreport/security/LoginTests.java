@@ -41,16 +41,16 @@ public class LoginTests {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(sql);				
 				
-				if(id == "admin") {
-					pstmt.setString(1, "admin");
+				if(id == "admin22") {
+					pstmt.setString(1, "admin22");
 					pstmt.setString(2, pwencoder.encode("admin"));
 					pstmt.setString(3, "admin");
 					pstmt.setString(4, "123123123");				
 					pstmt.setString(5, "abc@abc.com");				
 					pstmt.setString(6, "0");				
 				} else {
-					pstmt.setString(1, "user");
-					pstmt.setString(2, "1234");
+					pstmt.setString(1, "userTest");
+					pstmt.setString(2, pwencoder.encode("userTest"));
 					pstmt.setString(3, "hong");				
 					pstmt.setString(4, "123123123");				
 					pstmt.setString(5, "abc@abc.com");				
@@ -84,7 +84,7 @@ public class LoginTests {
 	
 			Connection con = null;
 			PreparedStatement pstmt = null;
-			String id = "admin22";
+			String id = "admin";
 			
 			try {
 				con = ds.getConnection();
@@ -94,8 +94,8 @@ public class LoginTests {
 					pstmt.setString(1, "ROLE_ADMIN");
 					pstmt.setString(2, "admin22");				
 				} else {
-					pstmt.setString(1, "0");
-					pstmt.setString(2, "aa");
+					pstmt.setString(1, "ROLE_MEMBER");
+					pstmt.setString(2, "userTest");
 				}
 				pstmt.executeUpdate();
 			} catch (Exception e) {

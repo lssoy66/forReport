@@ -113,7 +113,7 @@
 	    			</table>	    			
 	    			<input type="hidden" name="id" value="${user_id}"> 
 	    			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
-	    			<input type="submit" value="자료 등록" class="primary-btn" style="float:right">
+	    			<input type="submit" value="자료 등록" class="primary-btn" style="float:right; background-color:#038f88">
 	    		</form>
 			</div>
 		</div>

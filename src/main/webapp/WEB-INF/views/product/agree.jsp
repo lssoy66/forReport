@@ -99,7 +99,7 @@
 					<div class="col-lg-7 col-md-7" style="margin:auto">
 						<form id="uploadForm" action="write.fr" method="post">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
-							<input type="submit" id="uploadBtn" class="primary-btn" style="float:right" value="자료 등록">
+							<input type="submit" id="uploadBtn" class="primary-btn" style="float:right; background-color:#038f88" value="자료 등록">
 						</form>
 						
 					</div>						

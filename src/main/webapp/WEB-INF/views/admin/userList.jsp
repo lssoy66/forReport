@@ -20,7 +20,7 @@
 </div>
 <!-- /.row -->
 
-<!-- 검색 폼 : 전체보기, 미승인, 승인, 승인거부, 삭제요청 -->
+<!-- 검색 폼 -->
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
@@ -31,19 +31,22 @@
 				<form id="searchForm" action="/admin/userList.fr" method="get">
 
 					회원 보기
-					<select id="approval" name="approval">
-						<option value="999">전체보기</option>
-						<option value="0">미승인</option>
-						<option value="1">승인</option>
-						<option value="2">승인거부</option>
-						<option value="3">삭제요청</option>
+					<select name="type">
+						<option value=""
+						<c:out value="${pageMaker.searchingVO.type == null?'selected':'' }"/>>--</option>
+						<option value="A">전체보기</option>
+						<option value="I" <c:out value="${pageMaker.searchingVO.type eq 'I'?'selected':'' }"/>>아이디</option>
+						<option value="N" <c:out value="${pageMaker.searchingVO.type eq 'N'?'selected':'' }"/>>이름</option>
+						<option value="P" <c:out value="${pageMaker.searchingVO.type eq 'P'?'selected':'' }"/>>연락처</option>
+						<option value="E" <c:out value="${pageMaker.searchingVO.type eq 'E'?'selected':'' }"/>>이메일</option>
+						<option value="G" <c:out value="${pageMaker.searchingVO.type eq 'G'?'selected':'' }"/>>등급</option>
+						<option value="T" <c:out value="${pageMaker.searchingVO.type eq 'T'?'selected':'' }"/>>활성화</option>
 					</select>
-					
+					<input type='text' name='keyword' value='<c:out value="${pageMaker.searchingVO.keyword }"/>'/>
+					<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.searchingVO.pageNum }"/>'/>
+					<input type='hidden' name='amount' value='<c:out value="${pageMaker.searchingVO.amount }"/>'/>
 					<input type="submit" value="search...">
-					
-<%-- 					<input type="hidden" name="pageNum" value='<c:out value="${pageMaker.criteria.pageNum }"/>' /> --%>
-<%-- 					<input type="hidden" name="amount" value='<c:out value="${pageMaker.criteria.amount }"/>' /> --%>
-		
+						
 				</form>
 				
 				
@@ -61,7 +64,6 @@
 			<!--  /.panel-heading  -->
 			<div class="panel-body">
 				<!-- form:form 태그를 이용해 리스트로 전달 -->
-				<form:form modelAttribute="userVO" id="approvalProcess" action="approvalProcess.fr" method="post">		
 					<table class="table table-striped table-bordered table-hover">
 						<thead>
 							<tr>
@@ -87,8 +89,7 @@
 							</tr>
 						</c:forEach>
 					</table>
-					<button id="approvalProcessBtn" type="submit">승인처리</button>
-				</form:form>			
+		
 				
 				<div class="pull-right">
 					<ul class="pagination">
@@ -114,6 +115,8 @@
 				<form id="actionForm" action="/admin/userList.fr" method="get">
 					<input type="hidden" name="pageNum" value="${pageMaker.searchingVO.pageNum }">	
 					<input type="hidden" name="amount" value="${pageMaker.searchingVO.amount }">
+					<input type='hidden' name='type' value='${pageMaker.searchingVO.type }'>
+					<input type='hidden' name='keyword' value='<c:out value="${pageMaker.searchingVO.keyword }"/>'>
 				</form>
 				
 				
@@ -129,24 +132,16 @@
 
 $(document).ready(function(){
 	
-	/////////////////////////////////////////////////////////////////////
 	
-	/** 시큐리티를 위해 토큰 추가 */
-	
-	/////////////////////////////////////////////////////////////////////
-	
+	/** 시큐리티를 위해 토큰 추가 */	
 	var header = "${_csrf.headerName}";
 	var token = "${_csrf.token}";
 	
 	console.log("header: " + header);
 	console.log("token: " + token);
 	
-	/////////////////////////////////////////////////////////////////////
 	
-	/** 페이징처리 */
-	
-	/////////////////////////////////////////////////////////////////////
-	
+	/** 페이징처리 */	
 	var actionForm = $("#actionForm");
 		
 	$(".paginate_button a").on("click", function(e){
@@ -165,146 +160,26 @@ $(document).ready(function(){
 		actionForm.submit();
 	});
 	
+	// 검색 관련
+	var searchForm = $("#searchForm");
 	
-	/////////////////////////////////////////////////////////////////////
-	
-	/** 선택된 승인 종류를 새로고침후에 select에서 표시 */	
-	
-	/////////////////////////////////////////////////////////////////////
-	
-	var pageApproval = '<c:out value="${approval}"/>'	
-	console.log("pageApproval: " + pageApproval);
-	
-	$("#approval").val(pageApproval).prop("selected", true);
-	
-	/////////////////////////////////////////////////////////////////////
-	
-	/** 승인 버튼 눌러서 처리 */
-	
-	/////////////////////////////////////////////////////////////////////
-	
-	$("#approvalProcessBtn").on("click",function(e){
-		//e.preventDafault();
-		e.preventDefault()
-		
-// 		// 미승인 -> 승인  approvalList에 넣기
-		var approval =  $("input:radio[data-value=approval]:checked");
-		var approvalCnt = approval.length;
-		console.log("미승인 -> 승인 개수: " + approvalCnt);
-		approval.each(function(){
-			$(this).parent().children(".productVOListProdsc").val("change");
-		});
-// 		approval.each(function(){
-// 			var data = new Object();
-// 			data.pronum = $(this).attr("data-num");
-// 			data.approval = $(this).val()
-// 			console.log("approval.attr('data-num'): " + data.pronum);
-// 			console.log("approval.val(): " + data.approval);
-// 			approvalList.push(data);
-// 		});
-		
-// 		// 미승인 -> 승인 거부 approvalList에 넣기
-		var refuse = $("input:radio[data-value=refuse]:checked");
-		var refuseCnt = refuse.length;
-		console.log("미승인 -> 승인 거부: " + refuseCnt);
-		refuse.each(function(){
-			$(this).parent().children(".productVOListProdsc").val("change");
-		});
-// 		refuse.each(function(){
-// 			var data = new Object();
-// 			data.pronum = $(this).attr("data-num");
-// 			data.approval = $(this).val()
-// 			console.log("refuse.attr('data-num'): " + data.pronum);
-// 			console.log("refuse.val(): " + data.approval);
-// 			approvalList.push(data);
-// 		});
-		
-// 		// 승인 -> 승인거부 approvalList에 넣기
-		var afterRefuse = $("input:radio[data-value=afterRefuse]:checked");
-		var afterRefuseCnt = afterRefuse.length;
-		console.log("승인 -> 승인거부 " + afterRefuseCnt);
-		afterRefuse.each(function(){
-			$(this).parent().children(".productVOListProdsc").val("change");
-		});
-// 		afterRefuse.each(function(){
-// 			var data = new Object();
-// 			data.pronum = $(this).attr("data-num");
-// 			data.approval = $(this).val()
-// 			console.log("afterRefuse.attr('data-num'): " + data.pronum);
-// 			console.log("afterRefuse.val(): " + data.approval);
-// 			approvalList.push(data);
-// 		});
-		
-// 		// 승인거부 -> 재승인 approvalList에 넣기
-		var reApproval = $("input:radio[data-value=reApproval]:checked");
-		var reApprovalCnt = reApproval.length;
-		console.log("승인거부 -> 재승인 " + reApprovalCnt);
-		reApproval.each(function(){
-			$(this).parent().children(".productVOListProdsc").val("change");
-		});
-// 		reApproval.each(function(){
-// 			var data = new Object();
-// 			data.pronum = $(this).attr("data-num");
-// 			data.approval = $(this).val()
-// 			console.log("reApproval.attr('data-num'): " + data.pronum);
-// 			console.log("reApproval.val(): " + data.approval);
-// 			approvalList.push(data);
-// 		});
-		 
-// 		// 삭제요청 -> 승인(미승인->승인거부와 동일 처리: 즉 숨김처리) approvalList에 넣기
-		var deleteToApproval = $("input:radio[data-value=delete]:checked");
-		var deleteToApprovalCnt = deleteToApproval.length;
-		console.log("삭제요청 -> 승인(미승인->승인거부와 동일 처리: 즉 숨김처리) " + deleteToApprovalCnt);
-		deleteToApproval.each(function(){
-			$(this).parent().children(".productVOListProdsc").val("change");
-		});
-// 		deleteToApproval.each(function(){
-// 			var data = new Object();
-// 			data.pronum = $(this).attr("data-num");
-// 			data.approval = $(this).val()
-// 			console.log("deleteToApproval.attr('data-num'): " + data.pronum);
-// 			console.log("deleteToApproval.val(): " + data.approval);
-// 			approvalList.push(data);
-// 		});
-		
-// 		// 테스트
-// 		console.log(approvalList[2]);
-// 		console.log(approvalList[9]);
-
-		
-		var confirmStmt = "";
-		
-// 		// 선택한 개수를 confirm창에서 표시
-		if(approvalCnt!=0){
-			confirmStmt += "미승인 -> 승인: " + approvalCnt + "\r\n"; 
-		}
-		if(refuseCnt!=0) {
-			confirmStmt += "미승인 -> 승인거부: " + refuseCnt + "\r\n";
-		}
-		if(afterRefuseCnt!=0) {
-			confirmStmt += "승인 -> 승인거부 : " + afterRefuseCnt + "\r\n";
-		}
-		if(reApprovalCnt!=0) {
-			confirmStmt += "승인거부 -> 재승인: " + reApprovalCnt + "\r\n";
-		}
-		if(deleteToApprovalCnt!=0) {
-			confirmStmt += "삭제요청 -> 승인: " + deleteToApprovalCnt + "\r\n";
-		}
-				
-		var answer = confirm(confirmStmt);
-		
-		if(answer){ // 확인
-			//approvalProcess(approvalMap);
-			//console.log('<input type="hidden" name="approval" value="'+approval+'">');
-			
-			console.log("answer누르고 pageApproval: " + pageApproval);
-			$("#approvalProcess").append('<input type="hidden" name="approval" value="'+pageApproval+'">');
-			$("#approvalProcess").submit();
-			return true;
-		} else {
+	$("#searchForm button").on("click", function(e){
+		if(!searchForm.find("option:selected").val()){
+			alert("검색종류를 선택하세요");
 			return false;
 		}
+		
+		if(!searchForm.find("input[name='keyword']").val()){
+			alert("키워드를 입력하세요");
+			return false;
+		}
+		
+		searchForm.find("input[name='pageNum']").val("1");
+				
+		e.preventDefault();
+		searchForm.submit();
 	});
+
 		
 });
 </script>

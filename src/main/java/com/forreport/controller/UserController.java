@@ -1,4 +1,4 @@
-package com.forreport.controller;
+	package com.forreport.controller;
 
 
 import java.io.PrintWriter;
@@ -188,5 +188,57 @@ public class UserController {
 
 	
 
+		
+	// 비밀번호 변경
+	@RequestMapping("/updatePw.fr")
+	public String updatePw(HttpSession session, UserVO vo) throws Exception{
+		log.info("updatePw");
+		
+		// 비밀번호 암호화
+		String inputPw = vo.getPassword();
+		String pw = pwEncoder.encode(inputPw);
+		vo.setPassword(pw);
+		
+		userService.updatePw(vo);
+		
+		session.invalidate();
+		
+		return "redirect:/login/customLogin.fr";
+		
+	}
+	
+	// 회원정보 변경
+	@RequestMapping("/updateInfo.fr")
+	public String updateInfo(HttpSession session, UserVO vo) throws Exception{
+		log.info("updateInfo");
+		
+		userService.updateInfo(vo);
+		
+		return "redirect:/user/mypage.fr";
+	}
+	
+	// 회원탈퇴
+	@RequestMapping("/withdrawal.fr")
+	public String withdrawal(@RequestParam(value="password") String pw, HttpSession session, UserVO vo) throws Exception{
+		log.info("withdrawal");
+		
+		
+		String newPw = vo.getPassword();
+		
+		log.info("pw" + pw);
+		log.info("newpw" + newPw);
+		
+		boolean pwCheck = pwEncoder.matches(pw, newPw);
+		
+		if(!pw.equals(newPw)) {
+			
+			return "redirect:/user/mypage.fr";
+		}
+		
+		userService.withdrawal(vo);
+		session.invalidate();
+		
+		return "redirect:/";
+	}
 
 }

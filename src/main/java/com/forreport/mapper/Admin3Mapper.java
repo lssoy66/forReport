@@ -8,7 +8,7 @@ import com.forreport.domain.NoticeVO;
 import com.forreport.domain.QuestionVO;
 import com.forreport.domain.ReviewCriteria;
 
-public interface QuestionMapper {
+public interface Admin3Mapper {
 
 	// @Select("select * from tbl_question where questionnum > 0")
 	public List<QuestionVO> getList2();

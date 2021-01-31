@@ -29,15 +29,18 @@ public interface UserMapper {
 	
 	public UserVO read(String id);
 	
-
-	
-
-
 	// 아이디 찾기
 	public String findId(String email) throws Exception;
 	
-	// 비밀번호 찾기
-//	public String findPw(String id, String email) throws Exception;
+	// 비밀번호 변경
+	public void updatePw(UserVO vo) throws Exception;
+	
+	// 회원정보 변경
+	public void updateInfo(UserVO vo) throws Exception;
+	
+	// 회원탈퇴
+	public void withdrawal(UserVO vo) throws Exception;
+
   
 	// 은지 - 등급 업데이트
 	public int updateGrade(@Param("id") String id, @Param("grade")int grade);

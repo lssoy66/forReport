@@ -12,6 +12,7 @@ public class PageDTO {
 	private int total; /* 전체 게시글 개수 */
 	private SearchingVO searchingVO; /* 현재 페이지 번호, 한번에 출력할 양, 검색어, 카테고리 정보 담은 객체 */
 	private ReviewCriteria criteria;
+	private AdminCriteriaVO adminCriteria;
 
 	/* 그 외 정보: 페이지 하단에 표시될 페이지 번호의 개수: 10 */
 	/* 상품 목록 + 관리자 상품 목록 모두 사용*/
@@ -67,5 +68,26 @@ public class PageDTO {
 		this.next = this.endPage < realEnd; // 현 페이지의 마지막 번호가 realEnd보다 작은 경우 next 버튼 추가 예정
 
 	}
+	
+	// adminCriteria를 이용한 페이징 처리(주문리스트에 사용했습니다)
+		public PageDTO(AdminCriteriaVO adminCriteria, int total) {
+
+			this.total = total;
+			this.adminCriteria = adminCriteria;
+
+			this.endPage = ((int) Math.ceil(adminCriteria.getPageNum() / 10.0)) * 10;
+			this.startPage = endPage - 9;
+
+			int realEnd = (int) Math.ceil((total * 1.0) / adminCriteria.getAmount());
+			if (realEnd < this.endPage) {
+				this.endPage = realEnd;
+			}
+
+			this.prev = this.startPage > 1; // 현 페이지의 시작 페이지 번호가 1보다 큰 경우 prev 버튼 추가 예정
+			this.next = this.endPage < realEnd; // 현 페이지의 마지막 번호가 realEnd보다 작은 경우 next 버튼 추가 예정
+
+		}
+	
+	
 
 }

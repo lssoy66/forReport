@@ -12,5 +12,6 @@ public class NoticeVO {
 	private String notice;
 	private Date writedate;
 	private Date revisedate;
+	
 
 }

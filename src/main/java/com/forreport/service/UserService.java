@@ -31,4 +31,12 @@ public interface UserService {
 	public String findId(HttpServletResponse response, String email) throws Exception;
 
 
+	// 비밀번호 변경
+	public void updatePw(UserVO vo) throws Exception;
+	
+	// 회원 정보 변경
+	public void updateInfo(UserVO vo) throws Exception;
+
+	// 회원탈퇴
+	public void withdrawal(UserVO vo) throws Exception;
 }

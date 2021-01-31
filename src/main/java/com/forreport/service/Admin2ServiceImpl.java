@@ -16,7 +16,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @Service
 @AllArgsConstructor
-public class NoticeServiceImpl implements NoticeService{
+public class Admin2ServiceImpl implements Admin2Service{
 	//spring 4.3 이상에서 자동 처리
 	private NoticeMapper mapper1;
 	
@@ -57,7 +57,7 @@ public class NoticeServiceImpl implements NoticeService{
 		log.info("service ~ criteria :: " + criteria);
 		return mapper1.getNoticeListAllWithPaging(criteria);
 	}
-	
+
 	// 총 주문 개수 구하기
 	@Override
 	public int getTotalCount(ReviewCriteria criteria) {
@@ -71,7 +71,7 @@ public class NoticeServiceImpl implements NoticeService{
 		log.info("service ~ criteria :: " + criteria);
 		return mapper1.getNoticeListAllWithPagingAdmin(criteria);
 	}
-
+	
 	// 총 주문 개수 구하기
 	@Override
 	public int getTotalCountAdmin(AdminCriteriaVO criteria) {

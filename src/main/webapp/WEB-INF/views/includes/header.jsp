@@ -78,7 +78,7 @@
                                 </li>
 				<c:choose>
                                 	<c:when test="${not empty user_id}">
-						<li><a href="/login/customLogin.fr">마이페이지/로그인</a>
+						<li>마이페이지
 						     <ul class="dropdown">
 							<li><a href="/cart/cartList.fr">장바구니</a></li>
 							<li><a href="/order/myOrderList.fr">주문내역</a></li>

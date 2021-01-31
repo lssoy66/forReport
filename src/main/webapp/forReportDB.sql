@@ -11,12 +11,12 @@ Grant create view,create synonym to forreport;--옵션
 /* 사용자 테이블 */
 CREATE TABLE tbl_user (
    id VARCHAR2(20) NOT NULL, /* ID */
-   password VARCHAR2(20) NOT NULL, /* 암호 */
-   auth NUMBER default 0 NOT NULL , /* 권한 */
+   password VARCHAR2(100) NOT NULL, /* 암호 */
    name VARCHAR2(20) NOT NULL, /* 이름 */
    phone VARCHAR2(12) NOT NULL, /* 휴대폰번호 */
    email VARCHAR2(30) NOT NULL, /* 이메일 */
-   grade number default 0 NOT NULL /* 등급 */
+   grade number default 0 NOT NULL, /* 등급 */
+   enabled number(1) default 1 not null
 );
 
 CREATE UNIQUE INDEX PK_tbl_user
@@ -167,8 +167,8 @@ CREATE TABLE tbl_notice (
    noticenum NUMBER NOT NULL, /* 공지사항번호 */
    noticetitle VARCHAR2(100) NOT NULL, /* 제목 */
    notice VARCHAR2(3000) NOT NULL, /* 내용 */
-   writedate DATE NOT NULL, /* 작성일 */
-   revisedate DATE NOT NULL /* 수정일 */
+   writedate DATE default sysdate NOT NULL, /* 작성일 */
+   revisedate DATE default sysdate NOT NULL /* 수정일 */
 );
 
 ALTER TABLE tbl_notice
@@ -191,7 +191,32 @@ ALTER TABLE tbl_question
       PRIMARY KEY (
          questionnum
       );
-        
+
+/* 권한 테이블 */
+CREATE TABLE tbl_auth (
+   auth varchar2(20) NOT NULL, /* 권한 */
+   id VARCHAR2(20) NOT NULL /* ID */
+);
+
+/* 자동로그인 테이블 */ /*이름 절대 바꾸면 안됨*/
+CREATE TABLE persistent_logins (
+	username VARCHAR2(80) NOT NULL, 
+	series VARCHAR2(80) NOT NULL, 
+	token VARCHAR2(80) NOT NULL, 
+	last_used TIMESTAMP NOT NULL 
+);
+
+-- 주문번호를 추가!!
+/* 가상계좌 테이블 */
+CREATE TABLE tbl_vbank(
+    id VARCHAR2(20) NOT NULL,   /* ID */
+    ordernum number NOT NULL,   /* 주문번호 */
+    vbnum VARCHAR2(100) NOT NULL,   /* 입금계좌명 */
+    vbname VARCHAR2(50) NOT NULL,   /* 은행명 */
+    vbholder VARCHAR2(30) NOT NULL,   /* 예금주 */
+    vbdate DATE NOT NULL    /* 입금기한 */
+);
+
       
 -- 참조(FK)
 ALTER TABLE tbl_product
@@ -285,6 +310,37 @@ ALTER TABLE tbl_review
       REFERENCES tbl_product (
          pronum
       );
+
+ALTER TABLE tbl_auth
+   ADD
+      CONSTRAINT FK_tbl_user_TO_tbl_auth
+      FOREIGN KEY (
+         id
+      )
+      REFERENCES tbl_user (
+         id
+      ) on delete cascade;
+
+/* 가상계좌 테이블 FK 추가!! */
+ALTER TABLE tbl_vbank
+   ADD
+      CONSTRAINT FK_tbl_user_TO_tbl_vbank
+      FOREIGN KEY (
+         id
+      )
+      REFERENCES tbl_user (
+         id
+      ) on delete cascade;
+
+ALTER TABLE tbl_vbank
+   ADD
+      CONSTRAINT FK_tbl_order_TO_tbl_vbank
+      FOREIGN KEY (
+         ordernum
+      )
+      REFERENCES tbl_order (
+         ordernum
+      );
         
 --시퀀스 생성 
 create sequence seq_cart;
@@ -292,10 +348,10 @@ create sequence seq_product;
 create sequence seq_order;
 create sequence seq_review;
 create sequence seq_notice;
-create sequence seq_questionl;
+create sequence seq_question;
 
 -- 데이터 추가 테스트
-insert into tbl_user values('aa', '123', '0', 'hong', '01011111111', 'abc@abc.com', '0' );
+insert into tbl_user values('aa', '123', 'hong', '01011111111', 'abc@abc.com', '0' );
 insert into tbl_category values('123', '456');
 insert into tbl_product values('123', 'aa', '123', '456', 'title', 'proname', 
 'prodcs', '10000', sysdate, '0');
@@ -309,7 +365,7 @@ delete from tbl_user where id ='aa';
 insert into tbl_cart values(SEQ_CART.nextval, 'aa', '123');
 
 -- ! 관리자 계정 추가 ! :: Oracle SQL Developer 사용할 때 insert 후 꼭 commit
-insert into tbl_user values('admin', 'admin', '1', '관리자', '00000000000', 'admin@admin.com', '0' );
+insert into tbl_user values('admin', 'admin', '관리자', '00000000000', 'admin@admin.com', '0' );
 
 -- 테이블 내용 조회
 select * from tbl_user;
@@ -318,6 +374,8 @@ select * from tbl_user;
 delete tbl_user;
 
 --- 테이블 삭제(모든 테이블을 삭제할 경우, 아래 순서대로 해야 문제 없이 삭제됩니다)
+drop table tbl_vbank;
+drop table tbl_auth;
 drop table tbl_question;
 drop table tbl_notice;
 drop table tbl_review;

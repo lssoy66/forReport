@@ -18,6 +18,9 @@ public interface UserService {
 	// 페이징 처리 된 전체 회원 목록
 	public List<UserVO> getUserListWithPaging(SearchingVO searchingVO);
 	
+	// 화면 페이지 처리를 위한 정보 전달
+	public int getTotalCount(SearchingVO searchingVO);
+	
 	// 이메일 중복 확인
 	public int emailCheck(String email) throws Exception;
 	

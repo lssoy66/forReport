@@ -80,7 +80,7 @@ public class AdminController {
 		model.addAttribute("userList", userService.getUserListWithPaging(searchingVO));
 		
 		// 화면 페이지 처리를 위한 정보 전달
-//		model.addAttribute("pageMaker", new PageDTO(userService.getTotalCount()));
+		model.addAttribute("pageMaker", new PageDTO(searchingVO, userService.getTotalCount(searchingVO)));
 	}
 	
 	// 관리자 상품리스트 관리

@@ -42,6 +42,12 @@ public class UserServiceImpl implements UserService {
 
 		return userMapper.getUserListWithPaging(searchingVO);
 	}
+	
+	
+	@Override
+	public int getTotalCount(SearchingVO searchingVO) {
+		return userMapper.getTotalCount(searchingVO);
+	}
 
 	// 이메일 중복 확인
 	@Override
@@ -75,6 +81,8 @@ public class UserServiceImpl implements UserService {
 			return id;
 		}
 	}
+
+
 
 
 

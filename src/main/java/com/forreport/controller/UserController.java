@@ -1,6 +1,7 @@
 	package com.forreport.controller;
 
 
+import java.security.Principal;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -202,6 +205,12 @@ public class UserController {
 		
 	}
 	
+	// 내정보변경 페이지 이동
+	@RequestMapping("/mypage.fr")
+	public void mypage() throws Exception{
+		
+	}
+	
 	// 회원정보 변경
 	@RequestMapping("/updateInfo.fr")
 	public String updateInfo(HttpSession session, UserVO vo) throws Exception{
@@ -214,18 +223,24 @@ public class UserController {
 	
 	// 회원탈퇴
 	@RequestMapping("/withdrawal.fr")
-	public String withdrawal(@RequestParam(value="password") String pw, HttpSession session, UserVO vo) throws Exception{
+	public String withdrawal(@RequestParam("password") String rawPw, HttpSession session, UserVO vo) throws Exception{
 		log.info("withdrawal");
 		
+		// 스프링 시큐리티 비밀번호 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
 		
-		String newPw = vo.getPassword();
+		String curPw = userDetails.getPassword();
+		String voPw = vo.getPassword();
 		
-		log.info("pw" + pw);
-		log.info("newpw" + newPw);
+		log.info("curPw :" + curPw);
+		log.info("rawPw : " + rawPw);
+		log.info("voPw : " + voPw);
 		
-		boolean pwCheck = pwEncoder.matches(pw, newPw);
+//		boolean pwCheck = pwEncoder.matches(rawPw, curPw);
+		boolean pwCheck2 = rawPw.equals(voPw);
 		
-		if(!pw.equals(newPw)) {
+		if(pwCheck2) {
 			
 			return "redirect:/user/mypage.fr";
 		}

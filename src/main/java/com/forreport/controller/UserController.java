@@ -1,6 +1,8 @@
 	package com.forreport.controller;
 
 
+import java.io.PrintWriter;
+import java.security.Principal;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -15,12 +17,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.forreport.domain.AuthVO;
 import com.forreport.domain.UserVO;
 import com.forreport.service.UserService;
 
@@ -137,6 +142,7 @@ public class UserController {
 	public String joinProcess(UserVO vo) throws Exception {
 		log.info("join");
 		
+		
 		// 비밀번호 암호화
 		String inputPw = vo.getPassword();
 		String pw = pwEncoder.encode(inputPw);
@@ -160,16 +166,6 @@ public class UserController {
 		return "/user/findIdResult";
 	}
 	
-	/*
-	 * @ResponseBody
-	 * 
-	 * @PostMapping("/findIdProcess.fr") public String findIdProcess(String email)
-	 * throws Exception{ log.info("findIdProcess");
-	 * 
-	 * String result = userService.findId(email);
-	 * 
-	 * if (result != "") { return result; } else { return null; } }
-	 */
 	
 	// 아이디 찾기 결과 페이지 이동
 	@RequestMapping("/findIdResult.fr")
@@ -183,6 +179,15 @@ public class UserController {
 		log.info("findPw");
 	}
 	
+	// 마이페이지 이동
+	@RequestMapping("/mypage.fr")
+	public void mypage() throws Exception{
+		log.info("mypage");
+	}
+	
+
+	
+
 		
 	// 비밀번호 변경
 	@RequestMapping("/updatePw.fr")

@@ -4,12 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
 
-import com.forreport.domain.AdminCriteriaVO;
 import com.forreport.domain.NoticeVO;
 import com.forreport.domain.OrderVO;
 import com.forreport.domain.ReviewCriteria;
 
-public interface NoticeMapper {
+public interface Admin2Mapper {
 
 	// @Select("select * from tbl_notice where noticenum > 0")
 	public List<NoticeVO> getList1();
@@ -26,15 +25,10 @@ public interface NoticeMapper {
 
 	// 총 주문 수 가져오기
 	public int getTotalCount(ReviewCriteria criteria);
-	
+
 	// 모든 주문 리스트 가져오기
 	public List<NoticeVO> getNoticeListAllWithPaging(ReviewCriteria criteria);
 	
 	
-	// 총 주문 수 가져오기
-	public int getTotalCountAdmin(AdminCriteriaVO criteria);
-
-	// 모든 주문 리스트 가져오기
-	public List<NoticeVO> getNoticeListAllWithPagingAdmin(AdminCriteriaVO criteria);
 
 }

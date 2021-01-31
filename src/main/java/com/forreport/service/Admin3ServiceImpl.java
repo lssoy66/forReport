@@ -15,7 +15,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @Service
 @AllArgsConstructor
-public class QuestionServiceImpl implements QuestionService {
+public class Admin3ServiceImpl implements Admin3Service {
 	//spring 4.3 이상에서 자동 처리
 	private QuestionMapper mapper2;
 

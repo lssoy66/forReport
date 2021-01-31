@@ -72,8 +72,8 @@
                                 <li class="active"><a href="/">Home</a></li>
                                 <li><a href="#">공지사항</a>
                                 	<ul class="dropdown">
-                                        <li><a href="#">공지사항</a></li>
-                                        <li><a href="#">자주 묻는 질문(FAQ)</a></li>
+                                        <li><a href="/notice/list.fr">공지사항</a></li>
+                                        <li><a href="question/list.fr">자주 묻는 질문(FAQ)</a></li>
                                     </ul>
                                 </li>
 				<c:choose>
@@ -112,7 +112,7 @@
                             	</sec:authorize>
                         	</c:if>
                         	<c:if test="${user_id == null}">
-                        		<a href="/login/customLogin.fr" class="primary-btn"> 로그인</a>
+                        		<a href="/login/customLogin.fr" class="primary-btn" id="whiteB" style="background-color: white"> 로그인</a>
                         		<a href="/user/provision.fr" class="primary-btn"><i class="fa fa-plus"></i> 회원가입</a>
 
                         	</c:if>

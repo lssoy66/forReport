@@ -99,7 +99,7 @@
                     <ul class="nav" id="side-menu">
                         
                         <li>
-                            <a href="#"><i class="fa fa-group fa-fw"></i> 회원관리</a>
+                            <a href="/admin/userList.fr"><i class="fa fa-group fa-fw"></i> 회원관리</a>
                         </li>
                         <li>
                             <a href="/admin/productList.fr?approval=999"><i class="fa fa-file-text-o fa-fw"></i> 상품관리<span class="fa arrow"></span></a>
@@ -117,11 +117,11 @@
                             <a href="/admin/orderList.fr"><i class="fa fa-credit-card fa-fw"></i> 주문관리</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bookmark fa-fw"></i> 공지사항</a>
+                            <a href="/admin/list1.fr"><i class="fa fa-bookmark fa-fw"></i> 공지사항</a>
                         </li>
                         
                         <li>
-                            <a href="#"><i class="fa fa-question-circle fa-fw"></i> 자주묻는질문</span></a>
+                            <a href="/admin/list2.fr"><i class="fa fa-question-circle fa-fw"></i> 자주묻는질문</span></a>
                             
                         </li>
                         

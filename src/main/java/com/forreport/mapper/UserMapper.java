@@ -39,7 +39,7 @@ public interface UserMapper {
 	public void updateInfo(UserVO vo) throws Exception;
 	
 	// 회원탈퇴
-	public void withdrawal(UserVO vo) throws Exception;
+	public void withdrawal(@Param("id") String id) throws Exception;
 
   
 	// 은지 - 등급 업데이트

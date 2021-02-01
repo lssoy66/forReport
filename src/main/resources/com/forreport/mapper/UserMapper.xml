@@ -92,7 +92,7 @@
 	
 	<!-- 회원 탈퇴 -->
 	<delete id="withdrawal">
-		delete from tbl_user where id = #{id} and password = #{password}
+		delete from tbl_user where id = #{id}
 	</delete>
 
 	<!-- p662 ~ 3 : Mybatis를 사용하기 위한 xml -->

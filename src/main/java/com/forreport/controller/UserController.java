@@ -217,11 +217,35 @@ public class UserController {
 		return "redirect:/user/mypage.fr";
 	}
 	
-	// 회원탈퇴
+	// 회원탈퇴 -> 수정 전
+//	@RequestMapping("/withdrawal.fr")
+//	public String withdrawal(@RequestParam(value="password") String pw, HttpSession session, UserVO vo) throws Exception{
+//		log.info("withdrawal");
+//		
+//		
+//		String newPw = vo.getPassword();
+//		
+//		log.info("pw" + pw);
+//		log.info("newpw" + newPw);
+//		
+//		boolean pwCheck = pwEncoder.matches(pw, newPw);
+//		
+//		if(!pw.equals(newPw)) {
+//			
+//			return "redirect:/user/mypage.fr";
+//		}
+//		
+//		userService.withdrawal(vo);
+//		session.invalidate();
+//		
+//		return "redirect:/";
+//	}
+	
+	// 회원탈퇴 -> 수정 후
 	@RequestMapping("/withdrawal.fr")
-	public String withdrawal(@RequestParam(value="password") String pw, HttpSession session, UserVO vo) throws Exception{
-		log.info("withdrawal");
+	public String withdrawal(@RequestParam(value="inputPassword") String pw, HttpSession session, UserVO vo) throws Exception{
 		
+		log.info("withdrawal");		
 		
 		String newPw = vo.getPassword();
 		
@@ -230,15 +254,19 @@ public class UserController {
 		
 		boolean pwCheck = pwEncoder.matches(pw, newPw);
 		
-		if(!pw.equals(newPw)) {
+		log.info("비번 일치 여부: " + pwCheck);
+		
+		// vo에서 id만 넘기는거로 바꾸기
+		if(pwCheck) {
 			
-			return "redirect:/user/mypage.fr";
+			userService.withdrawal(vo.getId());
+			session.invalidate();
+			
+			return "redirect:/";
 		}
 		
-		userService.withdrawal(vo);
-		session.invalidate();
+		return "redirect:/user/mypage.fr";
 		
-		return "redirect:/";
 	}
 
 }

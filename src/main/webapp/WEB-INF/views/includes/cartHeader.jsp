@@ -57,8 +57,8 @@
                                 <li><a href="/">Home</a></li>
                                 <li><a href="#">공지사항</a>
                                 	<ul class="dropdown">
-                                        <li><a href="#">공지사항</a></li>
-                                        <li><a href="#">자주 묻는 질문(FAQ)</a></li>
+                                        <li><a href="/notice/list.fr">공지사항</a></li>
+                                        <li><a href="/question/list.fr">자주 묻는 질문(FAQ)</a></li>
                                     </ul>
                                 </li>
                                 <li>마이페이지

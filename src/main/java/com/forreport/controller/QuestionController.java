@@ -27,11 +27,11 @@ public class QuestionController {
 	@GetMapping("/list.fr")
 	public void list(ReviewCriteria criteria, Model model) {
 		log.info("list");
-		model.addAttribute("list", service2.getNoticeListAllWithPaging(criteria));
+		model.addAttribute("list", service2.getQuestionListAllWithPaging2(criteria));
 		
 		//화면 페이지 처리를 위한 정보 전달
-		model.addAttribute("pageMaker", new PageDTO(criteria, service2.getTotalCount(criteria)));
-		log.info(new PageDTO(criteria, service2.getTotalCount(criteria)));		
+		model.addAttribute("pageMaker", new PageDTO(criteria, service2.getTotalCount2(criteria)));
+		log.info(new PageDTO(criteria, service2.getTotalCount2(criteria)));		
 	}
 	
 	@GetMapping("/view.fr")
@@ -47,7 +47,7 @@ public class QuestionController {
 		log.info("register: "+question);
 		service2.register2(question);
 		rttr.addFlashAttribute("result",question.getQuestionnum());
-		return "redirect:/question/list";
+		return "redirect:/question/list.fr";
 		
 	}
 	
@@ -63,7 +63,7 @@ public class QuestionController {
 		if(service2.modify2(question)) {
 			rttr.addFlashAttribute("result","success");
 		}
-		return "redirct:/question/list";
+		return "redirct:/question/list.fr";
 		
 	}
 	
@@ -73,7 +73,7 @@ public class QuestionController {
 		if(service2.remove2(questionnum)) {
 			rttr.addFlashAttribute("result", "success");			
 		}
-		return "redirect:/question/list";		
+		return "redirect:/question/list.fr";		
 	}
 
 }

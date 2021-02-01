@@ -54,7 +54,7 @@
 							<tr>
 								<td><c:out value="${list.questionnum}" /></td>
 
-								<td><a href="view.fr?noticenum=${list.questionnum}"> <c:out
+								<td><a href="view.fr?questionnum=${list.questionnum}"> <c:out
 											value="${list.questiontitle}" />
 								</a></td>
 								

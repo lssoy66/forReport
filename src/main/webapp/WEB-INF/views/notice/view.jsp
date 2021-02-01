@@ -20,19 +20,17 @@
 			<div class="col-lg-8">
 				<div class="listing__hero__option">
 					
-					<div class="listing__hero__text">
-						<h2>
-							<c:out value="${NoticeVO.noticetitle}" />
-						</h2>
+					<div class="listing__hero__text">						
 						
 						<div class="listing__hero__widget">
 
 							<div>
 								<div>
 									<h3>작성자: 관리자</h3>
-								</div>
+									
+								</div><br>
 								<div>
-									<h3>게시일
+									<h3>등록일:
 						<fmt:formatDate value="${NoticeVO.writedate}" pattern="yyyy-MM-dd" /></h3>
 								</div>
 							</div>
@@ -54,7 +52,10 @@
 			<div class="col-lg-12">
 				<div class="listing__details__text">
 					<div class="listing__details__about">
-						<h4>제목</h4>
+					    <h4>
+							<c:out value="제목: ${NoticeVO.noticetitle}" />
+						</h4><br>
+						<h4>내용</h4>
 						<p>
 							<c:out value="${NoticeVO.notice}"></c:out>
 						</p>

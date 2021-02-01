@@ -7,7 +7,7 @@
 <!-- 260 -->
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header">공지사항 수정</h1>
+    <h1 class="page-header">자주묻는질문 수정</h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
@@ -17,41 +17,37 @@
   <div class="col-lg-12">
     <div class="panel panel-default">
 
-      <div class="panel-heading">공지사항 수정</div>
+      <div class="panel-heading">자주묻는질문 수정</div>
       <!-- /.panel-heading -->
       <div class="panel-body">
 
-      <form role="form" action="/admin/modify1.fr" method="post">
+      <form role="form" action="/admin/modify2.fr" method="post">
 <!--  319      -->
         <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
         <input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
         
 	    <input type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
 		<input type='hidden' name='keyword' value='<c:out value="${cri.keyword }"/>'>
-        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+      
  
 <div class="form-group">
   <label>번호</label> 
-  <input class="form-control" name='noticenum' 
-     value='<c:out value="${notice.noticenum }"/>' readonly="readonly">
+  <input class="form-control" name='questionnum' 
+     value='<c:out value="${question.questionnum }"/>' readonly="readonly">
 </div>
 
 <div class="form-group">
   <label>제목</label> 
-  <input class="form-control" name='noticetitle' 
-    value='<c:out value="${notice.noticetitle }"/>' >
+  <input class="form-control" name='questiontitle' 
+    value='<c:out value="${question.questiontitle }"/>' >
 </div>
 
 <div class="form-group">
   <label>내용</label>
-  <textarea class="form-control" rows="3" name='notice' ><c:out value="${notice.notice}"/></textarea>
+  <textarea class="form-control" rows="3" name='question' ><c:out value="${question.question}"/></textarea>
 </div>
 
-<div class="form-group">
-  <label>작성일</label> 
-  <input class="form-control" name='WriteDate'
-    value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${notice.writedate}" />'  readonly="readonly">            
-</div>
 
   <button type="submit" data-oper='modify' class="btn btn-default">수정</button>
   <button type="submit" data-oper='remove' class="btn btn-danger">삭제</button>
@@ -83,7 +79,7 @@ $(document).ready(function() {
 	    console.log(operation);
 	    
 	    if(operation === 'remove'){
-	      formObj.attr("action", "/admin/remove1.fr");
+	      formObj.attr("action", "/admin/remove2.fr");
 	      
 	    }else if(operation === 'list'){
 	    	
@@ -92,7 +88,7 @@ $(document).ready(function() {
 // 	      self.location="/board/list";
 // 	      return;
 	      
- 	      formObj.attr("action", "/admin/list1.fr").attr("method","get");
+ 	      formObj.attr("action", "/admin/list2.fr").attr("method","get");
 //321,347	      
 	      var pageNumTag = $("input[name='pageNum']").clone();
  	      var amountTag = $("input[name='amount']").clone();

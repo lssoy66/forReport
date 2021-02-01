@@ -90,7 +90,7 @@
 							<c:when test="${pageMaker.criteria.pageNum==num}">
 							<li class="paginate_button">
 								<a href="${num }">
-									<strong style="color:red">${num}</strong>
+									<strong style="color:#038f88">${num}</strong>
 								</a>
 								</li>
 							</c:when>

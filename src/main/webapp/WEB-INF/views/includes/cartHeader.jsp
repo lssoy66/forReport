@@ -79,7 +79,7 @@
                             	<p>${user_id }님</p>
                             	<a href="/" class="primary-btn logout" id="whiteB" style="background-color: white"> 로그아웃</a>
                             	<sec:authorize access="hasRole('ROLE_ADMIN')">
-                            		&nbsp;<a href="/admin/orderList.fr" class="primary-btn">관리자</a>
+                            		&nbsp;<a href="/admin/userList.fr" class="primary-btn">관리자</a>
                             	</sec:authorize>
                         	</c:if>
                         	<c:if test="${user_id == null}">

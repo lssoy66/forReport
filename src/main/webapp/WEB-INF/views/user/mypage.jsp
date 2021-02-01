@@ -78,9 +78,14 @@
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}"> <input type="hidden" name="id"
 					value="${user_id}" id="id">
+<!-- 				<p> -->
+<!-- 					<label>현재 비밀번호</label> <input class="w3-input" name="password" -->
+<!-- 						type="password" id="password" required> -->
+<!-- 				</p> -->
 				<p>
-					<label>현재 비밀번호</label> <input class="w3-input" name="password"
-						type="password" id="password" required>
+					<label>현재 비밀번호</label> <input class="w3-input" name="inputPassword"
+						type="password" id="inputPassword" required>
+					 <input type="hidden" name="password" value="${user_pw}" id="password">
 				</p>
 				<p class="w3-center">
 					<button type="submit" id="withdrawalBtn"

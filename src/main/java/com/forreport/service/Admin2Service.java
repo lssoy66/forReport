@@ -17,7 +17,7 @@ public interface Admin2Service {
 
 	public boolean remove1(int noticenum);
 
-	public List<NoticeVO> getList1();
+	public List<NoticeVO> getList1(AdminCriteriaVO criteria);
 
 	// 페이징 처리 된 주문리스트 가져오기
 	public List<NoticeVO> getNoticeListAllWithPaging(ReviewCriteria criteria);

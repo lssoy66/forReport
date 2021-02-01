@@ -131,7 +131,7 @@ Object principal = SecurityContextHolder.getContext().getAuthentication().getPri
 	            	<!-- 승인된 제품만 장바구니 버튼 보여준다. -->
 	            	<!-- 로그인 한 사용자에게만 장바구니 버튼 노출  -->
 	            	<c:choose>            		
-	            		<c:when test="${productVO.approval==1}">
+	            		<c:when test="${productVO.approval==1 && productVO.id ne '탈퇴회원'}">
 	            			<c:if test="${user_id != null }">
 	            				<a href="${productVO.proname}" class="primary-btn cartAdd" style="background-color:#038f88">
 	            					<i class="fa fa-bookmark"></i> 장바구니</a>

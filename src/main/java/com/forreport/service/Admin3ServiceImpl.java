@@ -53,13 +53,13 @@ public class Admin3ServiceImpl implements Admin3Service {
 		@Override
 		public List<QuestionVO> getNoticeListAllWithPaging(ReviewCriteria criteria) {
 			log.info("service ~ criteria :: " + criteria);
-			return mapper2.getNoticeListAllWithPaging(criteria);
+			return mapper2.getQuestionListAllWithPaging2(criteria);
 		}
 
 		// 총 주문 개수 구하기
 		@Override
 		public int getTotalCount(ReviewCriteria criteria) {
-			return mapper2.getTotalCount(criteria);
+			return mapper2.getTotalCount2(criteria);
 		}
 		
 		

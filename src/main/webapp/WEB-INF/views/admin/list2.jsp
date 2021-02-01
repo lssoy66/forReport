@@ -16,30 +16,24 @@
 <div class="row">
 <div class="col-lg-12">
 	<div class="panel panel-default">
-		<div class="panel-heading">Notce List Page</div>
+	<div class="panel-heading">Qeustion List Page</div>
 <!-- 		/.panel-heading -->
 		<div class="panel-body">	
 			<table class="table table-striped table-bordered table-hover">			
 				<thead>
 					<tr>
 						<th>번호</th>
-						<th>제목</th>
-						<th>작성일</th>
-						<th>수정일</th>
+						<th>제목</th>				
 					</tr>
 				</thead>
 				
-					<c:forEach items="${list1}" var="list">
+					<c:forEach items="${list2}" var="list">
 							<tr>
-								<td><c:out value="${list.noticenum}" /></td>
+								<td><c:out value="${list.questionnum}" /></td>
 
-								<td><a href="get1.fr?noticenum=${list.noticenum}"> <c:out
-											value="${list.noticetitle}" />
-								</a></td>
-								<td><fmt:formatDate value="${list.writedate}"
-										pattern="yyyy-MM-dd" /></td>
-								<td><fmt:formatDate value="${list.revisedate}"
-										pattern="yyyy-MM-dd" /></td>
+								<td><a href="get2.fr?questionnum=${list.questionnum}"> <c:out
+											value="${list.questiontitle}" />
+								</a></td>								
 							</tr>
 						</c:forEach>
 			</table>
@@ -49,7 +43,7 @@
 <!-- 		p.343 -->
 			<div class='row'>
 				<div class="col-lg-12">
-					<form id='searchForm' action="/admin/list1.fr" method='get'>
+					<form id='searchForm' action="/admin/list2.fr" method='get'>
 						<select name='type'>
 							<option value=""
 								<c:out value="${pageMaker.adminCriteria.type == null?'selected':'' }"/>>--</option>
@@ -158,7 +152,7 @@
 		}
 		
 		$("#regBtn").on("click", function(){
-			self.location="/admin/register1.fr";
+			self.location="/admin/register2.fr";
 		});
 		
 // 		p.312

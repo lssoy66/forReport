@@ -73,12 +73,12 @@
                                 <li><a href="#">공지사항</a>
                                 	<ul class="dropdown">
                                         <li><a href="/notice/list.fr">공지사항</a></li>
-                                        <li><a href="question/list.fr">자주 묻는 질문(FAQ)</a></li>
+                                        <li><a href="/question/list.fr">자주 묻는 질문(FAQ)</a></li>
                                     </ul>
                                 </li>
 				<c:choose>
                                 	<c:when test="${not empty user_id}">
-						<li><a href="/login/customLogin.fr">마이페이지/로그인</a>
+						<li>마이페이지
 						     <ul class="dropdown">
 							<li><a href="/cart/cartList.fr">장바구니</a></li>
 							<li><a href="/order/myOrderList.fr">주문내역</a></li>

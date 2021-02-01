@@ -215,7 +215,7 @@ div #custom {
 	margin: auto;
 	margin-top: 50px;
 	padding: 13px 100px 12px;
-	background: #f03250;
+	background: #038f88;
 	border: none;
 }
 
@@ -228,14 +228,14 @@ div #custom {
 	margin: auto;
 	margin-top: 50px;
 	padding: 13px 60px 12px;
-	background: #f03250;
+	background: #038f88;
 	border: 1px solid;
-	border-color: #f03250;
+	border-color: #038f88;
 }
 
 #orderButton2 {
 	font-size: 20px;
-	color: #f03250;
+	color: #038f88;
 	font-weight: 700;
 	text-transform: uppercase;
 	display: inline;
@@ -244,7 +244,7 @@ div #custom {
 	padding: 13px 60px 12px;
 	background: white;
 	border: 1px solid;
-	border-color: #f03250;
+	border-color: #038f88;
 }
 
 #customButtonVbank {
@@ -346,6 +346,11 @@ div #custom {
 	color: #323232;
 }
 
+/* 은지 추가 */
+.header.header--normal .header__menu ul li {
+	color: #323232;
+}
+
 .header.header--normal .login-btn {
 	color: #707070;
 	border-color: #e1e1e1;
@@ -431,6 +436,13 @@ div #custom {
 	padding: 5px 0;
 	display: block;
 	position: relative;
+}
+
+/*은지 추가 */
+.header__menu ul li {
+	font-size: 15px;
+	color: #ffffff;
+	font-weight: 600;
 }
 
 .header__menu ul li a:after {

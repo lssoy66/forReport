@@ -64,12 +64,6 @@
 	                        <li><a href="/order/myOrderList.fr">주문내역 </a></li>
 	                        <li><a href="/order/mySaleList.fr">판매내역 </a></li>
 	                    </ul>
-	                    <hr>
-	                    <h6>기타 추가</h6>
-						<ul>
-	                        <li><a href="#">추가1 </a></li>
-	                        <li><a href="#">추가2 </a></li>
-	                    </ul>
                     </div>
 					
 				</div>

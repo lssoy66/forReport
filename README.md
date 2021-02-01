@@ -1,15 +1,30 @@
 ## 논문/리포트 구매 사이트 forReport
 > 중앙 팀 프로젝트 4팀의 콘텐츠 쇼핑몰 구현 프로젝트입니다.
 * 프로젝트 시작일 : 12.31
-* 프로젝트 종료일 : 2.1
+* 프로젝트 종료일 : 2.2
+
+---
+
+### 개발환경
+* OS : Window 10
+* Library : JDK 1.8, ojdbc6
+* Server : Apache Tomcat 9.0
+* Application Framework : Spring 5.0.7
+* Database : Oracle 11g
+* IDE : Eclipse
+* Build Automation Tool : Maven
+* Back-Language : JAVA(Spring, MyBatis), JSP, 
+* Front-Language : HTML5, CSS3, Bootstrap, jQuery, JavaScript, JSON, Ajax
 
 ---
 
 ### 팀원과 각 역할
-* 이수연(팀장) : 장바구니, 결제
-* 김조은 : 회원관리
-* 윤성헌 : 로그인, 고객센터
-* 이은지 : 상품관리
+|팀원|역할|
+|---|----------|
+|이수연(팀장)|장바구니, 주문결제, 관리자(주문), 구매내역 및 판매내역, 결제 REST API|
+|김조은|회원가입/수정/탈퇴, 회원 정보 조회, 관리자(회원), 아이디/비밀번호 찾기|
+|윤성헌|시큐리티 로그인/로그아웃, 암호화, 공지사항, 자주묻는질문, 관리자(공지사항, 자주묻는질문)|
+|이은지|메인 페이지, 상품 등록/수정/삭제, 자동 썸네일 생성, 관리자(상품), 승인 요청 처리|
 
 ---
 

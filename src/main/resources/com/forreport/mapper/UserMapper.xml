@@ -11,8 +11,53 @@
 	</insert>
 
 	<!-- id로 회원 불러오기 -->
-	<select id="getUser" resultType="com.forreport.domain.UserVO">
-		select * from tbl_user where id = #{id}
+<!-- 	<select id="getUser" resultType="com.forreport.domain.UserVO"> -->
+<!-- 		select * from tbl_user where id = #{id} -->
+<!-- 	</select> -->
+
+	<!-- 페이징 처리 된 전체 회원 목록 -->
+	<select id="getUserListWithPaging" resultType="com.forreport.domain.UserVO">
+		<![CDATA[
+			select 
+				id, password, name, phone, email, grade, enabled
+			from
+				(select /*+INDEX_DESC(tbl_user pk_tbl_user)*/
+					rownum rn, id, password, name, phone, email, grade, enabled
+					from
+						tbl_user
+					where 
+		]]>
+   			  <include refid="criteria"></include>
+   	 	<![CDATA[
+					rownum <= #{pageNum} * #{amount}
+				)
+			where rn > (#{pageNum} -1) * #{amount}
+		]]>
+	</select>
+	
+	<!-- 총 회원 수 -->
+	<select id="getTotalCount" resultType="int">
+		select count(*) from tbl_user
+		<choose>
+			<when test="type == 'I'.toString()">
+				where id like '%'||#{keyword}||'%'					
+			</when>
+			<when test="type == 'N'.toString()">
+				where name like '%'||#{keyword}||'%'
+			</when>
+			<when test="type == 'P'.toString()">
+				where phone like '%'||#{keyword}||'%'
+			</when>
+			<when test="type == 'E'.toString()">
+				where email like '%'||#{keyword}||'%'
+			</when>
+			<when test="type == 'G'.toString()">
+				where grade like '%'||#{keyword}||'%'
+			</when>
+			<when test="type == 'T'.toString()">
+				where enabled like '%'||#{keyword}||'%'
+			</when>
+		</choose>
 	</select>
 
 	<!-- 이메일 중복 확인 -->
@@ -49,6 +94,12 @@
 	<update id="updateInfo">
 		update tbl_user set email = #{email}, phone = #{phone} where id = #{id}
 	</update>
+
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="withdrawal">
+		delete from tbl_user where id = #{id}
+	</delete>
 
 	<!-- p662 ~ 3 : Mybatis를 사용하기 위한 xml -->
 	<resultMap type="com.forreport.domain.UserVO" id="userMap">
@@ -95,4 +146,34 @@
   		select grade from tbl_user where id= #{id}
   	</select>
   
+  
+     <sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach collection="typeArr" item='type'>
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'I'.toString()">
+							id like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'N'.toString()">
+							name like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'P'.toString()">
+							phone like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'E'.toString()">
+							email like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'G'.toString()">
+							grade like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'T'.toString()">
+							enabled like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+
+	</sql>
 </mapper>

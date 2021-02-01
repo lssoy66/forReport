@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.forreport.domain.AdminCriteriaVO;
 import com.forreport.domain.NoticeVO;
 import com.forreport.domain.QuestionVO;
 import com.forreport.domain.ReviewCriteria;
@@ -16,30 +17,30 @@ import lombok.extern.log4j.Log4j;
 @Service
 @AllArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
-	//spring 4.3 이상에서 자동 처리
+	// spring 4.3 이상에서 자동 처리
 	private QuestionMapper mapper2;
 
 	@Override
 	public void register2(QuestionVO question) {
-		log.info("register....."+question);
+		log.info("register....." + question);
 		mapper2.insertSelectKey2(question);
 	}
 
 	@Override
 	public QuestionVO get2(int questionnum) {
-		log.info("get....."+questionnum);
+		log.info("get....." + questionnum);
 		return mapper2.read2(questionnum);
 	}
 
 	@Override
 	public boolean modify2(QuestionVO question) {
-		log.info("modify....."+question);
+		log.info("modify....." + question);
 		return mapper2.update2(question) == 1;
 	}
 
 	@Override
 	public boolean remove2(int questionnum) {
-		log.info("remove....."+questionnum);
+		log.info("remove....." + questionnum);
 		return mapper2.delete2(questionnum) == 1;
 	}
 
@@ -48,21 +49,32 @@ public class QuestionServiceImpl implements QuestionService {
 		log.info("getList.....");
 		return mapper2.getList2();
 	}
-	
-	// 페이징 처리 한 총 주문리스트 가져오기
-		@Override
-		public List<QuestionVO> getNoticeListAllWithPaging(ReviewCriteria criteria) {
-			log.info("service ~ criteria :: " + criteria);
-			return mapper2.getNoticeListAllWithPaging(criteria);
-		}
 
-		// 총 주문 개수 구하기
-		@Override
-		public int getTotalCount(ReviewCriteria criteria) {
-			return mapper2.getTotalCount(criteria);
-		}
-		
-		
+	// 공지사항
+	// 페이징 처리 한 총 주문리스트 가져오기
+	@Override
+	public List<QuestionVO> getQuestionListAllWithPaging2(ReviewCriteria criteria) {
+		log.info("service ~ criteria :: " + criteria);
+		return mapper2.getQuestionListAllWithPaging2(criteria);
+	}
+	// 총 주문 개수 구하기
+	@Override
+	public int getTotalCount2(ReviewCriteria criteria) {
+		return mapper2.getTotalCount2(criteria);
 	}
 
+	// 관리자용
+	// 페이징 처리 한 총 주문리스트 가져오기
+	@Override
+	public List<QuestionVO> getQuestionListAllWithPagingAdmin2(AdminCriteriaVO criteria) {
+		log.info("service ~ criteria :: " + criteria);
+		return mapper2.getQuestionListAllWithPagingAdmin2(criteria);
+	}
 
+	// 총 주문 개수 구하기
+	@Override
+	public int getTotalCountAdmin2(AdminCriteriaVO criteria) {
+		return mapper2.getTotalCountAdmin2(criteria);
+	}
+
+}

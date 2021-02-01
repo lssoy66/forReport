@@ -41,7 +41,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="work__item">
-					<div class="work__item__number">OrderSuccess</div>
+					<div class="work__item__number" style="color:#7bdbca">OrderSuccess</div>
 						<img src="/resources/img/work/work-2.png" alt="">
 						<h5>For Report를 이용해주셔서 감사합니다.</h5>
 						<p>

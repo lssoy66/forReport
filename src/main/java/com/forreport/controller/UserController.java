@@ -1,6 +1,8 @@
 	package com.forreport.controller;
 
 
+import java.io.PrintWriter;
+import java.security.Principal;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -16,11 +18,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.forreport.domain.AuthVO;
 import com.forreport.domain.UserVO;
 import com.forreport.service.UserService;
 
@@ -137,6 +142,7 @@ public class UserController {
 	public String joinProcess(UserVO vo) throws Exception {
 		log.info("join");
 		
+		
 		// 비밀번호 암호화
 		String inputPw = vo.getPassword();
 		String pw = pwEncoder.encode(inputPw);
@@ -236,7 +242,12 @@ public class UserController {
 
 	}
 	
-		
+	// 마이페이지 이동
+	@RequestMapping("/mypage.fr")
+	public void mypage() throws Exception{
+		log.info("mypage");
+	}
+
 	// 비밀번호 변경
 	@RequestMapping("/updatePw.fr")
 	public String updatePw(HttpSession session, UserVO vo) throws Exception{
@@ -277,5 +288,57 @@ public class UserController {
 		return "redirect:/user/mypage.fr";
 	}
 	
+
+	// 회원탈퇴 -> 수정 전
+//	@RequestMapping("/withdrawal.fr")
+//	public String withdrawal(@RequestParam(value="password") String pw, HttpSession session, UserVO vo) throws Exception{
+//		log.info("withdrawal");
+//		
+//		
+//		String newPw = vo.getPassword();
+//		
+//		log.info("pw" + pw);
+//		log.info("newpw" + newPw);
+//		
+//		boolean pwCheck = pwEncoder.matches(pw, newPw);
+//		
+//		if(!pw.equals(newPw)) {
+//			
+//			return "redirect:/user/mypage.fr";
+//		}
+//		
+//		userService.withdrawal(vo);
+//		session.invalidate();
+//		
+//		return "redirect:/";
+//	}
+	
+	// 회원탈퇴 -> 수정 후
+	@RequestMapping("/withdrawal.fr")
+	public String withdrawal(@RequestParam(value="inputPassword") String pw, HttpSession session, UserVO vo) throws Exception{
+		
+		log.info("withdrawal");		
+		
+		String newPw = vo.getPassword();
+		
+		log.info("pw" + pw);
+		log.info("newpw" + newPw);
+		
+		boolean pwCheck = pwEncoder.matches(pw, newPw);
+		
+		log.info("비번 일치 여부: " + pwCheck);
+		
+		// vo에서 id만 넘기는거로 바꾸기
+		if(pwCheck) {
+			
+			userService.withdrawal(vo.getId());
+			session.invalidate();
+			
+			return "redirect:/";
+		}
+		
+		return "redirect:/user/mypage.fr";
+		
+	}
 
 }

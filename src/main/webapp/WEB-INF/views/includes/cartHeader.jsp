@@ -9,6 +9,7 @@
 <!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal.username" var="user_id" />
+	<sec:authentication property="principal.password" var="user_pw" />
 </sec:authorize>
 
 <head>
@@ -57,11 +58,11 @@
                                 <li><a href="/">Home</a></li>
                                 <li><a href="#">공지사항</a>
                                 	<ul class="dropdown">
-                                        <li><a href="#">공지사항</a></li>
-                                        <li><a href="#">자주 묻는 질문(FAQ)</a></li>
+                                        <li><a href="/notice/list.fr">공지사항</a></li>
+                                        <li><a href="/question/list.fr">자주 묻는 질문(FAQ)</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#" class="active">마이페이지/로그인</a>
+                                <li>마이페이지
                                 	<ul class="dropdown">
                                         <li><a href="/cart/cartList.fr">장바구니</a></li>
                                         <li><a href="/order/myOrderList.fr">주문내역</a></li>

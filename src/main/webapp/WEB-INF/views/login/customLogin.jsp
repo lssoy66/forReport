@@ -63,8 +63,8 @@
 						</div>
 
 						<div>
-							<a href="#" class="txt1">
-								Forgot Password?
+							<a href="/user/findId.fr" class="txt1">
+								Forgot Your ID?
 							</a>
 						</div>
 					</div>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.forreport.domain.SearchingVO;
 import com.forreport.domain.UserVO;
 
 public interface UserMapper {
@@ -12,7 +13,13 @@ public interface UserMapper {
 	public void joinProcess(UserVO vo) throws Exception;
 
 	// 회원 목록
-	public List<UserVO> getUserList(String id);
+//	public List<UserVO> getUserList(String id);
+
+	// 페이징 처리 된 전체 회원 목록
+	public List<UserVO> getUserListWithPaging(SearchingVO searchingVO);
+	
+	// 화면 페이지 처리를 위한 정보 전달
+	public int getTotalCount(SearchingVO searchingVO);
 
 	// 이메일 중복 확인
 	public int emailCheck(String email) throws Exception;
@@ -34,6 +41,10 @@ public interface UserMapper {
 	// 회원정보 변경
 	public void updateInfo(UserVO vo) throws Exception;
 	
+
+	// 회원탈퇴
+	public void withdrawal(@Param("id") String id) throws Exception;
+
   
 	// 은지 - 등급 업데이트
 	public int updateGrade(@Param("id") String id, @Param("grade")int grade);

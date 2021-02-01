@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.forreport.domain.ReviewCriteria;
 import com.forreport.domain.ReviewPageDTO;
@@ -88,5 +89,31 @@ public class ReviewController {
 	public ResponseEntity<ReviewPageDTO> getTotalAndAvgRate(@PathVariable("pronum") int pronum){
 		return new ResponseEntity<> (reviewService.getReviewPageDTO(pronum), HttpStatus.OK);
 	}
+	
+	/* 댓글 삭제 요청자와 댓글 작성자 비교*/
+	@PostMapping(value = "deleteData.fr")
+	@ResponseBody
+	public String getDeleteData(String id, int pronum, int reviewnum) {
 		
+		if(reviewService.getDeleteData(id, pronum, reviewnum)==1) {
+			return "success";
+		} else {
+			return "fail";
+		}
+		
+	}
+	/* 댓글 작성 요청자의 구매 여부 확인*/
+	@PostMapping(value = "orderData.fr")
+	@ResponseBody
+	public String getDeleteData(String id, int pronum) {
+		
+		if(reviewService.getOrderData(id, pronum)==1) {
+			return "success";
+		} else {
+			return "fail";
+		}
+		
+	}
+		
+	
 }

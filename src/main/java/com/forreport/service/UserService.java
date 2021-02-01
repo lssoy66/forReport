@@ -22,6 +22,12 @@ public interface UserService {
 
 	// 아이디 찾기
 	public String findId(HttpServletResponse response, String email) throws Exception;
+	
+	//비밀번호찾기
+//	public void infoCheck(HttpServletResponse response, UserVO vo) throws Exception;
+	
+	// 비밀번호 찾기- 이메일 일치 여부 확인
+	public String infoCheck(String id) throws Exception;
 
 	// 비밀번호 변경
 	public void updatePw(UserVO vo) throws Exception;
@@ -29,6 +35,4 @@ public interface UserService {
 	// 회원 정보 변경
 	public void updateInfo(UserVO vo) throws Exception;
 
-	// 회원탈퇴
-	public void withdrawal(UserVO vo) throws Exception;
 }

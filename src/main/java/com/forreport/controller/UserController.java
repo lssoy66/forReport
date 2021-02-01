@@ -1,11 +1,9 @@
 	package com.forreport.controller;
 
 
-import java.security.Principal;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -20,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -162,17 +159,7 @@ public class UserController {
 		md.addAttribute("id", userService.findId(response, email));
 		return "/user/findIdResult";
 	}
-	
-	/*
-	 * @ResponseBody
-	 * 
-	 * @PostMapping("/findIdProcess.fr") public String findIdProcess(String email)
-	 * throws Exception{ log.info("findIdProcess");
-	 * 
-	 * String result = userService.findId(email);
-	 * 
-	 * if (result != "") { return result; } else { return null; } }
-	 */
+
 	
 	// 아이디 찾기 결과 페이지 이동
 	@RequestMapping("/findIdResult.fr")
@@ -184,6 +171,69 @@ public class UserController {
 	@RequestMapping("/findPw.fr")
 	public void findPw() throws Exception{
 		log.info("findPw");
+	}
+	
+	// 비밀번호 찾기 - 이메일 일치 여부 확인
+	@RequestMapping("/infoCheck.fr")
+	@ResponseBody
+	public String infoCheck(String id) throws Exception{
+		
+		String infoResult = userService.infoCheck(id);
+
+		log.info("infoResult controller");
+		if (infoResult != "") {
+			log.info("infoResult" + infoResult);
+			return infoResult; // 아이디 존재
+		} else {
+			return null;
+		}
+	}
+	
+	
+	// 비밀번호 찾기 (메일 발송) 
+	@RequestMapping("/findPwProcess.fr")
+	public String fincPwProcess(String email, UserVO vo) throws Exception {
+		
+		log.info("이메일 = "+email);
+
+		// 이메일로 받는 임시 비밀번호 부분 (난수)
+		Random r = new Random();
+		int num = r.nextInt(888888) + 111111;
+		
+		String newPw = Integer.toString(num);
+
+		log.info("임시 비밀번호 = " + newPw);
+		
+		// 임시 비밀번호 암호화 + 저장
+		String pw = pwEncoder.encode(newPw);
+		vo.setPassword(pw);
+		
+		userService.updatePw(vo);
+
+		// 이메일 발송
+		String setFrom = "forreport0202@gmail.com";
+		String toMail = email;
+		String title = "[For Report] 임시 비밀번호 안내 이메일 입니다.";
+		String content = "홈페이지를 방문해주셔서 감사합니다." + "<br><br>" + "임시 비밀번호는 " + newPw + " 입니다." + "<br><br>"
+				+ "해당 임시 비밀번호로 로그인 후, 비밀번호를 변경해 주세요.";
+
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+			helper.setFrom(setFrom); // 보내는사람 생략하면 정상작동을 안함
+			helper.setTo(toMail); // 받는사람 이메일
+			helper.setSubject(title); // 메일제목은 생략 가능
+			helper.setText(content); // 메일 내용
+
+			mailSender.send(message);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/";
+
 	}
 	
 		
@@ -205,6 +255,12 @@ public class UserController {
 		
 	}
 	
+	// 내정보 페이지 이동
+	@RequestMapping("/mypageView.fr")
+	public void mypageView(Model model, UserVO vo) throws Exception{
+		model.addAttribute(vo);
+	}
+	
 	// 내정보변경 페이지 이동
 	@RequestMapping("/mypage.fr")
 	public void mypage() throws Exception{
@@ -221,34 +277,5 @@ public class UserController {
 		return "redirect:/user/mypage.fr";
 	}
 	
-	// 회원탈퇴
-	@RequestMapping("/withdrawal.fr")
-	public String withdrawal(@RequestParam("password") String rawPw, HttpSession session, UserVO vo) throws Exception{
-		log.info("withdrawal");
-		
-		// 스프링 시큐리티 비밀번호 가져오기
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		UserDetails userDetails = (UserDetails) principal;
-		
-		String curPw = userDetails.getPassword();
-		String voPw = vo.getPassword();
-		
-		log.info("curPw :" + curPw);
-		log.info("rawPw : " + rawPw);
-		log.info("voPw : " + voPw);
-		
-//		boolean pwCheck = pwEncoder.matches(rawPw, curPw);
-		boolean pwCheck2 = rawPw.equals(voPw);
-		
-		if(pwCheck2) {
-			
-			return "redirect:/user/mypage.fr";
-		}
-		
-		userService.withdrawal(vo);
-		session.invalidate();
-		
-		return "redirect:/";
-	}
 
 }

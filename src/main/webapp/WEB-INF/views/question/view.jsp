@@ -19,24 +19,20 @@
 		<div class="row">
 			<div class="col-lg-8">
 				<div class="listing__hero__option">
-					
-					<div class="listing__hero__text">
-						<h2>
-							<c:out value="${QuestionVO.questiontitle}" />
-						</h2>
-						
+
+					<div class="listing__hero__text">						
 						<div class="listing__hero__widget">
 
 							<div>
 								<div>
 									<h3>작성자: 관리자</h3>
 								</div>
-								
+
 							</div>
 
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 </section>
@@ -51,7 +47,11 @@
 			<div class="col-lg-12">
 				<div class="listing__details__text">
 					<div class="listing__details__about">
-						<h4>제목</h4>
+						<h4>
+							<c:out value="제목: ${QuestionVO.questiontitle}" />
+						</h4>
+						<br>
+						<h4>내용</h4>
 						<p>
 							<c:out value="${QuestionVO.question}"></c:out>
 						</p>
@@ -66,10 +66,9 @@
 
 <!-- 자바스크립트 효과 -->
 <script type="text/javascript">
+	$(document).ready(function() {
 
-$(document).ready(function(){
-	
-}); // ready 끝
+	}); // ready 끝
 </script>
 <!-- footer에서 가져옴 -->
 

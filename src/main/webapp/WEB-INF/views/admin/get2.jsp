@@ -21,24 +21,24 @@
 				<!-- /.panel-heading -->
 				<div class="panel-body">
 					<div class="form-group">
-						<label>번호</label> <input class="form-control" name='noticenum'
-							value='<c:out value="${notice.noticenum}"/>' readonly="readonly" />
+						<label>번호</label> <input class="form-control" name='questionnum'
+							value='<c:out value="${question.questionnum}"/>' readonly="readonly" />
 					</div>
 					<div class="form-group">
 						<label>제목</label> <input class="form-control" name='title'
-							value='<c:out value="${notice.noticetitle}"/>' readonly="readonly" />
+							value='<c:out value="${question.questiontitle}"/>' readonly="readonly" />
 					</div>
 					<div class="form-group">
 						<label>내용</label>
 						<textarea class="form-control" rows="3" name='content'
-							readonly="readonly"><c:out value="${notice.notice}" />
+							readonly="readonly"><c:out value="${question.question}" />
 					</textarea>
 					</div>
 
 					<button data-oper='modify' class="btn btn-default"
-						onclick="location.href='/admin/modify1.fr?noticenum=<c:out value="${notice.noticenum}"/>'">수정</button>
+						onclick="location.href='/admin/modify2.fr?questionnum=<c:out value="${question.questionnum}"/>'">수정</button>
 					<button data-oper='list' class="btn btn-info"
-						onclick="location.href='/admin/list1.fr'">리스트</button>
+						onclick="location.href='/admin/list2.fr'">리스트</button>
 
 					
 				</div>
@@ -55,12 +55,12 @@
 			var operForm = $("#operForm");
 			
 			$("button[data-oper='modify']").on("click", function(e){
-				operForm.attr("action", "/admin/modify1.fr").submit();
+				operForm.attr("action", "/admin/modify2.fr").submit();
 			});
 			
 			$("button[data-oper='list']").on("click", function(e){
 				operForm.find("#noticenum").remove();
-				operForm.attr("action","/admin/list1.fr")
+				operForm.attr("action","/admin/list2.fr")
 				operForm.submit();
 			});
 		});

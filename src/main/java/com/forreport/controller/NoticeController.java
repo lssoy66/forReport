@@ -47,7 +47,7 @@ public class NoticeController {
 		log.info("register: "+notice);
 		service1.register1(notice);
 		rttr.addFlashAttribute("result", notice.getNoticenum());
-		return "redirect:/notice/list";
+		return "redirect:/notice/list.fr";
 		
 	}
 	
@@ -63,7 +63,7 @@ public class NoticeController {
 		if(service1.modify1(notice)) {
 			rttr.addFlashAttribute("result","success");
 		}
-		return "redirct:/notice/list";
+		return "redirct:/notice/list.fr";
 		
 	}
 	
@@ -73,7 +73,7 @@ public class NoticeController {
 		if(service1.remove1(noticenum)) {
 			rttr.addFlashAttribute("result", "success");			
 		}
-		return "redirect:/notice/list";		
+		return "redirect:/notice/list.fr";		
 	}
 
 }

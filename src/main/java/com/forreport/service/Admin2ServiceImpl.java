@@ -45,9 +45,9 @@ public class Admin2ServiceImpl implements Admin2Service{
 	}
 
 	@Override
-	public List<NoticeVO> getList1() {
+	public List<NoticeVO> getList1(AdminCriteriaVO criteria) {
 		log.info("getList.....");
-		return mapper1.getList1();
+		return mapper1.getNoticeListAllWithPagingAdmin(criteria);
 	}
 	
 	// 공지사항

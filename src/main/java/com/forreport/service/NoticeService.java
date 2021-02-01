@@ -24,15 +24,11 @@ public interface NoticeService {
 
 	// 전체 주문 수 가져오기
 	public int getTotalCount(ReviewCriteria criteria);
-	
-	
-	
+
 	// 페이징 처리 된 주문리스트 가져오기
 	public List<NoticeVO> getNoticeListAllWithPagingAdmin(AdminCriteriaVO criteria);
 
 	// 전체 주문 수 가져오기
 	public int getTotalCountAdmin(AdminCriteriaVO criteria);
-	
-	
 
 }

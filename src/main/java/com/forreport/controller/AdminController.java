@@ -28,14 +28,20 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.forreport.domain.AdminCriteriaVO;
+import com.forreport.domain.NoticeVO;
 import com.forreport.domain.PageDTO;
 import com.forreport.domain.ProductVO;
+import com.forreport.domain.QuestionVO;
 import com.forreport.domain.ReviewCriteria;
 import com.forreport.domain.SearchingVO;
 import com.forreport.domain.UploadVO;
+import com.forreport.service.NoticeService;
 import com.forreport.service.OrderService;
 import com.forreport.service.ProductService;
+import com.forreport.service.QuestionService;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -203,6 +209,147 @@ public class AdminController {
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK); // resource 경로로 저장!
 	}
 	
+	private NoticeService service1;
+	private QuestionService service2;
+	
+	@GetMapping("list1.fr")
+	public void list(AdminCriteriaVO criteria, Model model) {
+		log.info("list1");
+		log.info("list1:" + service1.getNoticeListAllWithPagingAdmin(criteria));
+		model.addAttribute("list1", service1.getNoticeListAllWithPagingAdmin(criteria));
+
+		// 화면 페이지 처리를 위한 정보 전달
+		model.addAttribute("pageMaker", new PageDTO(criteria, service1.getTotalCountAdmin(criteria)));
+		log.info("service1.getTotalCountAdmin(criteria): " + service1.getTotalCountAdmin(criteria));
+		log.info(new PageDTO(criteria, service1.getTotalCountAdmin(criteria)));
+	}
+
+	@GetMapping("/view1.fr")
+	public void view(Model model, int noticenum) {
+
+		log.info("view");
+		model.addAttribute("NoticeVO", service1.get1(noticenum));
+
+	}
+
+	@PostMapping("/register1.fr")
+	public String register(NoticeVO notice, RedirectAttributes rttr) {
+		log.info("register: " + notice);
+		service1.register1(notice);
+		rttr.addFlashAttribute("result", notice.getNoticenum());
+		return "redirect:/admin/list1.fr";
+
+	}
+
+	@GetMapping({ "/get1.fr", "/modify1.fr" })
+	public void get(@RequestParam("noticenum") int noticenum, @ModelAttribute("cri") AdminCriteriaVO cri, Model model) {
+		log.info("/get1.fr or modify1.fr");
+		model.addAttribute("notice", service1.get1(noticenum));
+	}
+
+	// 219,319
+	@PostMapping("/modify1.fr")
+	public String modify(NoticeVO notice, @ModelAttribute("cri") AdminCriteriaVO cri, RedirectAttributes rttr) {
+		log.info("modify1:" + notice);
+		if (service1.modify1(notice)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		/* 319 */
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+
+		/* 346 */
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+
+		return "redirect:/admin/list1.fr";
+	}
+
+	@PostMapping("/remove1.fr")
+	public String remove(@RequestParam("noticenum") int noticenum, RedirectAttributes rttr, AdminCriteriaVO cri) {
+		log.info("remove..." + noticenum);
+		if (service1.remove1(noticenum)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+//320		
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+//346
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+
+		return "redirect:/admin/list1.fr";
+	}
+
+	@GetMapping("/list2.fr")
+	public void list2(AdminCriteriaVO criteria, Model model) {
+		log.info("list2");
+		log.info("list2:" + service2.getQuestionListAllWithPagingAdmin2(criteria));
+		model.addAttribute("list2", service2.getQuestionListAllWithPagingAdmin2(criteria));
+
+		// 화면 페이지 처리를 위한 정보 전달
+		model.addAttribute("pageMaker", new PageDTO(criteria, service2.getTotalCountAdmin2(criteria)));
+		log.info("service2.getTotalCountAdmin(criteria): " + service2.getTotalCountAdmin2(criteria));
+		log.info(new PageDTO(criteria, service2.getTotalCountAdmin2(criteria)));
+	}
+
+	@GetMapping("/view2.fr")
+	public void view2(Model model, int questionnum) {
+
+		log.info("view");
+		model.addAttribute("QuestionVO", service2.get2(questionnum));
+
+	}
+
+	@PostMapping
+	public String register2(QuestionVO question, RedirectAttributes rttr) {
+		log.info("register: " + question);
+		service2.register2(question);
+		rttr.addFlashAttribute("result", question.getQuestionnum());
+		return "redirect:/admin/list2.fr";
+
+	}
+
+	@GetMapping({ "/get2.fr", "/modify2.fr" })
+	public void get2(@RequestParam("questionnum") int noticenum, @ModelAttribute("cri") AdminCriteriaVO cri,
+			Model model) {
+		log.info("/get2.fr or modify2.fr");
+		model.addAttribute("question", service2.get2(noticenum));
+	}
+
+	// 219,319
+	@PostMapping("/modify2.fr")
+	public String modify2(QuestionVO question, @ModelAttribute("cri") AdminCriteriaVO cri, RedirectAttributes rttr) {
+		log.info("modify2:" + question);
+		if (service2.modify2(question)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		/* 319 */
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+
+		/* 346 */
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+
+		return "redirect:/admin/list2.fr";
+	}
+
+	@PostMapping("/remove2.fr")
+	public String remove2(@RequestParam("questionnum") int questionnum, RedirectAttributes rttr, AdminCriteriaVO cri) {
+		log.info("remove..." + questionnum);
+		if (service2.remove2(questionnum)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+        //320		
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+        //346
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+
+		return "redirect:/admin/list2.fr";
+	}
 	
 	
 }

@@ -75,15 +75,7 @@
 						 </div>
 						  <div class="container-login100-form-btn">
                        					
-					      <button class="login101-form-btn">
-							with Kakao
-					      </button>					
-					</div>
-                    <div class="container-login100-form-btn">					
-					      <button class="login102-form-btn">
-							with Naver
-					      </button>				
-					</div>	
+					      
 					 </div>  
 <!--소셜 로그인 시작 -->
 

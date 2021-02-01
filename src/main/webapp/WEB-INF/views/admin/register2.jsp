@@ -24,6 +24,7 @@
         <form role="form" action="/admin/register2.fr" method="post">
           <div class="form-group">
             <label>Title</label> <input class="form-control" name='title'>
+            <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
           </div>
 
           <div class="form-group">

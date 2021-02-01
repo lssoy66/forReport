@@ -231,6 +231,10 @@ public class AdminController {
 		model.addAttribute("NoticeVO", service1.get1(noticenum));
 
 	}
+	@GetMapping("/register1.fr")
+	public void register() {
+				
+	}
 
 	@PostMapping("/register1.fr")
 	public String register(NoticeVO notice, RedirectAttributes rttr) {
@@ -299,6 +303,11 @@ public class AdminController {
 		log.info("view");
 		model.addAttribute("QuestionVO", service2.get2(questionnum));
 
+	}
+	
+	@GetMapping("/register2.fr")
+	public void register2() {
+				
 	}
 
 	@PostMapping

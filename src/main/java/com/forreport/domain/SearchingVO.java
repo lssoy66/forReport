@@ -38,4 +38,14 @@ public class SearchingVO {
 	// 관리자 상품 리스트 > 승인 여부 추가:: 미승인(0), 승인(1), 승인거부(2), 삭제요청(3)
 	private int approval;
 	
+	
+	// 조은 추가 : 회원 리스트
+	private String type; // 검색 타입
+	private String keyword; // 검색 키워드
+	
+	public String[] getTypeArr() {
+		return type == null ? new String[] {} : type.split("");
+	}
+	
+	
 }

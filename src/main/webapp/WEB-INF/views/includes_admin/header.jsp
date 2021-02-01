@@ -99,7 +99,7 @@
                     <ul class="nav" id="side-menu">
                         
                         <li>
-                            <a href="#"><i class="fa fa-group fa-fw"></i> 회원관리</a>
+                            <a href="/admin/userList.fr"><i class="fa fa-group fa-fw"></i> 회원관리</a>
                         </li>
                         <li>
                             <a href="/admin/productList.fr?approval=999"><i class="fa fa-file-text-o fa-fw"></i> 상품관리<span class="fa arrow"></span></a>

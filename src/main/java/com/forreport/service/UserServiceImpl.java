@@ -8,8 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.forreport.domain.SearchingVO;
 import com.forreport.domain.UserVO;
+import com.forreport.mapper.AuthMapper;
 import com.forreport.mapper.UserMapper;
 
 import lombok.AllArgsConstructor;
@@ -17,35 +20,57 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	private UserMapper userMapper;
+
+	@Autowired
+	private AuthMapper authMapper;
 	
 	
 	// 회원가입
 	@Override
+	@Transactional // 권한부여, 회원가입 모두 같이 이루어져야 하기 때문에 추가
 	public void joinProcess(UserVO vo) throws Exception {
 		userMapper.joinProcess(vo);
+		
+		// 권한 부여
+		int authResult = authMapper.grantAuth(vo.getId());
+		System.out.println("authMapper: " + authResult);
 	}
 
+	/*
+	 * @Override public List<UserVO> getUserList(String id) {
+	 * 
+	 * return null;
+	 * 
+	 * }
+	 */
+
+	// 페이징 처리된 전체 회원 목록
 	@Override
-	public List<UserVO> getUserList(String id) {
+	public List<UserVO> getUserListWithPaging(SearchingVO searchingVO) {
 
-		return null;
-
+		return userMapper.getUserListWithPaging(searchingVO);
 	}
 	
+	
+	@Override
+	public int getTotalCount(SearchingVO searchingVO) {
+		return userMapper.getTotalCount(searchingVO);
+	}
+
 	// 이메일 중복 확인
 	@Override
 	public int emailCheck(String email) throws Exception {
-		
+
 		return userMapper.emailCheck(email);
 	}
 
 	// 아이디 중복 확인
 	@Override
 	public int idCheck(String id) throws Exception {
-		
+
 		return userMapper.idCheck(id);
 	}
 
@@ -55,7 +80,7 @@ public class UserServiceImpl implements UserService {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		String id = userMapper.findId(email);
-		
+
 		if (id == null) {
 			out.println("<script>");
 			out.println("alert('가입된 아이디가 없습니다.');");
@@ -65,8 +90,9 @@ public class UserServiceImpl implements UserService {
 			return null;
 		} else {
 			return id;
-		} 
+		}
 	}
+
 
 	// 비밀번호 변경
 	@Override

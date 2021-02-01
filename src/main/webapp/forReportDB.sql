@@ -1,3 +1,4 @@
+
 -- system 계정에서 작업 --------------------------------------------------
 
 -- (1) 사용자계정 생성 :forreport/forreport
@@ -16,7 +17,7 @@ CREATE TABLE tbl_user (
    phone VARCHAR2(12) NOT NULL, /* 휴대폰번호 */
    email VARCHAR2(30) NOT NULL, /* 이메일 */
    grade number default 0 NOT NULL, /* 등급 */
-   enabled number(1) default 1 not null
+   enabled number(1) default 1 NOT NULL
 );
 
 CREATE UNIQUE INDEX PK_tbl_user
@@ -194,7 +195,7 @@ ALTER TABLE tbl_question
 
 /* 권한 테이블 */
 CREATE TABLE tbl_auth (
-   auth varchar2(20) NOT NULL, /* 권한 */
+   auth varchar2(50) NOT NULL, /* 권한 */
    id VARCHAR2(20) NOT NULL /* ID */
 );
 
@@ -217,7 +218,7 @@ CREATE TABLE tbl_vbank(
     vbdate DATE NOT NULL    /* 입금기한 */
 );
 
-      
+
 -- 참조(FK)
 ALTER TABLE tbl_product
    ADD
@@ -310,7 +311,7 @@ ALTER TABLE tbl_review
       REFERENCES tbl_product (
          pronum
       );
-
+    
 ALTER TABLE tbl_auth
    ADD
       CONSTRAINT FK_tbl_user_TO_tbl_auth
@@ -320,8 +321,9 @@ ALTER TABLE tbl_auth
       REFERENCES tbl_user (
          id
       ) on delete cascade;
+      
 
-/* 가상계좌 테이블 FK 추가!! */
+/* 가상계좌 테이블 FK 추가 */
 ALTER TABLE tbl_vbank
    ADD
       CONSTRAINT FK_tbl_user_TO_tbl_vbank
@@ -348,27 +350,35 @@ create sequence seq_product;
 create sequence seq_order;
 create sequence seq_review;
 create sequence seq_notice;
-create sequence seq_question;
+create sequence seq_questionl;
 
--- 데이터 추가 테스트
-insert into tbl_user values('aa', '123', 'hong', '01011111111', 'abc@abc.com', '0' );
-insert into tbl_category values('123', '456');
-insert into tbl_product values('123', 'aa', '123', '456', 'title', 'proname', 
-'prodcs', '10000', sysdate, '0');
-insert into tbl_cart values('1234', 'aa', '123');
-insert into tbl_order values('1234', '123', 'aa', 'cash', '10000', sysdate);
-insert into tbl_review values('1111', '123', 'aa', 'good', sysdate, '0');
-insert into tbl_upload values('123', 'uuid', 'directory', 'filename');
-
-delete from tbl_user where id ='aa';
-
-insert into tbl_cart values(SEQ_CART.nextval, 'aa', '123');
-
--- ! 관리자 계정 추가 ! :: Oracle SQL Developer 사용할 때 insert 후 꼭 commit
-insert into tbl_user values('admin', 'admin', '관리자', '00000000000', 'admin@admin.com', '0' );
+-- ! 관리자 계정 추가 !
+-- 관리자 계정은 테스트 코드를 수행해 작성합니다
+--user1, user1, user1Name, 01000001111, user1@user1.com, 0
+--user2, user2, user2Name, 01000002222, user2@user2.com, 0
+--user3, user3, user3Name, 01000003333, user3@user3.com, 0
+--user4, user4, user4Name, 01000004444, user4@user4.com, 0
+--user5, user5, user5Name, 01000005555, user5@user5.com, 0
+--user6, user6, user6Name, 01000006666, user6@user6.com, 0
+--user7, user7, user7Name, 01000007777, user7@user7.com, 0
+--user8, user8, user8Name, 01000008888, user8@user8.com, 0
+--user9, user9, user9Name, 01000009999, user9@user9.com, 0
+--user10, user10, user10Name, 01000001010, user10@user10.com, 0
+--aa, aa, aaName, 01011112222, aa@aa.com, 0
+--bb, bb, bbName, 01022222222, bb@bb.com, 0
 
 -- 테이블 내용 조회
+select * from tbl_category;
 select * from tbl_user;
+select * from tbl_auth;
+select * from tbl_product;
+select * from tbl_cart;
+select * from tbl_order;
+select * from tbl_vbank;
+select * from tbl_review;
+select * from tbl_upload;
+select * from tbl_notice;
+select * from tbl_question;
 
 -- 데이터 삭제
 delete tbl_user;
@@ -386,6 +396,8 @@ drop table tbl_product;
 drop table tbl_category;
 drop table tbl_user;
 
+commit;
+
 -- 카테고리 테이블(tbl_category)에 데이터 추가
 insert into tbl_category values('0', '0');  -- 리포트(0)/인문사회(0)
 insert into tbl_category values('0', '1');  -- 리포트(0)/자연공학(1)
@@ -395,4 +407,186 @@ insert into tbl_category values('1', '0');  -- 논문(1)/인문사회(0)
 insert into tbl_category values('1', '1');  -- 논문(1)/자연공학(1)
 insert into tbl_category values('1', '2');  -- 논문(1)/예술체육(2)
 insert into tbl_category values('1', '3');  -- 논문(1)/교양(3)
+
+-- 페이징 처리 확인을 위한 가짜 데이터(tbl_product) 추가
+-- 레포트(0) 인문사회(0)
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '0', '레포트인문사회title1', 'proname1', 'prodcs1', '100', sysdate, '1'); -- 상품번호, 업로드아이디, 대카테고리, 소카테고리, 제목, 상품명, 설명, 가격, 승인(0 - 미승인)
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '0', '레포트인문사회title2', 'proname2', 'prodcs2', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '0', '레포트인문사회title3', 'proname3', 'prodcs3', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '0', '레포트인문사회title4', 'proname4', 'prodcs4', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '0', '레포트인문사회title5', 'proname5', 'prodcs5', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '0', '레포트인문사회title6', 'proname6', 'prodcs6', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '0', '레포트인문사회title7', 'proname7', 'prodcs7', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '0', '레포트인문사회title8', 'proname8', 'prodcs8', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '0', '레포트인문사회title9', 'proname9', 'prodcs9', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '0', '레포트인문사회title10', 'proname10', 'prodcs10', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '0', '레포트인문사회title11', 'proname11', 'prodcs11', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '0', '레포트인문사회title12', 'proname12', 'prodcs12', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '0', '레포트인문사회title13', 'proname13', 'prodcs13', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '0', '레포트인문사회title14', 'proname14', 'prodcs14', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '0', '레포트인문사회title15', 'proname15', 'prodcs15', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '0', '레포트인문사회title16', 'proname16', 'prodcs16', '100', sysdate, '1');
+
+-- 레포트(0) 자연공학(1)
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '1', '레포트자연공학title1', 'proname1', 'prodcs1', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '1', '레포트자연공학title2', 'proname2', 'prodcs2', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '1', '레포트자연공학title3', 'proname3', 'prodcs3', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '1', '레포트자연공학title4', 'proname4', 'prodcs4', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '1', '레포트자연공학title5', 'proname5', 'prodcs5', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '1', '레포트자연공학title6', 'proname6', 'prodcs6', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '1', '레포트자연공학title7', 'proname7', 'prodcs7', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '1', '레포트자연공학title8', 'proname8', 'prodcs8', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '1', '레포트자연공학title9', 'proname9', 'prodcs9', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '1', '레포트자연공학title10', 'proname10', 'prodcs10', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '1', '레포트자연공학title11', 'proname11', 'prodcs11', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '1', '레포트자연공학title12', 'proname12', 'prodcs12', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '1', '레포트자연공학title13', 'proname13', 'prodcs13', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '1', '레포트자연공학title14', 'proname14', 'prodcs14', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '1', '레포트자연공학title15', 'proname15', 'prodcs15', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '1', '레포트자연공학title16', 'proname16', 'prodcs16', '100', sysdate, '1');
+
+-- 레포트(0) 예술체육(2)
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '2', '레포트예술체육title1', 'proname1', 'prodcs1', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '2', '레포트예술체육title2', 'proname2', 'prodcs2', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '2', '레포트예술체육title3', 'proname3', 'prodcs3', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '2', '레포트예술체육title4', 'proname4', 'prodcs4', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '2', '레포트예술체육title5', 'proname5', 'prodcs5', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '2', '레포트예술체육title6', 'proname6', 'prodcs6', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '2', '레포트예술체육title7', 'proname7', 'prodcs7', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '2', '레포트예술체육title8', 'proname8', 'prodcs8', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '2', '레포트예술체육title9', 'proname9', 'prodcs9', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '2', '레포트예술체육title10', 'proname10', 'prodcs10', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '2', '레포트예술체육title11', 'proname11', 'prodcs11', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '2', '레포트예술체육title12', 'proname12', 'prodcs12', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '2', '레포트예술체육title13', 'proname13', 'prodcs13', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '2', '레포트예술체육title14', 'proname14', 'prodcs14', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '2', '레포트예술체육title15', 'proname15', 'prodcs15', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '2', '레포트예술체육title16', 'proname16', 'prodcs16', '100', sysdate, '1');
+
+-- 레포트(0) 교양(3)
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '3', '레포트교양title1', 'proname1', 'prodcs1', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '3', '레포트교양title2', 'proname2', 'prodcs2', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '3', 레포트교양'title3', 'proname3', 'prodcs3', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '3', '레포트교양title4', 'proname4', 'prodcs4', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '3', '레포트교양title5', 'proname5', 'prodcs5', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '3', '레포트교양title6', 'proname6', 'prodcs6', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '3', '레포트교양title7', 'proname7', 'prodcs7', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '3', '레포트교양title8', 'proname8', 'prodcs8', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '3', '레포트교양title9', 'proname9', 'prodcs9', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '3', '레포트교양title10', 'proname10', 'prodcs10', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '3', '레포트교양title11', 'proname11', 'prodcs11', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '0', '3', '레포트교양title12', 'proname12', 'prodcs12', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '3', '레포트교양title13', 'proname13', 'prodcs13', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '3', '레포트교양title14', 'proname14', 'prodcs14', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '3', '레포트교양title15', 'proname15', 'prodcs15', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '0', '3', '레포트교양title16', 'proname16', 'prodcs16', '100', sysdate, '1');
+
+-- 논문(1) 인문사회(0)
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '0', '논문인문사회title1', 'proname1', 'prodcs1', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '0', '논문인문사회title2', 'proname2', 'prodcs2', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '0', '논문인문사회title3', 'proname3', 'prodcs3', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '0', '논문인문사회title4', 'proname4', 'prodcs4', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '0', '논문인문사회title5', 'proname5', 'prodcs5', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '0', '논문인문사회title6', 'proname6', 'prodcs6', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '0', '논문인문사회title7', 'proname7', 'prodcs7', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '0', '논문인문사회title8', 'proname8', 'prodcs8', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '0', '논문인문사회title9', 'proname9', 'prodcs9', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '0', '논문인문사회title10', 'proname10', 'prodcs10', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '0', '논문인문사회title11', 'proname11', 'prodcs11', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '0', '논문인문사회title12', 'proname12', 'prodcs12', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '0', '논문인문사회title13', 'proname13', 'prodcs13', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '0', '논문인문사회title14', 'proname14', 'prodcs14', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '0', '논문인문사회title15', 'proname15', 'prodcs15', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '0', '논문인문사회title16', 'proname16', 'prodcs16', '100', sysdate, '1');
+
+-- 논문(1) 자연공학(1)
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '1', '논문자연공학title1', 'proname1', 'prodcs1', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '1', '논문자연공학title2', 'proname2', 'prodcs2', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '1', '논문자연공학title3', 'proname3', 'prodcs3', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '1', '논문자연공학title4', 'proname4', 'prodcs4', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '1', '논문자연공학title5', 'proname5', 'prodcs5', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '1', '논문자연공학title6', 'proname6', 'prodcs6', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '1', '논문자연공학title7', 'proname7', 'prodcs7', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '1', '논문자연공학title8', 'proname8', 'prodcs8', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '1', '논문자연공학title9', 'proname9', 'prodcs9', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '1', '논문자연공학title10', 'proname10', 'prodcs10', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '1', '논문자연공학title11', 'proname11', 'prodcs11', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '1', '논문자연공학title12', 'proname12', 'prodcs12', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '1', '논문자연공학title13', 'proname13', 'prodcs13', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '1', '논문자연공학title14', 'proname14', 'prodcs14', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '1', '논문자연공학title15', 'proname15', 'prodcs15', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '1', '논문자연공학title16', 'proname16', 'prodcs16', '100', sysdate, '1');
+
+--논문(1) 예술체육(2)
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '2', '논문예술체육title1', 'proname1', 'prodcs1', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '2', '논문예술체육title2', 'proname2', 'prodcs2', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '2', '논문예술체육title3', 'proname3', 'prodcs3', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '2', '논문예술체육title4', 'proname4', 'prodcs4', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '2', '논문예술체육title5', 'proname5', 'prodcs5', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '2', '논문예술체육title6', 'proname6', 'prodcs6', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '2', '논문예술체육title7', 'proname7', 'prodcs7', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '2', '논문예술체육title8', 'proname8', 'prodcs8', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '2', '논문예술체육title9', 'proname9', 'prodcs9', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '2', '논문예술체육title10', 'proname10', 'prodcs10', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '2', '논문예술체육title11', 'proname11', 'prodcs11', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '2', '논문예술체육title12', 'proname12', 'prodcs12', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '2', '논문예술체육title13', 'proname13', 'prodcs13', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '2', '논문예술체육title14', 'proname14', 'prodcs14', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '2', '논문예술체육title15', 'proname15', 'prodcs15', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '2', '논문예술체육title16', 'proname16', 'prodcs16', '100', sysdate, '1');
+
+-- 논문(1) 교양(3)
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '3', '논문교양title1', 'proname1', 'prodcs1', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '3', '논문교양title2', 'proname2', 'prodcs2', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '3', '논문교양title3', 'proname3', 'prodcs3', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '3', '논문교양title4', 'proname4', 'prodcs4', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '3', '논문교양title5', 'proname5', 'prodcs5', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '3', '논문교양title6', 'proname6', 'prodcs6', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '3', '논문교양title7', 'proname7', 'prodcs7', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '3', '논문교양title8', 'proname8', 'prodcs8', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '3', '논문교양title9', 'proname9', 'prodcs9', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '3', '논문교양title10', 'proname10', 'prodcs10', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '3', '논문교양title11', 'proname11', 'prodcs11', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'bb', '1', '3', '논문교양title12', 'proname12', 'prodcs12', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '3', '논문교양title13', 'proname13', 'prodcs13', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '3', '논문교양title14', 'proname14', 'prodcs14', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '3', '논문교양title15', 'proname15', 'prodcs15', '100', sysdate, '1');
+insert into tbl_product values(seq_product.nextval, 'aa', '1', '3', '논문교양title16', 'proname16', 'prodcs16', '100', sysdate, '1');
+
+commit;
+
+-- 테스트를 위한 가짜 데이터(tbl_review) 추가
+-- 리뷰번호, 리뷰작성자, 상품번호, 리뷰본론, 오늘날짜, 별점
+insert into tbl_review values(seq_review.nextval, 229, 'aa', 'review', sysdate, '1'); 
+insert into tbl_review values(seq_review.nextval, 229, 'aa', 'review', sysdate, '2'); 
+insert into tbl_review values(seq_review.nextval, 229, 'aa', 'review', sysdate, '3'); 
+insert into tbl_review values(seq_review.nextval, 229, 'aa', 'review', sysdate, '4'); 
+insert into tbl_review values(seq_review.nextval, 229, 'aa', 'review', sysdate, '5'); 
+insert into tbl_review values(seq_review.nextval, 229, 'aa', 'review', sysdate, '4'); 
+insert into tbl_review values(seq_review.nextval, 229, 'aa', 'review', sysdate, '4'); 
+insert into tbl_review values(seq_review.nextval, 229, 'aa', 'review', sysdate, '5'); 
+insert into tbl_review values(seq_review.nextval, 229, 'aa', 'review', sysdate, '5'); 
+insert into tbl_review values(seq_review.nextval, 229, 'aa', 'review', sysdate, '2'); 
+insert into tbl_review values(seq_review.nextval, 229, 'aa', 'review', sysdate, '3'); 
+insert into tbl_review values(seq_review.nextval, 229, 'aa', 'review', sysdate, '3'); 
+
+-- 테스트를 위한 가짜 데이터(tbl_order) 추가
+-- (무통장의 경우 계좌가 발급되어야 하므로 실제 페이지에서만 테스트 가능, 아래 코드는 신용카드인 경우만 해당)
+insert into tbl_order values(seq_order.nextval, 229, 'aa', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 229, 'bb', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 229, 'user1', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 229, 'user2', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 229, 'user3', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 229, 'user4', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 234, 'aa', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 234, 'bb', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 234, 'user1', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 234, 'user2', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 236, 'user3', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 236, 'user4', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 217, 'user3', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 217, 'user4', 'card', 100, sysdate);
+insert into tbl_order values(seq_order.nextval, 222, 'aa', 'card', 100, sysdate);
+
+commit;
 

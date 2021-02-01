@@ -38,5 +38,5 @@ public interface UserService {
 	public void updateInfo(UserVO vo) throws Exception;
 
 	// 회원탈퇴
-	public void withdrawal(UserVO vo) throws Exception;
+	public void withdrawal(String id) throws Exception;
 }

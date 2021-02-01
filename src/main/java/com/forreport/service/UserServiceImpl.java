@@ -108,8 +108,8 @@ public class UserServiceImpl implements UserService {
 
 	// 회원탈퇴
 	@Override
-	public void withdrawal(UserVO vo) throws Exception {
-		userMapper.withdrawal(vo);		
+	public void withdrawal(String id) throws Exception {
+		userMapper.withdrawal(id);		
 	}
 
 

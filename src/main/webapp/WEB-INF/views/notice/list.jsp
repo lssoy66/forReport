@@ -21,7 +21,8 @@
 
 					<div class="listing__hero__text">
 						<h2>
-							<c:out value="${NoticeVO.noticetitle}" />
+<%-- 							<c:out value="${NoticeVO.noticetitle}" /> --%>
+                                <h2>공지사항</h2>
 						</h2>
 
 

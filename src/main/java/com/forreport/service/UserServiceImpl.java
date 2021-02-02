@@ -3,7 +3,6 @@ package com.forreport.service;
 import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +91,14 @@ public class UserServiceImpl implements UserService {
 			return id;
 		}
 	}
+	
+	// 비밀번호 찾기 - 이메일 일치 여부 확인
+	@Override
+	public String infoCheck(String id) throws Exception {
+
+		return userMapper.infoCheck(id);
+
+	}
 
 
 	// 비밀번호 변경
@@ -106,10 +113,11 @@ public class UserServiceImpl implements UserService {
 		userMapper.updateInfo(vo);
 	}
 
+
 	// 회원탈퇴
 	@Override
-	public void withdrawal(UserVO vo) throws Exception {
-		userMapper.withdrawal(vo);		
+	public void withdrawal(String id) throws Exception {
+		userMapper.withdrawal(id);		
 	}
 
 

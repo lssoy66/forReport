@@ -21,7 +21,7 @@
 
 <div class="w3-content w3-container w3-margin-top">
 	<div class="w3-container w3-card-4">
-		<form action="/user/findIdProcess.fr" method="post">
+		<form action="/user/findPwProcess.fr" method="post">
 		<!-- spring security csrf token 설정1 -->
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 			<div class="w3-center w3-large w3-margin-top">
@@ -30,11 +30,13 @@
 			<div>
 				<p>
 					<label>ID</label> <input class="w3-input" type="text" id="id"
-						name="id" required>
+						name="id" required="required">
+					<div class="check_font" id="idCheck"></div>
 				</p>
 				<p>
 					<label>Email</label> <input class="w3-input" type="text" id="email"
 						name="email" required>
+					<div class="check_font" id="emailCheck"></div>
 				</p>
 				<p class="w3-center">
 					<button type="submit" id=findBtn
@@ -47,14 +49,80 @@
 	</div>
 </div>
 
-<!-- <script>
-var code = ""; // 이메일 인증번호
+<script>
 
 // spring security csrf token 설정2
 var header = "${_csrf.headerName}";
 var token = "${_csrf.token}";
 
-// 이메일 확인
+var idChk = false;					// 아이디 확인
+var emailChk = false;				// 이메일 확인
+
+//아이디 일치 검사
+$('#id').keyup(function(){
+	var id = $('#id').val();
+	
+	$.ajax({
+		type : "post",
+		url : "/user/idCheck.fr",
+		// spring security csrf token 설정3
+		beforeSend : function(xhr){
+			if(token && header){
+				xhr.setRequestHeader(header, token);
+			}
+		},
+		data : {id : id},
+		success : function(result){
+			if(result == 'fail'){
+				$('#idCheck').text("존재하는 아이디입니다.");
+				$('#idCheck').css('color', 'green');
+				idChk = true;
+				
+			} else {
+				$('#idCheck').text('일치하는 아이디가 없습니다.');
+				$("#idCheck").css("color", "red");
+			}
+		}
+	});
+});
+
+//이메일 일치 검사
+$("#email").keyup(function() {
+	var id = $('#id').val();
+	var email = $("#email").val();	// 이메일 주소
+
+	$.ajax({
+		url : '/user/infoCheck.fr',
+		type : 'post',
+		// spring security csrf token 설정3
+		beforeSend : function(xhr){
+			if(token && header){
+				xhr.setRequestHeader(header, token);
+			}
+		},
+		data : {
+			id : id
+		},
+		success : function(infoResult) {
+
+			if (infoResult != 'null') {
+				if(result == email){
+					$("#emailCheck").text("이메일이 일치합니다.");
+					$('#emailCheck').css('color', 'green');
+					emailChk = true;	
+				}
+
+			} else {
+
+				$('#emailCheck').text('이메일이 일치하지 않습니다.');
+				$("#emailCheck").css("color", "red");
+			
+			}
+		}
+	});
+});
+
+// 이메일 전송 처리
 $("#findBtn").click(function() {
 	var email = $("#email").val();	// 이메일 주소
 
@@ -70,78 +138,16 @@ $("#findBtn").click(function() {
 		data : {
 			email : email
 		},
-		success : function(result) {
+		success : function() {
 
-			if (result == 'fail') {
-				$("#emailCheck").text("사용중인 이메일입니다");
-				$("#emailCheck").css("color", "red");
-
-			} else if (email == "") {
-
-				$('#emailCheck').text('이메일을 입력해주세요');
-				$('#emailCheck').css('color', 'red');
-				
-			} else if (!mailJ.test(email)) {
-
-				$('#emailCheck').text('이메일을 다시 입력해주세요 예)forreport0202@gmail.com');
-				$('#emailCheck').css('color', 'red');
-
-			} else {
-
-				$('#emailCheck').text('사용 가능한 이메일입니다');
-				$('#emailCheck').css('color', 'green');
-				$("#sendBtn").attr("disabled", false); // 메일 보내기 버튼 활성화 변경						
+			 if (idChk && emailChk) {
+				alert('해당 이메일로 임시 비밀번호를 발송하였습니다.');
+				$("#findBtn").submit();
 			}
 		}
 	});
 });
 
-// 인증번호 이메일 전송
-$("#sendBtn").click(function() {
-	var email = $("#email").val();	// 이메일 주소
 
-	$.ajax({
-		type : 'get',
-		url : 'certificationProcess.fr?email=' + email,
-		// spring security csrf token 설정3
-		beforeSend : function(xhr){
-			if(token && header){
-				xhr.setRequestHeader(header, token);
-			}
-		},
-		success : function(data) {
-
-			code = data;
-		}
-	});
-	$("#codeCheck").focus();
-});
-
-// 인증번호 비교
-$("#codeCheckBtn").click(function() {
-	var inputCode = $("#codeCheck").val(); //입력 코드
-	var checkResult = $("#checkResult"); // 비교 결과
-	
-	if(inputCode == code){
-		checkResult.text("인증번호가 일치합니다");
-		checkResult.css('color', 'green');
-		$("#nextBtn").attr('disabled', false);		// 다음단계 버튼 활성화
-
-	} else {
-		checkResult.text("인증번호를 다시 확인해주세요");
-		checkResult.css('color', 'red');
-	}
-
-});
-
-// 회원가입 페이지 이동(이메일 주소 포함)
-$("#nextBtn").click(function(){
-	var email = $("#email").val();	// 이메일 주소
-	
-
-	$("#form1").attr('action', '/user/join.fr');
-	$("#form1").submit();
-	
-});
-</script> -->
+</script>
 <%@ include file="../includes/footer.jsp"%>

@@ -32,14 +32,18 @@ public interface UserMapper {
 	// 아이디 찾기
 	public String findId(String email) throws Exception;
 	
+	// 비밀번호 찾기 - 이메일 일치 여부 확인
+	public String infoCheck(String id);
+	
 	// 비밀번호 변경
 	public void updatePw(UserVO vo) throws Exception;
 	
 	// 회원정보 변경
 	public void updateInfo(UserVO vo) throws Exception;
 	
+
 	// 회원탈퇴
-	public void withdrawal(UserVO vo) throws Exception;
+	public void withdrawal(@Param("id") String id) throws Exception;
 
   
 	// 은지 - 등급 업데이트
@@ -47,4 +51,5 @@ public interface UserMapper {
 
 	/* 은지  - view - 작성자 등급 보여주기*/
 	public int getGrade(String id);
+
 }

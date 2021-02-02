@@ -67,21 +67,18 @@
 								Forgot Your ID?
 							</a>
 						</div>
+						<div>
+							<a href="/user/findPw.fr" class="txt1">
+								Forgot Your Password?
+							</a>
+						</div>
 					</div>
                     
                     <div>
-						<div class="container-login100-form-btn">
-						    <input type="submit" name="submit" class="login100-form-btn" value="Login">					    
+						<div class="container-login100-form-btn"  style="margin-left: 80px;">
+						   <input type="submit" name="submit" class="login100-form-btn" value="Login">					    
 						 </div>
-						  <div class="container-login100-form-btn">
-                       					
-					      
 					 </div>  
-<!--소셜 로그인 시작 -->
-
-                   
-                   
-					
 
 					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 				</form>

@@ -9,6 +9,7 @@
 <!-- 로그인한 사용자 아이디 가져오기 :: ${user_id }로 사용 -->
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal.username" var="user_id" />
+	<sec:authentication property="principal.password" var="user_pw" />
 </sec:authorize>
 
 <head>
@@ -78,7 +79,7 @@
                             	<p>${user_id }님</p>
                             	<a href="/" class="primary-btn logout" id="whiteB" style="background-color: white"> 로그아웃</a>
                             	<sec:authorize access="hasRole('ROLE_ADMIN')">
-                            		&nbsp;<a href="/admin/orderList.fr" class="primary-btn">관리자</a>
+                            		&nbsp;<a href="/admin/userList.fr" class="primary-btn">관리자</a>
                             	</sec:authorize>
                         	</c:if>
                         	<c:if test="${user_id == null}">

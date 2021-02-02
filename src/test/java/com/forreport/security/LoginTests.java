@@ -35,25 +35,25 @@ public class LoginTests {
 		String sql = "insert into tbl_user(id, password, name, phone, email, grade) values (?,?,?,?,?,?)";		
 			Connection con = null;
 			PreparedStatement pstmt = null;
-			String id = "admin";
+			String id = "aaaadmin";
 			
 			try {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(sql);				
 				
-				if(id == "admin22") {
-					pstmt.setString(1, "admin22");
+				if(id == "admin") {
+					pstmt.setString(1, "admin");
 					pstmt.setString(2, pwencoder.encode("admin"));
-					pstmt.setString(3, "admin");
-					pstmt.setString(4, "123123123");				
-					pstmt.setString(5, "abc@abc.com");				
+					pstmt.setString(3, "adminName");
+					pstmt.setString(4, "01011111111");				
+					pstmt.setString(5, "admin@admin.com");				
 					pstmt.setString(6, "0");				
 				} else {
-					pstmt.setString(1, "userTest");
-					pstmt.setString(2, pwencoder.encode("userTest"));
-					pstmt.setString(3, "hong");				
-					pstmt.setString(4, "123123123");				
-					pstmt.setString(5, "abc@abc.com");				
+					pstmt.setString(1, "bb");
+					pstmt.setString(2, pwencoder.encode("bb"));
+					pstmt.setString(3, "bbName");				
+					pstmt.setString(4, "01022222222");				
+					pstmt.setString(5, "bb@bb.com");				
 					pstmt.setString(6, "0");	
 				}
 				pstmt.executeUpdate();
@@ -84,18 +84,18 @@ public class LoginTests {
 	
 			Connection con = null;
 			PreparedStatement pstmt = null;
-			String id = "admin";
+			String id = "aaaadmin";
 			
 			try {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(sql);
 				
-				if( id == "admin22" ) {
+				if( id == "admin" ) {
 					pstmt.setString(1, "ROLE_ADMIN");
-					pstmt.setString(2, "admin22");				
+					pstmt.setString(2, "admin");				
 				} else {
 					pstmt.setString(1, "ROLE_MEMBER");
-					pstmt.setString(2, "userTest");
+					pstmt.setString(2, "bb");
 				}
 				pstmt.executeUpdate();
 			} catch (Exception e) {

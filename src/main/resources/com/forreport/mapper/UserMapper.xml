@@ -80,6 +80,11 @@
 		select id from tbl_user where email = #{email}
 	</select>
 
+	<!-- 비밀번호 찾기 - 이메일 일치 여부 확인 -->
+	<select id="infoCheck" resultType="String">
+		select email from tbl_user where id = #{id}
+	</select>
+	
 	<!-- 비밀번호 변경 -->
 	<update id="updatePw">
 		update tbl_user set password = #{password} where id = #{id}
@@ -89,10 +94,11 @@
 	<update id="updateInfo">
 		update tbl_user set email = #{email}, phone = #{phone} where id = #{id}
 	</update>
+
 	
 	<!-- 회원 탈퇴 -->
 	<delete id="withdrawal">
-		delete from tbl_user where id = #{id} and password = #{password}
+		delete from tbl_user where id = #{id}
 	</delete>
 
 	<!-- p662 ~ 3 : Mybatis를 사용하기 위한 xml -->

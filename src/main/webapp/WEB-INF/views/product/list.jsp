@@ -91,7 +91,16 @@
 									<c:out value="${list.title}"/>
 								</a>
 							</td>
-							<td style="vertical-align: middle"><c:out value="${list.id}"/></td>
+							<td style="vertical-align: middle">
+								<c:choose>
+									<c:when test="${empty list.id}">
+										탈퇴회원
+									</c:when>
+									<c:otherwise>
+										<c:out value="${list.id}"/>
+									</c:otherwise>
+								</c:choose>
+							</td>
 							<td style="vertical-align: middle"><fmt:formatDate value="${list.uploadDate}" pattern="yyyy-MM-dd"/></td>
 							<td style="vertical-align: middle" class="avgRate" value='<c:out value="${list.pronum}"/>'>별점</td>
 							<td style="vertical-align: middle" class="reviewTotal" value='<c:out value="${list.pronum}"/>'>댓글수</td>

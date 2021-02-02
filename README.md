@@ -7,7 +7,7 @@
 
 ### 개발환경
 * OS : Window 10
-* Library : JDK 1.8
+* Library : JDK 1.8, ojdbc6
 * Server : Apache Tomcat 9.0
 * Application Framework : Spring 5.0.7
 * Database : Oracle 11g

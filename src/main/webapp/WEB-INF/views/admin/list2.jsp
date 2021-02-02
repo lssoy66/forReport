@@ -16,7 +16,12 @@
 <div class="row">
 <div class="col-lg-12">
 	<div class="panel panel-default">
-	<div class="panel-heading">Qeustion List Page</div>
+	<div class="panel-heading">Qeustion List Page
+		<form action="/admin/register2.fr" method="get" style="float:right" class="btn btn-xs pull-right">		
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<input type="submit" value="Register" id="regBtn"> 			
+		</form> 
+		</div>		
 <!-- 		/.panel-heading -->
 		<div class="panel-body">	
 			<table class="table table-striped table-bordered table-hover">			
@@ -55,6 +60,7 @@
 						<input type='text' name='keyword' value='<c:out value="${pageMaker.adminCriteria.keyword }"/>'/>
 						<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.adminCriteria.pageNum }"/>'/>
 						<input type='hidden' name='amount' value='<c:out value="${pageMaker.adminCriteria.amount }"/>'/>
+						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 						<button class='btn btn-default'>Search</button>
 					</form>
 				</div>
@@ -100,6 +106,7 @@
 					<input type='hidden' name='amount' value='${pageMaker.adminCriteria.amount }'>
 					<input type='hidden' name='type' value='${pageMaker.adminCriteria.type }'>
 					<input type='hidden' name='keyword' value='<c:out value="${pageMaker.adminCriteria.keyword }"/>'>
+					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 				</form>
 			
 <!-- 			Modal 추가 -->
@@ -113,7 +120,6 @@
 			<div class="modal-body">처리가 완료되었습니다.</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
 			</div>
 		</div>
 <!-- 		/.modal-content -->
@@ -167,6 +173,13 @@
 
 			actionForm.submit();
 		});
+		
+		$(".move").on("click",function(e) {
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='noticenum' value='"	+ $(this).attr("href")	+ "'>");
+			actionForm.attr("action","/admin/get2.fr");
+			actionForm.submit();
+});
 		
 //	 	p.342
 		var searchForm = $("#searchForm");

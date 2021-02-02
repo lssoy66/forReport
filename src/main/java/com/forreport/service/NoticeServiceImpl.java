@@ -11,6 +11,7 @@ import com.forreport.domain.ReviewCriteria;
 import com.forreport.mapper.NoticeMapper;
 
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Log4j

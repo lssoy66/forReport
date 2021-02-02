@@ -23,15 +23,15 @@
 
         <form role="form" action="/admin/register1.fr" method="post">
           <div class="form-group">
-            <label>제목</label> <input class="form-control" name='title'>
+            <label>제목</label> <input class="form-control" name='noticetitle'>
            
           </div>
 
           <div class="form-group">
             <label>내용</label>
-            <textarea class="form-control" rows="3" name='content'></textarea>
+            <textarea class="form-control" rows="3" name='notice'></textarea>
           </div>
-          <button type="submit" class="btn btn-default">Submit Button</button>
+          <input type="submit" class="btn btn-default" value="Submit Button"></input>
           <button type="reset" class="btn btn-default">Reset Button</button>
            <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
         </form>

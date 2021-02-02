@@ -346,6 +346,11 @@ div #custom {
 	color: #323232;
 }
 
+/* 은지 추가 */
+.header.header--normal .header__menu ul li {
+	color: #323232;
+}
+
 .header.header--normal .login-btn {
 	color: #707070;
 	border-color: #e1e1e1;
@@ -431,6 +436,13 @@ div #custom {
 	padding: 5px 0;
 	display: block;
 	position: relative;
+}
+
+/*은지 추가 */
+.header__menu ul li {
+	font-size: 15px;
+	color: #ffffff;
+	font-weight: 600;
 }
 
 .header__menu ul li a:after {

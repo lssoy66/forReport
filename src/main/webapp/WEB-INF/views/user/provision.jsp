@@ -21,7 +21,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="hero__text">
-				<article id="content" class="cols-d">
+				<article id="content" class="cols-d"  style="margin: auto">
 					<div>
 						<form id="terms_form" class="f" action="/user/certification.fr">
 							<h4 class="scheme-g">● 이용약관</h4>
@@ -202,7 +202,7 @@
 제 23 조 (전속관할)
 이 약관 기타 회사와 회원 사이에 발생하는 일체의 분쟁에 대하여는 회사의 본점 소재지를 관할하는 법원의 전속관할로 합니다.
 </textarea>
-							<p>
+							<p style="text-align:right">
 								<input type="checkbox" id="check_1" name="" /> 위의 약관에 동의 합니다.<br />
 							</p>
 							<h4 class="scheme-g">● 법적고지</h4>
@@ -214,7 +214,7 @@
 3) 회사는 상식적인 노력에 의한 통제가 불가능한 자연발생적 혹은 불가항력적인 원인으로 말미암은 서비스 제공의 이행지연이나 실패에 대하여는 일체의 책임을 지지 않습니다. 위 상식적인 노력에 의한 통제가 불가능한 자연발생적 혹은 불가항력적인 원인이라 함은 인터넷의 기능마비, 회사의 서버 등 설비 또는 장비고장, 그밖에 다른 핵심장비들로 서비스의 제공에 필수적인 장비의 고장, 정전, 파업, 노사분규, 폭동, 화재, 수해, 전쟁 등 외에도 이와 유사한 모든 예측불허의 불가항력적인 원인을 의미 한다.
 책임의 한계와 법적고지의 변경회사는 본 책임의 한계와 법적고지의 내용을 인터넷산업의 상관례에 맞추어 적절한 방법으로 사전 통지 없이 수시로 변경할 수 있다.책임의 한계와 법적고지의 효력본 책임의 한계와 법적고지 사항에서 다루고 있는 세부사항들은 관계당사자들간의 총체적인 합의사항이며, 회사의 개별서비스에서 정하고 있는 별도의 약관, 고지사항 등과 상충되는 경우에는 별도의 약관 또는 고지사항을 우선 적용한다.
 </textarea>
-							<p>
+							<p  style="text-align:right">
 								<input type="checkbox" id="check_2" name="" /> 위의 약관에 동의 합니다.<br />
 							</p>
 							<h4 class="scheme-g">●개인정보취급방침</h4>
@@ -313,12 +313,14 @@
 6) 그 외의 경우 명시적 또는 개별적인 경고 후 삭제 조치할 수 있습니다.
 2. 근본적으로 게시물에 관련된 제반 권리와 책임은 작성자 개인에게 있습니다. 또 게시물을 통해 자발적으로 공개된 정보는 보호받기 어려우므로 정보 공개 전에 심사숙고 하시기 바랍니다.
 </textarea>
-							<p>
+							<p  style="text-align:right">
 								<input type="checkbox" id="check_3" name=""/> 위의 약관에 동의 합니다.<br />
 							<div class="reg_button" style="float: right;">
 								<br>
-								<input type="button" id="nextBtn" class="button_big"
-									style="padding: 0 10px 10px 10px; height: 24px;" value="다음단계로" />
+<!-- 								<input type="button" id="nextBtn" class="button_big"  -->
+<!-- 									style="padding: 0 10px 10px 10px; height: 24px;" value="다음단계로" /> -->
+<!-- 								<button id="nextBtn" class="primary-btn" style="padding: 0 10px 10px 10px; height: 24px;">다음단계로</button> -->
+									<a href="#" class="primary-btn" id="nextBtn" style="background: #038f88;"><i class="fa fa-plus"></i> 다음 단계로</a>
 							</div>
 							</p>
 						</form>

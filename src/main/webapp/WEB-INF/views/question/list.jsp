@@ -21,7 +21,7 @@
 
 					<div class="listing__hero__text">
 						<h2>
-							<c:out value="${QuestionVO.questiontitle}" />
+							 <h2>자주묻는 질문</h2>
 						</h2>
 
 

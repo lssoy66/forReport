@@ -40,7 +40,7 @@
 <script>
 $(function(){
 	$("#loginBtn").click(function(){
-		location.href='../user/customLogin.fr';
+		location.href='../login/customLogin.fr';
 	});
 });
 </script>

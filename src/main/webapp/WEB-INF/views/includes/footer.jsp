@@ -26,7 +26,7 @@
                             </li>
                             <li>
                                 <span>Email:</span>
-                                <p>info.colorlib@gmail .com</p>
+                                <p>forreport0202@gmail .com</p>
                             </li>
                             <li>
                                 <span>Fax:</span>

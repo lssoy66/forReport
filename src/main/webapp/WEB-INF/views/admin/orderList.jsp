@@ -99,7 +99,12 @@
 						<tr>
 							<td><c:out value="${order.ordernum }" /></td>
 							<td><a href="/product/view.fr?pronum=${order.pronum}"><c:out value="${order.proname }" /></a></td>
-							<td><c:out value="${order.id }" /></td>	
+							<c:if test="${order.id == null}">
+								<td>탈퇴회원</td>	
+							</c:if>
+							<c:if test="${order.id != null}">
+								<td><c:out value="${order.id }" /></td>	
+							</c:if>
 							<td><c:out value="${order.paymethod }" /></td>	
 							<td><c:out value="${order.payprice }" /></td>
 							<td><fmt:formatDate value="${order.orderdate }" pattern="yyyy-MM-dd"/> </td>

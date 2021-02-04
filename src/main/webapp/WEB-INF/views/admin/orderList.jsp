@@ -211,10 +211,28 @@
 				newDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();	
 				$("input:radio[id='to']").attr("value", newDate);
 			} else if($("input:radio[id='yester']").is(':checked')) {
-				newDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate() - 1);
+				var yesterMonth = date.getMonth() + 1;
+				var yesterDate = date.getDate() - 1;
+				if(date.getDate() - 1 < 0){
+					// 이전 달의 마지막 날짜 구하기
+					var lastDate = new Date(date.getFullYear(), date.getMonth(), -1);
+					yesterDate = lastDate.getDate() - (-(date.getDate() - 1));
+					yesterMonth = date.getMonth();
+				}
+				newDate = date.getFullYear() + "-" + yesterMonth + "-" + yesterDate;
 				$("input:radio[id='yester']").attr("value", newDate);
 			} else if($("input:radio[id='week']").is(':checked')) {
-				newDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate() - 7);
+				var weekMonth = date.getMonth() + 1;
+				var weekDate = date.getDate() - 7;
+				if(date.getDate() - 7 < 0){
+					// 만약 2월 4일인 경우 -7을 하면 -3이 반환
+					// 이 경우 일주일 전 날짜를 구하려면 지난 달 마지막 날짜에서 -3을 빼야한다
+					// 이전 달의 마지막 날짜 구하기
+					var lastDate = new Date(date.getFullYear(), date.getMonth(), -1);
+					weekDate = lastDate.getDate() - (-(date.getDate() - 7));
+					weekMonth = date.getMonth();	// 지난달
+				}
+				newDate = date.getFullYear() + "-" + weekMonth + "-" + weekDate;
 				$("input:radio[id='week']").attr("value", newDate);
 			}
 			

@@ -61,7 +61,7 @@
 <!-- 카테고리 분류 부분: Breadcrumb End -->
 
 <!-- 상품 목록 -->
-<section class="blog-section spad">
+<section class="blog-section spad4">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
@@ -115,10 +115,10 @@
 </section>
 
 <!-- 페이징 처리: Blog Section Begin -->
-<section class="blog-section spad">
+<section class="blog-section spad3">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-8">
+			<div class="col-lg-12" style="margin:auto; text-align:center">
 				<div class="blog__pagination">
 				
 					<c:if test="${pageDTO.prev}">

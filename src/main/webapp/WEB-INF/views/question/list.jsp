@@ -37,7 +37,7 @@
 
 
 <!-- 상품 목록 -->
-<section class="blog-section spad">
+<section class="blog-section spad4">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
@@ -69,10 +69,10 @@
 </section>
 
 <!-- 페이징 처리: Blog Section Begin -->
-<section class="blog-section spad">
+<section class="blog-section spad3">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-8">
+			<div class="col-lg-12" >
 				<div class="blog__pagination">
 					<ul class="pagination">
 
@@ -88,7 +88,7 @@
 							<c:when test="${pageMaker.criteria.pageNum==num}">
 							<li class="paginate_button">
 								<a href="${num }">
-									<strong style="color:red">${num}</strong>
+									<strong style="color:#038f88">${num}</strong>
 								</a>
 								</li>
 							</c:when>

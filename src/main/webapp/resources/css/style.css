@@ -163,6 +163,16 @@ div #custom {
 	padding-bottom: 50px;
 }
 
+.spad3 {	
+	padding-top: 0px;
+	padding-bottom: 50px;
+}
+
+.spad4 {
+	padding-top: 50px;
+	padding-bottom: 0px;
+}
+
 .text-white h1,
 .text-white h2,
 .text-white h3,

@@ -38,7 +38,7 @@
 
 
 <!-- 상품 목록 -->
-<section class="blog-section spad">
+<section class="blog-section spad4">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
@@ -72,11 +72,11 @@
 </section>
 
 <!-- 페이징 처리: Blog Section Begin -->
-<section class="blog-section spad">
+<section class="blog-section spad3">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-8">
-				<div class="blog__pagination">
+			<div class="col-lg-12" style="margin:auto; text-align:center">
+				<div class="blog__pagination" >
 					<ul class="pagination">
 
 						<c:if test="${pageMaker.prev }">
